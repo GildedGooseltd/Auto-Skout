@@ -25,14 +25,20 @@ Skout builds a static dashboard (`site/`). You run scans on your Mac; friends op
 ## Publish (each time you want fresh results)
 
 ```bash
-# Truck search (default)
+# Full scan + publish
 ./scripts/publish-github.sh kate-vehicles
 
-# Trailer hunt
-SKOUT_PROFILE=gardner-farm ./scripts/publish-github.sh
+# Or push existing site/ only (fast — fixes 404 if gh-pages missing)
+./scripts/push-pages-only.sh
 ```
 
-Wait ~1 min, then share:
+Paste token when prompted, or: `./scripts/push-pages-only.sh ghp_YOUR_TOKEN`
+
+**One-time Pages setup** (required or URL 404s):  
+https://github.com/GildedGooseltd/Auto-Skout/settings/pages  
+→ **Deploy from a branch** → **`gh-pages`** / **`/ (root)`** → **Save**
+
+Wait 1–2 min, then share:
 
 **https://gildedgooseltd.github.io/Auto-Skout/**
 
