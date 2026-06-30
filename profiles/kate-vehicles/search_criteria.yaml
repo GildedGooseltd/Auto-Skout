@@ -73,11 +73,6 @@ current_focus:
   - municipal
   - utility fleet
   - work truck
-  - avion
-  - travel trailer
-  - aluminum trailer
-
-farm_garden:
   - rebuilt engine
   - rebuilt trans
   - new engine
@@ -286,6 +281,19 @@ exclude:
     - movie trailer
     - film trailer
     - trailer park
+    - utility trailer
+    - flatbed trailer
+    - livestock trailer
+    - horse trailer
+    - travel trailer
+    - camper trailer
+    - enclosed trailer
+    - gooseneck trailer
+    - bumper pull
+    - fifth wheel
+    - 5th wheel
+    - argosy
+    - airstream
     - brand new
     - still on lot
     - cpo

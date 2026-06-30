@@ -2,7 +2,7 @@
 
 hosting:
   provider: github
-  # After first GitHub Pages deploy (see docs/github-pages.md)
   public_url: "https://gildedgooseltd.github.io/Auto-Skout/"
+  mirror_images: true
 
 output_dir: site

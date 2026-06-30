@@ -99,9 +99,17 @@ TRUCK_SIGNAL = re.compile(
     re.I,
 )
 NOT_TRUCK = re.compile(
-    r"\b(travel\s*trailer|camper|rv\b|avion|hitch|brake\s*controller|"
-    r"utility\s*trailer|cargo\s*trailer|boat|motorcycle|atv|parts\s*only|"
-    r"transmission\s*only|engine\s*only|wheels?\s*only|tires?\s*only)\b",
+    r"\b(travel\s*trailer|camper|motorhome|rv\b|avion|airstream|argosy|hitch|"
+    r"brake\s*controller|utility\s*trailer|cargo\s*trailer|flatbed\s*trailer|"
+    r"dump\s*trailer|horse\s*trailer|livestock\s*trailer|enclosed\s*trailer|"
+    r"gooseneck|fifth\s*wheel|5th\s*wheel|bumper\s*pull|boat|motorcycle|atv|"
+    r"parts\s*only|transmission\s*only|engine\s*only|wheels?\s*only|tires?\s*only)\b",
+    re.I,
+)
+TRAILER_SIGNAL = re.compile(r"\btrailer\b", re.I)
+PICKUP_IN_TITLE = re.compile(
+    r"\b(truck|pickup|f-?\d{3}|f250|f350|silverado|sierra|ram\s*\d|chevy|chevrolet|"
+    r"gmc|super\s*duty|duramax|cummins|power\s*stroke|diesel\s*truck)\b",
     re.I,
 )
 FORD_60_POWERSTROKE = re.compile(
@@ -197,6 +205,8 @@ def is_truck_listing(
     if FB_COMMERCIAL_CATEGORY.search(blob):
         return True
     if NOT_TRUCK.search(blob):
+        return False
+    if TRAILER_SIGNAL.search(title_blob) and not PICKUP_IN_TITLE.search(title_blob):
         return False
     if VAN_NOT_TOW.search(blob) and not TRUCK_SIGNAL.search(blob):
         return False

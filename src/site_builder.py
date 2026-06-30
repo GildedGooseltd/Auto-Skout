@@ -1,3 +1,4 @@
+import hashlib
 import json
 import re
 import shutil
@@ -45,6 +46,51 @@ TYPE_FAMILIES = [
 ]
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def _mirror_listing_images(listings: list[dict], assets_dir: Path) -> tuple[int, int]:
+    """Save listing photos under site/assets for GitHub Pages (hotlink blocks)."""
+    try:
+        import requests
+    except ImportError:
+        return 0, 0
+    photo_dir = assets_dir / "listing-photos"
+    photo_dir.mkdir(parents=True, exist_ok=True)
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (compatible; AutoSkout/1.0)",
+        "Accept": "image/*,*/*",
+    })
+    ok = fail = 0
+    for item in listings:
+        urls = [u for u in (item.get("image_urls") or []) if u]
+        if not urls and item.get("image_url"):
+            urls = [item["image_url"]]
+        local: list[str] = []
+        for i, url in enumerate(urls[:4]):
+            if not url or str(url).startswith("assets/"):
+                local.append(url)
+                continue
+            digest = hashlib.sha1(f"{url}|{i}".encode()).hexdigest()[:14]
+            path = photo_dir / f"{digest}.jpg"
+            rel = f"assets/listing-photos/{digest}.jpg"
+            if path.exists() and path.stat().st_size > 400:
+                local.append(rel)
+                continue
+            try:
+                resp = session.get(url, timeout=12)
+                if resp.ok and len(resp.content) > 400:
+                    path.write_bytes(resp.content)
+                    local.append(rel)
+                    ok += 1
+                else:
+                    fail += 1
+            except Exception:
+                fail += 1
+        if local:
+            item["image_url"] = local[0]
+            item["image_urls"] = local
+    return ok, fail
 
 
 def _load_web_marketplaces(profile: dict) -> dict:
@@ -390,6 +436,18 @@ def write_site(
         -item["score"],
         item["title"],
     ))
+
+    SITE_DIR.mkdir(parents=True, exist_ok=True)
+    assets_dest = SITE_DIR / "assets"
+    assets_dest.mkdir(parents=True, exist_ok=True)
+    if ASSETS_DIR.is_dir():
+        for asset in ASSETS_DIR.iterdir():
+            if asset.is_file() and not asset.name.startswith("."):
+                shutil.copy2(asset, assets_dest / asset.name)
+    if deploy.get("mirror_images", True) and listings:
+        mirrored, mirror_fail = _mirror_listing_images(listings, assets_dest)
+        if mirrored or mirror_fail:
+            print(f"  Mirrored {mirrored} photos ({mirror_fail} failed)", flush=True)
 
     cats_in_feed = {}
     sources_in_feed = {}
