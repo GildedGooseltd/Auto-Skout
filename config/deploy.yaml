@@ -2,7 +2,7 @@
 
 hosting:
   provider: github
-  public_url: "https://gildedgooseltd.github.io/Auto-Skout/"
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/skout/"
   mirror_images: true
 
 output_dir: site

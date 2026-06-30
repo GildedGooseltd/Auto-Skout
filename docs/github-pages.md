@@ -1,88 +1,89 @@
-# GitHub Pages — share Skout with friends
+# GitHub Pages — Skout vs Auto Skout
 
-Skout builds a static dashboard (`site/`). You run scans on your Mac; friends open a public URL — no login, no repo access.
+One repo (**Auto-Skout**), **two separate apps** on different URLs. Publishing one does not overwrite the other.
 
-## One-time setup
+| App | Profile | Live URL |
+|-----|---------|----------|
+| **Skout** | `gardner-farm` | https://gildedgooseltd.github.io/Auto-Skout/skout/ |
+| **Auto Skout** | `kate-vehicles` | https://gildedgooseltd.github.io/Auto-Skout/auto-skout/ |
+| **Hub** | — | https://gildedgooseltd.github.io/Auto-Skout/ |
 
-1. **Create repo** — [github.com/GildedGooseltd/Auto-Skout](https://github.com/GildedGooseltd/Auto-Skout) (already created).
+---
 
-2. **Link remote** (from `free-stuff-alerts`):
-   ```bash
-   git remote add origin git@github.com:GildedGooseltd/Auto-Skout.git
-   git push -u origin main
-   ```
+## Steps to fix (one-time)
 
-3. **Enable Pages** — repo **Settings → Pages**:
-   - **Build and deployment** → Source: **Deploy from a branch**
-   - Branch: **`gh-pages`** · folder **`/ (root)`** → **Save**
-
-4. **Facebook session** (optional, for FB listings):
-   ```bash
-   .venv/bin/python src/scrapers/facebook.py --login
-   .venv/bin/playwright install chromium
-   ```
-
-## GitHub login (do this once)
-
-Skout scripts **do not** keep your token in the git remote URL (on purpose — safer). After one successful push they save it to **macOS Keychain** so plain `git push` works later.
-
-1. Create a token: [github.com/settings/tokens/new?scopes=repo](https://github.com/settings/tokens/new?scopes=repo)
-2. Add to `.env` in the project root (never commit this file):
-
-   ```bash
-   GITHUB_TOKEN=ghp_your_token_here
-   ```
-
-3. Push once:
-
-   ```bash
-   ./scripts/first-push.sh
-   ```
-
-After that, `./scripts/push-pages-only.sh gardner-farm` should work without re-pasting.
-
-**If it still asks:** the token may be expired, missing `repo` scope, or for the wrong GitHub account. Create a new classic token with **repo** checked.
-
-## Publish (each time you want fresh results)
+### 1. GitHub token in `.env`
 
 ```bash
-# Full scan + publish
-./scripts/publish-github.sh kate-vehicles
-
-# Or push existing site/ only (fast — fixes 404 if gh-pages missing)
-./scripts/push-pages-only.sh
+GITHUB_TOKEN=ghp_your_token_here
 ```
 
-Paste token when prompted, or: `./scripts/push-pages-only.sh ghp_YOUR_TOKEN`
+Create at [github.com/settings/tokens/new?scopes=repo](https://github.com/settings/tokens/new?scopes=repo)
 
-**One-time Pages setup** (required or URL shows README, not trucks):
+### 2. Push code to `main`
+
+```bash
+cd ~/free-stuff-alerts
+./scripts/first-push.sh
+```
+
+### 3. Enable GitHub Pages
 
 https://github.com/GildedGooseltd/Auto-Skout/settings/pages
 
-| Setting | Value |
-|---------|--------|
-| Source | **Deploy from a branch** (not main/README) |
-| Branch | **`gh-pages`** |
-| Folder | **`/ (root)`** |
+- **Deploy from a branch**
+- Branch: **`gh-pages`**
+- Folder: **`/ (root)`**
+- Save
 
-If you see the README (“Quick start”, bash blocks) instead of listing tiles, Pages is on **`main`** — switch to **`gh-pages`** above and Save.
+### 4. Publish **each** app once
 
-Wait 1–2 min, then share:
+```bash
+# Skout (farm / free stuff)
+./scripts/publish-github.sh gardner-farm
 
-**https://gildedgooseltd.github.io/Auto-Skout/**
+# Auto Skout (vehicles) — separate folder, won't clobber Skout
+./scripts/publish-github.sh kate-vehicles
+```
 
-(Replace org/repo if you used a different name.)
+Or fast publish from an existing local build:
+
+```bash
+./scripts/push-pages-only.sh --no-build gardner-farm
+./scripts/push-pages-only.sh --no-build kate-vehicles
+```
+
+Wait 1–2 minutes, then open the hub: https://gildedgooseltd.github.io/Auto-Skout/
+
+---
+
+## Day-to-day
+
+| You want… | Command |
+|-----------|---------|
+| Refresh **Skout** only | `./scripts/publish-github.sh gardner-farm` |
+| Refresh **Auto Skout** only | `./scripts/publish-github.sh kate-vehicles` |
+| Local scan, no publish | `SKOUT_PROFILE=gardner-farm .venv/bin/python src/main.py --all --open` |
+
+---
 
 ## What gets public
 
-Only the **`gh-pages` branch** — `index.html` + assets + embedded listings. Your code on `main` can stay private. Secrets (`.env`, `data/facebook_state.json`) are never committed.
+Only **`gh-pages`**: static HTML + embedded listings per app folder. Secrets (`.env`, Facebook session) stay on your Mac.
 
-## Optional: show URL in dashboard footer
-
-After first publish, set `config/deploy.yaml`:
+Optional footer URL in `config/deploy.yaml`:
 
 ```yaml
 hosting:
   provider: github
-  public_url: "https://gildedgooseltd.github.io/Auto-Skout/"
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/skout/"
+```
+
+---
+
+## Facebook session (optional)
+
+```bash
+.venv/bin/python src/scrapers/facebook.py --login
+.venv/bin/playwright install chromium
 ```

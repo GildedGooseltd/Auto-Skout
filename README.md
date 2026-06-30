@@ -1,6 +1,15 @@
-# Auto Skout
+# Skout monorepo — shared engine, separate apps per profile
 
-Profile-based local marketplace scanner — Craigslist, OfferUp, Facebook Marketplace, AutoTempest, auctions. Builds a mobile-friendly dashboard you can host on GitHub Pages.
+Profile-based local marketplace scanner. Builds mobile-friendly dashboards per app.
+
+## Two apps (same repo, different profiles)
+
+| App | Profile | Publish path | URL |
+|-----|---------|--------------|-----|
+| **Skout** | `gardner-farm` | `/skout/` | https://gildedgooseltd.github.io/Auto-Skout/skout/ |
+| **Auto Skout** | `kate-vehicles` | `/auto-skout/` | https://gildedgooseltd.github.io/Auto-Skout/auto-skout/ |
+
+Hub (pick an app): https://gildedgooseltd.github.io/Auto-Skout/
 
 ## Quick start
 
@@ -9,30 +18,31 @@ python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/playwright install chromium
 
-# Truck search (CO + FL)
-SKOUT_PROFILE=kate-vehicles .venv/bin/python src/main.py --all --open
+# Skout — farm & free stuff
+SKOUT_PROFILE=gardner-farm .venv/bin/python src/main.py --all --open
 
-# Trailer hunt (Gardner farm)
-SKOUT_PROFILE=gardner-farm .venv/bin/python src/main.py --trailer --all --open
+# Auto Skout — used trucks (CO + FL)
+SKOUT_PROFILE=kate-vehicles .venv/bin/python src/main.py --all --open
 ```
 
-Copy `.env.example` → `.env` for optional API keys.
+Copy `.env.example` → `.env` (add `GITHUB_TOKEN` for publish).
 
-## Share results with friends
+## Publish to the web
 
 ```bash
-./scripts/publish-github.sh kate-vehicles
+./scripts/publish-github.sh gardner-farm    # Skout only → /skout/
+./scripts/publish-github.sh kate-vehicles   # Auto Skout only → /auto-skout/
 ```
 
-See **[docs/github-pages.md](docs/github-pages.md)** for repo + Pages setup.
+Publishing one app **does not** overwrite the other. See **[docs/github-pages.md](docs/github-pages.md)**.
 
 ## Profiles
 
-| Profile | Use |
+| Profile | App |
 |---------|-----|
-| `kate-vehicles` | Used trucks ≤$20k, CO + FL |
-| `gardner-farm` | Farm freebies + trailer hunt |
-| `kate-art` | Art opportunities |
+| `gardner-farm` | Skout — farm freebies + buildout |
+| `kate-vehicles` | Auto Skout — trucks ≤$20k |
+| `kate-art` | Art Scout — grants & opportunities |
 
 Add your own under `profiles/_template/`.
 
