@@ -80,6 +80,7 @@ if git clone --depth 1 -b gh-pages "$CLONE_URL" "$WORK/repo" 2>/dev/null; then
   mkdir -p "$WORK/repo/${PAGES_PATH}"
   rsync -a --exclude '.DS_Store' site/ "$WORK/repo/${PAGES_PATH}/"
   write_pages_root_index "$WORK/repo"
+  clean_legacy_pages_root "$WORK/repo"
   cd "$WORK/repo"
   git add -A
   if git diff --staged --quiet; then
@@ -94,6 +95,7 @@ else
   mkdir -p "$WORK/repo/${PAGES_PATH}"
   rsync -a --exclude '.DS_Store' site/ "$WORK/repo/${PAGES_PATH}/"
   write_pages_root_index "$WORK/repo"
+  clean_legacy_pages_root "$WORK/repo"
   cd "$WORK/repo"
   git init -q
   git checkout -b gh-pages

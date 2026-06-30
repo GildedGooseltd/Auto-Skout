@@ -47,3 +47,8 @@ write_pages_root_index() {
 EOF
   touch "$root/.nojekyll"
 }
+
+clean_legacy_pages_root() {
+  local root="$1"
+  rm -rf "$root/assets" "$root/data.json" "$root/.DS_Store"
+}
