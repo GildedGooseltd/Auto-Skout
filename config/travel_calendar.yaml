@@ -1,0 +1,38 @@
+# Where you'll be and when — boosts "near me" radius for that location on those dates.
+# Add trips as you plan them.
+
+trips:
+  # Gardner — today & tomorrow (testing window)
+  - name: Gardner home
+    city: Gardner
+    state: CO
+    zip: "81040"
+    lat: 37.7889
+    lng: -105.1644
+    start: "2026-06-10"
+    end: "2026-06-11"
+    near_radius_miles: 30
+    notes: "Initial test runs from home base"
+
+  # Default when no trip is active — same as home in profile.yaml
+  - name: Gardner home (default)
+    city: Gardner
+    state: CO
+    zip: "81040"
+    lat: 37.7889
+    lng: -105.1644
+    start: "2026-06-12"
+    end: "2026-07-11"
+    near_radius_miles: 30
+
+  # Denver trip — July 12–23
+  - name: Denver trip
+    city: Denver
+    state: CO
+    zip: "80202"
+    lat: 39.7392
+    lng: -104.9903
+    start: "2026-07-12"
+    end: "2026-07-23"
+    near_radius_miles: 30
+    notes: "Boost Denver / Front Range listings while you're there"

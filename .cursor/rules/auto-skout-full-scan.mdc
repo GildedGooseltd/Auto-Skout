@@ -1,0 +1,17 @@
+---
+description: Auto Skout (kate-vehicles) — always full accurate scan, trucks only, CO+FL
+alwaysApply: false
+globs: profiles/kate-vehicles/**,src/**/autotempest.py,src/sources_runner.py,src/vehicle_fields.py
+---
+
+# Auto Skout — locked behavior
+
+When `SKOUT_PROFILE=kate-vehicles` or profile `vertical: vehicles`:
+
+1. **Never quick mode** — `scan.always_full: true` means all regions, all keywords, all markets (CO + FL). Do not pass `quick=True` even with `--test`.
+2. **Trucks only** — filter with `is_truck_listing()` at ingest and score loop. No cars, SUVs, RV/trailer/hitch/parts.
+3. **Markets** — Colorado statewide + Florida (CL regions, OfferUp/FB/AutoTempest multi-zip).
+4. **Dedupe** — merge cross-source duplicates; **web marketplace URL wins over Craigslist** (auctions tie with web).
+5. **Commercial scope** — box truck, work truck, reefer/fridge truck, fleet/municipal — grant/tax-credit scoring angle; must still be truck-class (not cars/vans).
+6. **Auctions** — GovDeals, Public Surplus, PropertyRoom scraped when Playwright available; CL/FB keywords for police/repo/surplus.
+7. **Run command** — `SKOUT_PROFILE=kate-vehicles .venv/bin/python src/main.py --all --open` (full scan, show all).

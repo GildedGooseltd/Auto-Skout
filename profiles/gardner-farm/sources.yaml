@@ -1,0 +1,176 @@
+# All enabled sources run together each scan — one combined feed, shared keywords/scoring.
+# See docs/other-sources.md for setup (Facebook login, etc.)
+
+craigslist:
+  enabled: true
+  regions:
+    - slug: pueblo
+      name: Pueblo
+      priority: high
+    - slug: cosprings
+      name: Colorado Springs
+      priority: high
+    - slug: denver
+      name: Denver
+      priority: high
+    - slug: eastco
+      name: Eastern CO
+      priority: low
+    - slug: rockies
+      name: High Rockies
+      priority: low
+  free_categories: [zip, fga]
+  paid_categories: [fga, tla]
+  search_queries:
+    - ""
+    - garden
+    - farm
+    - hose
+    - dirt
+    - lumber
+    - pallet
+    - fence
+    - plant
+    - brick
+    - rock
+    - trailer
+    - stereo system
+    - outdoor speakers
+    - radiant barrier
+    - thermal radiant barrier
+    - aluminum sheathing
+    - thermal sheathing
+    - heat resistant
+
+freecycle:
+  enabled: true
+  groups:
+    - PuebloCO
+    - ColoradoSpringsCO
+    - DenverCO
+    - North_Denver_CO
+    - ArvadaCO
+    - AuroraCO
+    - CanonCityCO
+    - coloradocity
+    - WestcliffeCO
+    - ElPasoCountySE_CO
+
+# Requires one-time login: python src/scrapers/facebook.py --login
+facebook_marketplace:
+  enabled: true
+  location_zip: "81040"
+  search_terms:
+    - free
+    - garden
+    - farm
+    - pallet
+    - dirt
+    - lumber
+    - plants
+    - bricks
+    - hose
+    - trailer
+    - stereo system
+    - outdoor speakers
+    - radiant barrier
+    - thermal radiant barrier
+    - aluminum sheathing
+    - thermal sheathing
+    - heat resistant
+
+# Groups: join in Facebook; Skout auto-discovers IDs (facebook.py --discover-groups)
+facebook_groups:
+  enabled: true
+
+# API key: trashnothing.com/developer → TRASHNOTHING_API_KEY in .env
+trash_nothing:
+  enabled: true
+  latitude: 38.8339
+  longitude: -104.8214
+  radius: 80
+  search_terms:
+    - free
+    - garden
+    - farm
+    - pallet
+    - dirt
+    - lumber
+    - plants
+    - hose
+    - trailer
+    - stereo system
+    - outdoor speakers
+    - radiant barrier
+    - thermal radiant barrier
+    - aluminum sheathing
+    - thermal sheathing
+    - heat resistant
+
+nextdoor:
+  enabled: true
+  latitude: 38.8339
+  longitude: -104.8214
+  radius: 50
+  search_terms:
+    - free
+    - garden
+    - farm
+    - pallet
+    - dirt
+    - lumber
+    - plants
+    - trailer
+    - stereo system
+    - outdoor speakers
+    - radiant barrier
+    - thermal radiant barrier
+    - aluminum sheathing
+    - thermal sheathing
+    - heat resistant
+
+offerup:
+  enabled: true
+  zip: "81040"
+  radius: 50
+  max_price_usd: 4000
+  search_terms:
+    - free
+    - garden
+    - farm
+    - pallet
+    - dirt
+    - lumber
+    - plants
+    - hose
+    - stereo system
+    - outdoor speakers
+    - radiant barrier
+    - thermal radiant barrier
+    - aluminum sheathing
+    - thermal sheathing
+    - heat resistant
+  paid_search_terms:
+    - trailer
+    - utility trailer
+    - flatbed trailer
+    - gooseneck trailer
+    - dump trailer
+    - livestock trailer
+
+buy_nothing:
+  enabled: true
+
+web_marketplaces_scrape:
+  enabled: true
+  zip: "81040"
+  radius: 150
+  max_price_usd: 4000
+  min_price_usd: 0
+  keywords:
+    - trailer
+    - utility trailer
+    - flatbed trailer
+    - gooseneck trailer
+    - dump trailer
+    - livestock trailer

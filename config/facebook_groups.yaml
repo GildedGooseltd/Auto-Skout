@@ -1,0 +1,64 @@
+# Facebook groups for Skout to monitor (you must join each — Skout cannot auto-join).
+# After joining, stay logged in to Facebook in Chrome; Skout reuses that session.
+
+marketplace:
+  enabled: true
+  location: "81040"
+  search_terms:
+    - free
+    - garden
+    - farm
+    - hose
+    - dirt
+    - lumber
+    - pallet
+    - concrete mixer
+    - plants
+    - bricks
+
+groups:
+  - name: Colorado Local Food & Regenerative Ag Hub
+    url: https://www.facebook.com/groups/234744161268945
+    region: statewide
+    priority: high
+    notes: Regenerative ag, local food, farm equipment trades
+
+  - name: Buy Nothing — search and join nearest chapter
+    url: https://www.facebook.com/search/groups/?q=buy%20nothing%20walsenburg
+    region: Walsenburg / Huerfano
+    priority: high
+    notes: >
+      Search "Buy Nothing Walsenburg" or "Buy Nothing Pueblo".
+      Join the chapter closest to Gardner. Gift-only, great for free farm stuff.
+
+  - name: Buy Nothing Pueblo
+    url: https://www.facebook.com/search/groups/?q=buy%20nothing%20pueblo%20colorado
+    region: Pueblo
+    priority: high
+
+  - name: La Veta / Cuchara community
+    url: https://www.facebook.com/search/groups/?q=la%20veta%20cuchara%20community
+    region: La Veta (~5 mi from Gardner)
+    priority: high
+    notes: Very local — often free stuff, plants, materials
+
+  - name: Southern Colorado Homesteading
+    url: https://www.facebook.com/search/groups/?q=southern%20colorado%20homesteading
+    region: Southern CO
+    priority: medium
+
+  - name: Pueblo Colorado Gardening
+    url: https://www.facebook.com/search/groups/?q=pueblo%20colorado%20gardening
+    region: Pueblo
+    priority: medium
+
+  - name: Colorado Homesteading & Self Reliance
+    url: https://www.facebook.com/search/groups/?q=colorado%20homesteading
+    region: statewide
+    priority: medium
+
+  - name: Walsenburg Farm and Makers Market
+    url: https://www.facebook.com/search/groups/?q=walsenburg%20farm%20makers%20market
+    region: Walsenburg
+    priority: medium
+    notes: Local food, artisans — sometimes free materials or trades

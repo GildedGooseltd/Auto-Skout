@@ -1,0 +1,10 @@
+trips:
+  - name: Home base
+    city: YourCity
+    state: ST
+    zip: "00000"
+    lat: 0.0
+    lng: 0.0
+    start: "2026-01-01"
+    end: "2099-12-31"
+    near_radius_miles: 30

@@ -1,0 +1,78 @@
+# Where you'll be and when — Skout shows active trip on dashboard + save-for-trip picker.
+
+trips:
+  - name: Gardner home
+    city: Gardner
+    state: CO
+    zip: "81040"
+    lat: 37.7889
+    lng: -105.1644
+    start: "2026-06-10"
+    end: "2026-06-10"
+    near_radius_miles: 30
+    notes: "Home base"
+
+  - name: Colorado Springs (Saturday)
+    city: Colorado Springs
+    state: CO
+    zip: "80903"
+    lat: 38.8339
+    lng: -104.8214
+    start: "2026-06-20"
+    end: "2026-06-20"
+    near_radius_miles: 45
+    notes: "Sat — COS pickup run"
+
+  - name: Denver (Sunday)
+    city: Denver
+    state: CO
+    zip: "80202"
+    lat: 39.7392
+    lng: -104.9903
+    start: "2026-06-21"
+    end: "2026-06-21"
+    near_radius_miles: 40
+    notes: "Sun — Denver metro free stuff"
+
+  - name: Walsenburg & Colorado Springs
+    city: Colorado Springs
+    state: CO
+    zip: "80903"
+    lat: 38.8339
+    lng: -104.8214
+    start: "2026-06-11"
+    end: "2026-06-11"
+    near_radius_miles: 45
+    notes: "Thu — Walsenburg stop then COS along I-25"
+
+  - name: Denver / Front Range
+    city: Denver
+    state: CO
+    zip: "80202"
+    lat: 39.7392
+    lng: -104.9903
+    start: "2026-06-12"
+    end: "2026-06-17"
+    near_radius_miles: 40
+    notes: "Fri onward — Denver metro + nearby cities"
+
+  - name: Gardner home
+    city: Gardner
+    state: CO
+    zip: "81040"
+    lat: 37.7889
+    lng: -105.1644
+    start: "2026-06-18"
+    end: "2026-07-11"
+    near_radius_miles: 30
+
+  - name: Denver trip (July)
+    city: Denver
+    state: CO
+    zip: "80202"
+    lat: 39.7392
+    lng: -104.9903
+    start: "2026-07-12"
+    end: "2026-07-23"
+    near_radius_miles: 30
+    notes: "July Front Range visit"

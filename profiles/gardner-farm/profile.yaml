@@ -1,0 +1,50 @@
+# Test case profile — farm buildout + resale, Gardner CO
+id: gardner-farm
+name: Gardner Farm Buildout
+vertical: farm_resale
+description: >
+  Personal test case. Farm & irrigation supplies, resale antiques,
+  concrete mixer hunt, Gardner CO base. Jun 11 COS run along I-25.
+  Denver trip July 2026.
+
+app_name: Skout
+
+home:
+  city: Gardner
+  state: CO
+  zip: "81040"
+  lat: 37.7889
+  lng: -105.1644
+  default_route_dest: Pueblo
+
+alert_style: balanced
+near_radius_miles: 30
+nearby_highlight_miles: 5
+
+economics:
+  hourly_rate_usd: 100
+  gas_cost_per_mile_usd: 0.25
+  min_resale_profit_usd: 100
+  max_drive_hours: 4
+  unlimited_drive_if_estimated_value_usd: 1000
+
+alert_schedule:
+  start: "19:00"
+  end: "23:00"
+  timezone: America/Denver
+  check_every_minutes: 60
+
+output: site
+
+web_marketplaces: ~/Documents/1 Cursor Helper/personal/vehicle-market/web-sources.yaml
+
+email:
+  enabled: false
+  provider: gmail
+  to: support@gildedgooselimited.com
+
+haul:
+  has_trailer: true
+  max_length_ft: 12
+
+location_source: travel_calendar

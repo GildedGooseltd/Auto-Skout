@@ -1,0 +1,44 @@
+# Art opportunity sources — URLs for art_opportunity_hunt.py
+# Add RSS/API rows as discovered
+
+feeds:
+  - name: EntryThingy CO free
+    url: https://app.entrythingy.com/calls_list/?region=3&state=CO
+    type: html
+    tags: [cafe, free, colorado]
+
+  - name: ArtCall free list
+    url: https://artcall.org/calls
+    type: html
+    tags: [free]
+
+  - name: Artwork Archive CFE
+    url: https://www.artworkarchive.com/call-for-entry/
+    type: html
+    tags: [grants, residencies]
+
+  - name: NYFA Colorado no fee
+    url: https://www.nyfa.org/opportunities/?location=colorado&fee=no-fee
+    type: html
+    tags: [grants, sponsorship]
+
+keywords_boost:
+  - oil
+  - painting
+  - colorado
+  - stipend
+  - grant
+  - sponsorship
+  - residency
+  - free entry
+  - no entry fee
+
+keywords_exclude:
+  - entry fee $25
+  - entry fee $30
+  - entry fee $35
+  - mail artwork
+  - ship artwork
+  - pollock-krasner
+  - watercolor only
+  - photography only

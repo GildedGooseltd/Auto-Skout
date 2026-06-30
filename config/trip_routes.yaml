@@ -1,0 +1,77 @@
+# Cities along your common drives — used for "Along my route" filter on the site.
+# Skout matches listing locations (text) against these city names.
+
+routes:
+  gardner_to_denver:
+    name: Gardner → Denver (I-25)
+    description: Southern CO up I-25 to the Front Range
+    cities:
+      - Gardner
+      - Walsenburg
+      - La Veta
+      - Cuchara
+      - Trinidad
+      - Aguilar
+      - Pueblo
+      - Pueblo West
+      - Colorado City
+      - Rye
+      - Canon City
+      - Florence
+      - Penrose
+      - Fountain
+      - Colorado Springs
+      - Monument
+      - Castle Rock
+      - Denver
+      - Aurora
+      - Lakewood
+      - Wheat Ridge
+      - Arvada
+      - Centennial
+      - Littleton
+      - Englewood
+      - Coal Creek
+      - Rosita
+      - Westcliffe
+      - Wetmore
+      - Beulah
+
+  gardner_local:
+    name: Near Gardner (30 mi)
+    description: Huerfano County and immediate neighbors
+    cities:
+      - Gardner
+      - Walsenburg
+      - La Veta
+      - Cuchara
+      - Colorado City
+      - Rye
+      - Aguilar
+      - Westcliffe
+      - Silver Cliff
+      - Rosita
+      - Coal Creek
+      - Beulah
+      - Fort Garland
+      - Blanca
+      - San Luis
+
+  denver_metro:
+    name: Denver metro
+    description: Active during Denver trip (Jul 12–23)
+    cities:
+      - Denver
+      - Aurora
+      - Lakewood
+      - Arvada
+      - Westminster
+      - Thornton
+      - Boulder
+      - Broomfield
+      - Centennial
+      - Littleton
+      - Englewood
+      - Wheat Ridge
+      - Golden
+      - Brighton

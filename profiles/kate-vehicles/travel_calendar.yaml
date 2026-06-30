@@ -1,0 +1,34 @@
+# Sync with daily/sheets/travel.csv — Auto Skout active on Front Range trips
+
+trips:
+  - name: Gardner home
+    city: Gardner
+    state: CO
+    zip: "81040"
+    lat: 37.7889
+    lng: -105.1644
+    start: "2026-06-01"
+    end: "2026-06-12"
+    near_radius_miles: 60
+    notes: "Home base"
+
+  - name: Front Range (Denver / COS / Longmont)
+    city: Denver
+    state: CO
+    zip: "80202"
+    lat: 39.7392
+    lng: -104.9903
+    start: "2026-06-13"
+    end: "2026-06-27"
+    near_radius_miles: 50
+    notes: "Denver · COS rocks · Longmont haul — vehicle scout window"
+
+  - name: Gardner home
+    city: Gardner
+    state: CO
+    zip: "81040"
+    lat: 37.7889
+    lng: -105.1644
+    start: "2026-06-28"
+    end: "2026-12-31"
+    near_radius_miles: 60

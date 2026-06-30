@@ -1,0 +1,61 @@
+alert_style: balanced
+
+weights:
+  distance_near: 30
+  priority_match: 50
+  make_preference_match: 35
+  current_focus_match: 40
+  farm_garden_match: 15
+  resale_value: 20
+  strong_signal: 10
+  paid_wanted_match: 55
+  has_image: 10
+  posted_today: 8
+
+penalties:
+  exclude_keyword: -100
+  penalize_keyword: -25
+  machinery_needs_refurb: -100
+  machinery_not_working: -100
+  oversized_no_resale: -30
+  no_location: -10
+
+tiers:
+  must_email_min_score: 0
+  near_you:
+    label: "Near you — inspect soon"
+  worth_the_drive:
+    min_score: 75
+    label: "Strong deal — worth the drive"
+  paid_wanted:
+    label: "Wanted item — within budget"
+  everything_else:
+    min_score: 55
+    label: "Possible match — verify"
+
+email_limits:
+  max_near_you: 10
+  max_worth_drive: 8
+  max_paid_wanted: 12
+  max_other: 5
+
+resale_gate:
+  enabled: true
+  min_profit_usd: 500
+
+dedup:
+  never_email_same_post_twice: true
+
+pickup_contact:
+  name: Kate
+  phone: "720-701-2646"
+  email: support@gildedgooselimited.com
+
+response_template: |
+  Hi — is this still available? I can come look this week if the title and condition match the ad.
+
+  Text/call: 720-701-2646
+  Email works too.
+
+  Thanks,
+  Kate

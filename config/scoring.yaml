@@ -1,0 +1,46 @@
+# Platform default scoring — profiles/gardner-farm/scoring.yaml overrides these
+
+alert_style: balanced
+
+weights:
+  distance_near: 40
+  priority_match: 45
+  current_focus_match: 35
+  farm_garden_match: 20
+  resale_value: 25
+  strong_signal: 15
+  paid_wanted_match: 50
+  has_image: 5
+  posted_today: 10
+
+penalties:
+  exclude_keyword: -100
+  penalize_keyword: -20
+  machinery_needs_refurb: -100
+  machinery_not_working: -100
+  oversized_no_resale: -30
+  no_location: -10
+
+tiers:
+  must_email_min_score: 50
+  near_you:
+    label: "Near you — act fast"
+  worth_the_drive:
+    min_score: 70
+    label: "Worth the drive — high value"
+  paid_wanted:
+    label: "Wanted item — within your budget"
+  everything_else:
+    min_score: 50
+    label: "Also a match — lower priority"
+
+resale_gate:
+  enabled: false
+  min_profit_usd: 50
+
+dedup:
+  never_email_same_post_twice: true
+
+response_template: |
+  Hi — I'm interested in this item. I can pick up at your convenience.
+  Please let me know if it's still available. Thanks!

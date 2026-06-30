@@ -1,0 +1,3 @@
+# Skout static dashboard — deploy the pre-built site/ folder
+[build]
+  publish = "site"

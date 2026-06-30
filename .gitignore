@@ -1,0 +1,14 @@
+.env
+data/*.db
+data/cl_sample.html
+data/fc_sample.html
+data/fb_groups_probe.html
+data/skout.html
+data/facebook_state.json
+data/facebook_groups_cache.json
+site/
+__pycache__/
+*.pyc
+.venv/
+.netlify/
+.DS_Store

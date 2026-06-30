@@ -1,0 +1,89 @@
+# Same I-25 corridors as gardner-farm — vehicle pickups on travel days
+
+routes:
+  gardner_to_pueblo:
+    name: Gardner → Pueblo (I-25)
+    description: Southern CO drive
+    tags: [on_route, pueblo_trip]
+    filter_label: On route to Pueblo
+    cities:
+      - Gardner
+      - Walsenburg
+      - La Veta
+      - Cuchara
+      - Trinidad
+      - Aguilar
+      - Pueblo
+      - Pueblo West
+      - Colorado City
+      - Rye
+      - Canon City
+      - Florence
+      - Penrose
+      - Fountain
+
+  gardner_to_cos:
+    name: Gardner → Colorado Springs (I-25)
+    tags: [on_route, cos_trip]
+    filter_label: Route to COS
+    cities:
+      - Gardner
+      - Walsenburg
+      - Pueblo
+      - Colorado Springs
+      - Monument
+      - Fountain
+      - Manitou Springs
+
+  gardner_to_denver:
+    name: Gardner → Denver (I-25)
+    tags: [on_route]
+    filter_label: Along my route
+    cities:
+      - Gardner
+      - Walsenburg
+      - Pueblo
+      - Colorado Springs
+      - Castle Rock
+      - Denver
+      - Aurora
+      - Lakewood
+      - Arvada
+      - Centennial
+      - Littleton
+      - Longmont
+      - Boulder
+      - Westminster
+      - Thornton
+      - Broomfield
+
+  gardner_local:
+    name: Near Gardner (60 mi)
+    tags: [near_home]
+    filter_label: Near home
+    cities:
+      - Gardner
+      - Walsenburg
+      - La Veta
+      - Cuchara
+      - Colorado City
+      - Rye
+      - Trinidad
+      - Westcliffe
+
+  denver_metro:
+    name: Denver metro + Longmont
+    tags: [trip_destination, denver_metro]
+    filter_label: Trip destination
+    cities:
+      - Denver
+      - Aurora
+      - Lakewood
+      - Arvada
+      - Longmont
+      - Boulder
+      - Westminster
+      - Thornton
+      - Broomfield
+      - Centennial
+      - Littleton

@@ -1,0 +1,14 @@
+routes:
+  near_home:
+    name: Near home
+    description: Cities within your daily radius
+    tags: [near_home]
+    filter_label: Near home
+    cities: []
+
+  main_route:
+    name: My main drive route
+    description: Cities along a corridor you travel often
+    tags: [on_route]
+    filter_label: Along my route
+    cities: []

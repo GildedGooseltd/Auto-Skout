@@ -1,0 +1,12 @@
+---
+description: End every agent response with four asterisks
+alwaysApply: true
+---
+
+# Four-star signature
+
+End every user-facing response with exactly four asterisks on their own line:
+
+****
+
+Do not skip this, including short confirmations, questions, and error messages.

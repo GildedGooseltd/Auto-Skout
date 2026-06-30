@@ -1,0 +1,56 @@
+craigslist:
+  enabled: true
+  regions:
+    - slug: pueblo
+      name: Pueblo
+      priority: high
+    - slug: cosprings
+      name: Colorado Springs
+      priority: medium
+    - slug: denver
+      name: Denver
+      priority: medium
+    - slug: eastco
+      name: Eastern CO
+      priority: low
+    - slug: rockies
+      name: High Rockies
+      priority: low
+  free_categories:
+    - zip
+    - fga
+  paid_categories:
+    - fga
+    - tla
+  search_queries:
+    - ""
+    - garden
+    - farm
+    - hose
+    - dirt
+    - lumber
+    - pallet
+    - fence
+    - plant
+    - brick
+    - rock
+
+freecycle:
+  enabled: true
+  signup_required: true
+  groups:
+    - HuerfanoCountyCO
+    - PuebloCO
+    - coloradocity
+
+facebook_marketplace:
+  enabled: true
+  requires_login: true
+  notes: Run src/scrapers/facebook.py --login once after installing playwright
+
+nextdoor:
+  enabled: false
+  requires_login: true
+
+offerup:
+  enabled: false

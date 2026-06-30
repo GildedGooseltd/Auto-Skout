@@ -1,0 +1,192 @@
+# Vehicle sources — trucks only · Colorado + Florida · commercial + auctions
+
+craigslist:
+  enabled: true
+  regions:
+    # Colorado (statewide)
+    - slug: denver
+      name: Denver
+      priority: high
+    - slug: boulder
+      name: Boulder
+      priority: high
+    - slug: cosprings
+      name: Colorado Springs
+      priority: high
+    - slug: pueblo
+      name: Pueblo
+      priority: high
+    - slug: fortcollins
+      name: Fort Collins
+      priority: high
+    - slug: eastco
+      name: Eastern CO
+      priority: medium
+    - slug: rockies
+      name: High Rockies
+      priority: medium
+    - slug: westslope
+      name: Western Slope
+      priority: medium
+    # Florida
+    - slug: miami
+      name: Miami
+      priority: high
+    - slug: southflorida
+      name: South Florida
+      priority: high
+    - slug: orlando
+      name: Orlando
+      priority: high
+    - slug: tampa
+      name: Tampa
+      priority: high
+    - slug: jacksonville
+      name: Jacksonville
+      priority: medium
+    - slug: keys
+      name: Florida Keys
+      priority: low
+  free_categories: []
+  paid_categories: [cto, cta]
+  search_queries: []
+
+freecycle:
+  enabled: false
+
+facebook_marketplace:
+  enabled: true
+  markets:
+    - zip: "80204"
+      label: Colorado
+    - zip: "81501"
+      label: Western Slope
+    - zip: "32801"
+      label: Florida
+  search_terms:
+    - truck
+    - chevy truck
+    - silverado
+    - sierra
+    - gmc truck
+    - 2500hd
+    - 3500hd
+    - f250
+    - f350
+    - super duty
+    - diesel pickup
+    - box truck
+    - commercial truck
+    - work truck
+    - reefer truck
+    - fleet truck
+    - for sale or trade
+    - police auction
+    - bank repo
+
+facebook_groups:
+  enabled: true
+
+trash_nothing:
+  enabled: false
+
+nextdoor:
+  enabled: false
+
+offerup:
+  enabled: true
+  max_price_usd: 20000
+  search_terms: []
+  markets:
+    - zip: "80204"
+      radius: 500
+      label: Colorado
+    - zip: "32801"
+      radius: 400
+      label: Florida
+  paid_search_terms:
+    - truck
+    - chevy truck
+    - silverado
+    - sierra
+    - gmc truck
+    - 2500hd
+    - 3500hd
+    - f250
+    - f350
+    - super duty
+    - diesel pickup
+    - dually
+    - box truck
+    - commercial truck
+    - work truck
+    - reefer truck
+    - fleet truck
+    - police auction
+    - bank repo
+
+buy_nothing:
+  enabled: false
+
+web_marketplaces_scrape:
+  enabled: true
+  max_price_usd: 20000
+  min_price_usd: 1000
+  bodystyle: truck
+  markets:
+    - zip: "80204"
+      radius: 500
+      state: CO
+      label: Colorado
+    - zip: "32801"
+      radius: 400
+      state: FL
+      label: Florida
+  keywords:
+    - 2500hd
+    - 3500hd
+    - f250
+    - f-350
+    - silverado 2500
+    - sierra 2500
+    - super duty
+    - ram 2500
+    - duramax
+    - cummins
+    - diesel pickup
+    - dually
+  commercial_keywords:
+    - box truck
+    - commercial truck
+    - work truck
+    - reefer truck
+    - fridge truck
+    - fleet truck
+    - isuzu npr
+    - hino truck
+    - stake bed
+    - flatbed truck
+    - medium duty
+
+auction_scrape:
+  enabled: true
+  max_price_usd: 20000
+  sites:
+    - govdeals
+    - publicsurplus
+    - propertyroom
+  markets:
+    - state: CO
+      label: Colorado
+    - state: FL
+      label: Florida
+  keywords:
+    - truck
+    - box truck
+    - commercial truck
+    - work truck
+    - reefer
+    - fleet truck
+    - diesel truck
+    - flatbed
+    - stake bed

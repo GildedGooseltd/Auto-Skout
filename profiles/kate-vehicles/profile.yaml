@@ -1,0 +1,89 @@
+# Auto Skout — used trucks & vehicles (Kate)
+# Run: SKOUT_PROFILE=kate-vehicles .venv/bin/python src/main.py --all --open
+id: kate-vehicles
+name: Auto Skout — Kate
+vertical: vehicles
+description: >
+  Used tow rig under $20k — pickups plus commercial/box/reefer/work trucks —
+  Chevy/GMC preferred — grant/tax-credit angles OK. Auctions/surplus/repo included.
+  CO + FL. Tow 1969 Avion 36′. Hitch on hand.
+
+shop_rules:
+  used_only: true
+  max_price_usd: 20000
+  exclude_new_and_cpo: true
+  prioritize: mechanical_quality_over_cosmetics
+  high_mileage_ok: true
+  rebuilt_mechanical_ok: true
+  has_hitch: true
+  make_preference: chevy
+  trucks_only: true
+  avoid_ram: true
+  avoid_ford_6_0_powerstroke: true
+
+make_preference:
+  make: chevy
+  label: Chevy / GMC preferred
+
+app_name: Auto Skout
+
+branding:
+  logo_icon: care-bear-icon-128.png
+  logo_favicon: care-bear-icon-64.png
+  wordmark: Auto Skout
+
+display:
+  show_all_scored_matches: true
+
+scan:
+  always_full: true
+
+home:
+  city: Gardner
+  state: CO
+  zip: "81040"
+  lat: 37.7889
+  lng: -105.1644
+  default_route_dest: Pueblo
+
+alert_style: balanced
+near_radius_miles: 60
+nearby_highlight_miles: 25
+
+economics:
+  hourly_rate_usd: 75
+  gas_cost_per_mile_usd: 0.30
+  min_resale_profit_usd: 500
+  max_drive_hours: 6
+  unlimited_drive_if_estimated_value_usd: 8000
+
+alert_schedule:
+  start: "07:00"
+  end: "22:00"
+  timezone: America/Denver
+  check_every_minutes: 120
+
+output: site
+
+email:
+  enabled: false
+  provider: gmail
+  to: support@gildedgooselimited.com
+
+haul:
+  has_trailer: false
+  max_length_ft: 36
+  notes: "1969 Avion on property — hitch on hand; need tow truck"
+
+location_source: home
+
+web_marketplaces: ~/Documents/1 Cursor Helper/personal/vehicle-market/web-sources.yaml
+
+sale_targets:
+  avion:
+    year: 1969
+    make: Avion
+    length_ft: 36
+    min_ask_usd: 26000
+    target_window: "2027-summer"
+    markets: [CO, CA, FL]

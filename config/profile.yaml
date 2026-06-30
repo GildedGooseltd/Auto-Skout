@@ -1,0 +1,44 @@
+app_name: Skout
+
+home:
+  city: Gardner
+  state: CO
+  zip: "81040"
+  lat: 37.7889
+  lng: -105.1644
+
+alert_style: balanced
+
+near_radius_miles: 30
+
+# Drive economics (resale / distant items)
+economics:
+  hourly_rate_usd: 100
+  gas_cost_per_mile_usd: 0.25
+  min_resale_profit_usd: 100
+  max_drive_hours: 4
+  unlimited_drive_if_estimated_value_usd: 1000
+
+# Evening check window — runs each hour 7–11 PM MT if computer is on
+alert_schedule:
+  start: "19:00"
+  end: "23:00"
+  timezone: America/Denver
+  check_every_minutes: 60
+
+# output: dashboard (easiest) | email | both
+output: dashboard
+
+email:
+  enabled: false
+  provider: gmail
+  to: support@gildedgooselimited.com
+
+# Highlight on dashboard (no phone alerts)
+nearby_highlight_miles: 5
+
+haul:
+  has_trailer: true
+  max_length_ft: 12
+
+location_source: travel_calendar

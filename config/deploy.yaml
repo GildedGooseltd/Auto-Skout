@@ -1,0 +1,8 @@
+# Skout dashboard hosting
+
+hosting:
+  provider: github
+  # After first GitHub Pages deploy (see docs/github-pages.md)
+  public_url: "https://gildedgooseltd.github.io/AutoSkout/"
+
+output_dir: site

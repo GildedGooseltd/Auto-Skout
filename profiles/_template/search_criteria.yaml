@@ -1,0 +1,27 @@
+priority_keywords: []
+current_focus: []
+farm_garden: []
+resale_high_value: []
+strong_signals: [free, curb alert, must take all]
+paid_wanted: []
+
+# Category IDs from config/categories.yaml — hide entire types (furniture, livestock, etc.)
+exclude_categories: []
+
+condition_rules:
+  machinery:
+    refurb_ok: false
+    require_working: true
+    applies_to: [mixer, tool, equipment, engine]
+  furniture_antiques:
+    refurb_ok: true
+    require_working: false
+    applies_to: [furniture, chair, desk, antique, vintage]
+
+exclude:
+  iso_keywords: [iso, in search of, looking for, i want to buy, wtb]
+  title_keywords: []
+  penalize_keywords: [for parts, not working]
+  oversized_keywords: []
+
+allowed: []

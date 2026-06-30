@@ -1,0 +1,343 @@
+# Cars · trucks · travel trailers — quality over cosmetics · Chevy/GMC preferred
+priority_keywords:
+  - chevy
+  - chevrolet
+  - silverado
+  - gmc
+  - sierra
+  - 2500hd
+  - 3500hd
+  - f-250
+  - f-350
+  - f250
+  - f350
+  - ram 2500
+  - ram 3500
+  # ram — deprioritized in fit score (45RFE trans ~170k); still searched
+  - silverado 2500
+  - silverado 3500
+  - rebuilt engine
+  - rebuilt transmission
+  - reman engine
+  - reman transmission
+  - fleet maintained
+  - service records
+  - documented maintenance
+  - tow package
+  - max tow
+  - camper package
+  - brake controller
+  - diesel
+  - "7.3"
+  - duramax
+  - cummins
+  - dually
+  - super duty
+  - box truck
+  - commercial truck
+  - work truck
+  - reefer
+  - refrigerated
+  - fleet truck
+  - municipal
+  - surplus
+  - auction
+  - police auction
+  - bank repo
+
+make_preference:
+  make: chevy
+  keywords:
+    - chevy
+    - chevrolet
+    - silverado
+    - gmc
+    - sierra
+    - 2500hd
+    - 3500hd
+
+current_focus:
+  - truck
+  - pickup
+  - f-250
+  - f-350
+  - 2500hd
+  - 3500hd
+  - super duty
+  - silverado 2500
+  - ram 2500
+  - rebuilt
+  - remanufactured
+  - refreshed
+  - fleet
+  - municipal
+  - utility fleet
+  - work truck
+  - avion
+  - travel trailer
+  - aluminum trailer
+
+farm_garden:
+  - rebuilt engine
+  - rebuilt trans
+  - new engine
+  - new transmission
+  - recent rebuild
+  - reman
+  - fleet maintained
+  - service records
+  - one owner
+  - clean title
+  - tow ready
+  - long bed
+  - extended cab
+  - super duty
+  - 7.3 powerstroke
+  - 6.7 powerstroke
+  - duramax
+  - cummins
+  - "6.2"
+  - 4.10 gears
+  - hd cooling
+  - trailer brakes
+
+resale_high_value:
+  - new tires
+  - new brakes
+  - new water pump
+  - new injectors
+  - head gasket done
+  - transmission rebuilt
+  - engine rebuilt
+  - documented
+
+strong_signals:
+  - obo
+  - motivated
+  - must sell
+  - moving
+  - price reduced
+  - runs great
+  - runs strong
+  - daily driver
+  - just serviced
+
+paid_wanted:
+  - name: tow_truck
+    keywords:
+      - silverado
+      - chevrolet
+      - chevy
+      - gmc
+      - sierra
+      - 2500hd
+      - 3500hd
+      - f-250
+      - f-350
+      - f250
+      - f350
+      - super duty
+      - ram 2500
+      - ram 3500
+      - silverado 2500
+      - silverado 3500
+      - sierra 2500
+      - sierra 3500
+      - 2500hd
+      - 3500hd
+      - diesel truck
+      - dually
+      - rebuilt
+      - reman
+      - box truck
+      - commercial truck
+      - work truck
+      - reefer
+      - fleet truck
+      - police auction
+      - bank repo
+      - surplus
+    max_price_usd: 20000
+    require_working: true
+    refurb_ok: true
+    priority: urgent
+    notes: "Used · max $20k · quality/mechanical rebuild OK · cosmetics ignored · high miles OK · tow 36ft Avion · skip Ford 6.0 PS · Ram deprioritized"
+
+  - name: commercial_tow
+    keywords:
+      - box truck
+      - commercial truck
+      - work truck
+      - fleet truck
+      - reefer truck
+      - fridge truck
+      - refrigerated truck
+      - stake bed
+      - flatbed truck
+      - medium duty
+      - isuzu npr
+      - hino
+      - fuso
+      - municipal truck
+      - surplus truck
+      - police auction
+      - sheriff auction
+      - bank repo
+      - repossession
+      - govdeals
+      - public surplus
+      - gsa auction
+      - impound
+      - seized
+    max_price_usd: 20000
+    require_working: true
+    refurb_ok: true
+    priority: urgent
+    notes: "Commercial/box/reefer/work trucks + auction/surplus — grant/tax-credit angle · must tow 36ft Avion"
+
+  - name: daily_car
+    keywords:
+      - toyota
+      - honda
+      - subaru
+      - sedan
+      - hatchback
+      - prius
+      - camry
+      - accord
+      - civic
+      - corolla
+    max_price_usd: 20000
+    require_working: true
+    refurb_ok: true
+    priority: normal
+    notes: "Reliable daily — Dad regression sheet when ready"
+
+  - name: hitch_tow
+    keywords:
+      - brake controller
+    max_price_usd: 200
+    require_working: true
+    refurb_ok: true
+    priority: hold
+    notes: "Have hitch — brake controller only if truck lacks integrated unit"
+
+  - name: avion_comps
+    keywords:
+      - avion
+      - aluminum travel trailer
+      - vintage travel trailer
+      - travel trailer
+    max_price_usd: 80000
+    require_working: false
+    refurb_ok: true
+    priority: normal
+    notes: "2027 sale comps — 30-40ft aluminum/vintage; floor $26k ask"
+
+condition_rules:
+  vehicles:
+    refurb_ok: true
+    require_working: true
+    applies_to:
+      - truck
+      - pickup
+      - diesel
+      - f-250
+      - f-350
+      - ram
+      - silverado
+  tow_parts:
+    refurb_ok: true
+    require_working: false
+    applies_to:
+      - brake controller
+
+exclude_categories:
+  - plants
+  - trees_shrubs
+  - hoses_irrigation
+  - dirt_soil
+  - rocks_bricks
+  - lumber
+  - fencing
+  - pallets
+  - furniture
+  - antiques
+  - livestock
+  - greenhouse
+  - curb_lot
+
+exclude:
+  iso_keywords:
+    - iso
+    - in search of
+    - looking for
+    - i want to buy
+    - wtb
+  title_keywords:
+    - salvage title
+    - flood
+    - lemon
+    - parts only
+    - parts truck
+    - roller
+    - no title
+    - bill of sale only
+    - movie trailer
+    - film trailer
+    - trailer park
+    - brand new
+    - still on lot
+    - cpo
+    - certified pre-owned
+    - dealer demo
+    - 0 miles
+    - 0 mi
+    - 6.0 powerstroke
+    - 6.0 power stroke
+    - powerstroke 6.0
+    - 6.0l powerstroke
+    - 6.0 diesel powerstroke
+  penalize_keywords:
+    - not running
+    - doesn't run
+    - wont start
+    - won't start
+    - blown head
+    - transmission slip
+    - ram 1500
+    - dodge ram
+    - ram 2500
+    - ram 3500
+    - 45rfe
+    - 68rfe
+  oversized_keywords:
+    - semi truck
+    - tractor trailer
+    - bus
+    - school bus
+
+# Tow-rig avoids (Kate)
+vehicle_avoid:
+  hard_exclude:
+    - "Ford F-250/F-350 6.0L Power Stroke — unreliable; brake assist loss when engine dies"
+  deprioritize:
+    - "Ram/Dodge — 45RFE trans tends to fail ~170k unless meticulously maintained"
+
+allowed:
+  - high miles
+  - high mileage
+  - cosmetic
+  - dent
+  - scratch
+  - fade
+  - rust
+  - patina
+  - work truck
+  - fleet
+  - rebuilt engine
+  - rebuilt transmission
+  - reman
+  - needs tires
+  - needs paint
+  - as-is cosmetic

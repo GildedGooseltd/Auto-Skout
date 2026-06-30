@@ -1,0 +1,263 @@
+# Skout item categories — icon shown on the right of each listing card
+
+categories:
+  - id: plants
+    label: Plants
+    icon: "🌿"
+    keywords: [plant, plants, seedling, perennial, flower, succulent, cutting]
+
+  - id: trees_shrubs
+    label: Trees & shrubs
+    icon: "🌳"
+    keywords: [tree, trees, shrub, shrubs, sapling, bush, arborvitae, fruit tree]
+
+  - id: hoses_irrigation
+    label: Hoses & irrigation
+    icon: "💧"
+    keywords: [hose, hoses, soaker, drip, sprinkler, irrigation, pvc, pipe]
+
+  - id: dirt_soil
+    label: Dirt & soil
+    icon: "⛰️"
+    keywords: [dirt, soil, topsoil, compost, manure, mulch, fill, gravel, sand, wood chip]
+
+  - id: rocks_bricks
+    label: Rocks & bricks
+    icon: "🧱"
+    keywords: [rock, rocks, stone, boulder, brick, bricks, flagstone, block, cinder, paver]
+
+  - id: lumber
+    label: Lumber & building
+    icon: "🪵"
+    keywords: [lumber, 2x4, 2x6, plywood, timber, board, stud, framing, building material]
+
+  - id: fencing
+    label: Fencing & posts
+    icon: "🚧"
+    keywords: [fence, fencing, post, posts, panel, gate, cattle panel, hog panel]
+
+  - id: pallets
+    label: Pallets
+    icon: "📦"
+    keywords: [pallet, pallets, skid]
+
+  - id: tools
+    label: Tools
+    icon: "🔧"
+    keywords: [tool, tools, shovel, rake, hoe, wheelbarrow, saw, drill, wrench]
+
+  - id: machinery
+    label: Machinery
+    icon: "⚙️"
+    keywords: [mixer, tiller, tractor, mower, compressor, generator, cement, mortar]
+
+  - id: cars
+    label: Cars
+    icon: "🚗"
+    keywords:
+      - sedan
+      - coupe
+      - hatchback
+      - wagon
+      - prius
+      - camry
+      - accord
+      - civic
+      - corolla
+      - subaru
+      - volkswagen
+      - toyota
+      - honda
+      - nissan
+      - hyundai
+      - mazda
+      - ford focus
+      - chevy cruze
+
+  - id: trucks
+    label: Trucks
+    icon: "🛻"
+    keywords:
+      - truck
+      - pickup
+      - f-150
+      - f-250
+      - f-350
+      - f150
+      - f250
+      - f350
+      - silverado
+      - sierra
+      - ram 1500
+      - ram 2500
+      - ram 3500
+      - tundra
+      - tacoma
+      - colorado
+      - ranger
+      - crew cab
+      - diesel
+      - dually
+      - 4x4
+      - tow package
+      - box truck
+      - commercial truck
+      - work truck
+      - reefer
+      - refrigerated
+      - flatbed
+      - stake bed
+      - medium duty
+      - isuzu
+      - hino
+      - fleet
+      - municipal
+      - surplus
+      - auction
+
+  - id: travel_rv
+    label: Travel trailers & RVs
+    icon: "🏕️"
+    keywords:
+      - travel trailer
+      - camper
+      - rv
+      - motorhome
+      - fifth wheel
+      - 5th wheel
+      - avion
+      - airstream
+      - aluminum trailer
+      - vintage trailer
+      - camper trailer
+      - towable
+
+  - id: tow_equipment
+    label: Tow & hitch
+    icon: "🔗"
+    keywords:
+      - hitch
+      - weight distribution
+      - wd hitch
+      - sway bar
+      - brake controller
+      - ball mount
+      - gooseneck
+      - pintle
+      - tow bar
+      - receiver hitch
+
+  - id: trailers
+    label: Trailers
+    icon: "🚛"
+    keywords:
+      - trailer
+      - utility trailer
+      - cargo trailer
+      - flatbed trailer
+      - enclosed trailer
+      - gooseneck
+      - dump trailer
+      - livestock trailer
+      - car hauler
+      - boat trailer
+
+  - id: furniture
+    label: Furniture
+    icon: "🪑"
+    keywords: [chair, desk, table, cabinet, dresser, couch, sofa, loveseat, shelf]
+
+  - id: antiques
+    label: Antiques & vintage
+    icon: "✨"
+    keywords: [antique, vintage, rolltop, mid century, estate, collectible]
+
+  - id: livestock
+    label: Livestock & farm
+    icon: "🐔"
+    keywords: [chicken, coop, feeder, trough, livestock, barn, hay, rooster]
+
+  - id: greenhouse
+    label: Greenhouse & beds
+    icon: "🏡"
+    keywords: [greenhouse, raised bed, planter, pot, barrel, rain barrel]
+
+  - id: curb_lot
+    label: Curb alert / lot
+    icon: "🛒"
+    keywords: [curb alert, must take all, garage sale, lot of, moving sale, estate]
+
+  - id: paid_wanted
+    label: Wanted item
+    icon: "🎯"
+    keywords: []
+
+  - id: other
+    label: Other
+    icon: "📌"
+    keywords: []
+
+platforms:
+  craigslist:
+    label: Craigslist
+    icon: "🟠"
+  freecycle:
+    label: Freecycle
+    icon: "♻️"
+  facebook:
+    label: Facebook
+    icon: "📘"
+  facebook_group:
+    label: FB Group
+    icon: "👥"
+  nextdoor:
+    label: Nextdoor
+    icon: "🏘️"
+  offerup:
+    label: OfferUp
+    icon: "📱"
+  trash_nothing:
+    label: Trash Nothing
+    icon: "🗑️"
+  buy_nothing:
+    label: Buy Nothing
+    icon: "🎁"
+  web:cars_com:
+    label: Cars.com
+    icon: "🚗"
+  web:autotrader:
+    label: Autotrader
+    icon: "🚙"
+  web:cargurus:
+    label: CarGurus
+    icon: "📊"
+  web:truecar:
+    label: TrueCar
+    icon: "💲"
+  web:ebay_motors:
+    label: eBay Motors
+    icon: "🛒"
+  web:privateauto:
+    label: PrivateAuto
+    icon: "🤝"
+  web:iseecars:
+    label: iSeeCars
+    icon: "🔍"
+  web:autolist:
+    label: Autolist
+    icon: "📋"
+  web:autotempest:
+    label: AutoTempest
+    icon: "🌐"
+  auction:govdeals:
+    label: GovDeals
+    icon: "🏛"
+  auction:publicsurplus:
+    label: Public Surplus
+    icon: "📋"
+  auction:propertyroom:
+    label: PropertyRoom
+    icon: "👮"
+  web:web:
+    label: Web marketplace
+    icon: "🔗"

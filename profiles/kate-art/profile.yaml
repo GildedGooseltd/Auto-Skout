@@ -1,0 +1,52 @@
+# Kate art — opportunity profile (Skout-style)
+# Run hunt: SKOUT_PROFILE=kate-art python3 scripts/art_opportunity_hunt.py
+# (Does not use marketplace scrapers — scans art/grant feeds only)
+
+id: kate-art
+name: Kate — oil painting calls & grants
+vertical: art
+description: Free CFAs, grant-sponsored shows, sponsorships — no mail-in, no paid entry
+
+app_name: Art Scout
+
+home:
+  city: Gardner
+  state: CO
+  zip: "81040"
+  lat: 38.331
+  lng: -104.999
+
+alert_style: balanced
+near_radius_miles: 500
+nearby_highlight_miles: 120
+
+economics:
+  hourly_rate_usd: 0
+  min_stipend_usd: 0
+  max_entry_fee_usd: 0
+
+alert_schedule:
+  start: "08:00"
+  end: "22:00"
+  timezone: America/Denver
+  check_every_week: 1
+
+output: markdown
+
+portfolio_required: true
+portfolio_url_target: https://gildedgooselimited.com/art
+
+medium:
+  - oil
+  - painting
+  - fine art
+
+exclude_programs:
+  - pollock-krasner
+  - pkf.org
+
+rules:
+  out_of_state_ok: true
+  mail_in_required: false
+  paid_entry_ok_if: grant_sponsored_only
+  group_shows_ok: true

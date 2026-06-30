@@ -1,0 +1,32 @@
+# Skout platform — sellable product core (not user-specific)
+
+product:
+  name: Skout
+  version: "0.3"
+  phase: 1
+  model: profile_based_saas
+  roadmap: docs/ROADMAP.md
+  # Future: each subscriber = one profile row (same shape as profiles/gardner-farm/)
+
+architecture:
+  scrape_strategy: regional_shared
+  # Scrape each region once, score/filter per profile (per user later)
+  filter_engine: keyword_scoring
+  outputs: [site, email, sms]
+
+defaults:
+  scoring: scoring.yaml
+  categories: categories.yaml
+
+deploy:
+  hosting:
+    provider: netlify
+  public_url: ""
+  output_dir: site
+
+subscription_ready:
+  auth: planned          # Supabase / Clerk
+  billing: planned       # Stripe
+  worker_host: planned   # Railway
+  sms: planned           # Twilio, pro tier
+  multi_tenant: planned  # user_id → profile

@@ -1,0 +1,39 @@
+# Copy this folder to profiles/YOUR-ID/ and customize
+id: your-profile-id
+name: Your Profile Name
+vertical: general
+description: What you're hunting for and where
+
+app_name: Skout
+
+home:
+  city: YourCity
+  state: ST
+  zip: "00000"
+  lat: 0.0
+  lng: 0.0
+
+alert_style: balanced
+near_radius_miles: 30
+nearby_highlight_miles: 5
+
+economics:
+  hourly_rate_usd: 50
+  gas_cost_per_mile_usd: 0.20
+  min_resale_profit_usd: 50
+  max_drive_hours: 3
+  unlimited_drive_if_estimated_value_usd: 500
+
+alert_schedule:
+  start: "19:00"
+  end: "23:00"
+  timezone: America/Denver
+  check_every_minutes: 60
+
+output: site
+
+haul:
+  has_trailer: false
+  max_length_ft: 0
+
+location_source: travel_calendar

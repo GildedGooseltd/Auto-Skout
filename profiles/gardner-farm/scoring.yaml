@@ -1,0 +1,61 @@
+alert_style: balanced
+
+weights:
+  distance_near: 40
+  current_focus_match: 35
+  farm_garden_match: 20
+  resale_value: 25
+  strong_signal: 15
+  paid_wanted_match: 50
+  has_image: 5
+  posted_today: 10
+
+penalties:
+  exclude_keyword: -100
+  penalize_keyword: -20
+  machinery_needs_refurb: -100
+  machinery_not_working: -100
+  oversized_no_resale: -30
+  no_location: -10
+
+tiers:
+  must_email_min_score: 50
+  near_you:
+    label: "Near you — act fast"
+  worth_the_drive:
+    min_score: 70
+    label: "Worth the drive — high value"
+  paid_wanted:
+    label: "Wanted item — within your budget"
+  everything_else:
+    min_score: 50
+    label: "Also a match — lower priority"
+
+email_limits:
+  max_near_you: 15
+  max_worth_drive: 10
+  max_paid_wanted: 10
+  max_other: 5
+
+# Resale items must clear: estimated_resale - price - (drive_hours * hourly_rate) - gas >= min_resale_profit
+resale_gate:
+  enabled: true
+  min_profit_usd: 100
+
+dedup:
+  never_email_same_post_twice: true
+
+pickup_contact:
+  name: Kate
+  phone: "720-701-2646"
+  email: support@gildedgooselimited.com
+
+response_template: |
+  Hello,
+
+  I was wondering if you still have {item} available? If so, I would like to pick it up at your earliest convenience this week.
+
+  My cell is 720-701-2646 if that's easier for you, but email works as well.
+
+  Thanks,
+  Kate

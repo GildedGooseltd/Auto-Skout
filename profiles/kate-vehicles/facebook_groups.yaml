@@ -1,0 +1,65 @@
+marketplace:
+  location: "81040"
+  search_terms:
+    - truck
+    - f250
+    - f350
+    - diesel
+    - travel trailer
+    - camper
+    - avion
+    - hitch
+    - weight distribution
+    - brake controller
+
+discovery:
+  auto_all_joined: true
+  cache_hours: 24
+  include_keywords:
+    - buy sell trade
+    - vehicles
+    - cars
+    - trucks
+    - trailer
+    - rv
+    - camper
+    - pueblo
+    - colorado springs
+    - denver
+    - southern colorado
+  exclude_keywords:
+    - onlyfans
+    - crypto
+    - dating
+    - mlm
+
+groups:
+  - name: Southern Colorado Buy Sell Trade
+    match: southern colorado buy sell trade
+    region: Southern CO
+    priority: high
+
+  - name: Pueblo Colorado Buy Sell Trade
+    match: pueblo buy sell trade
+    region: Pueblo
+    priority: high
+
+  - name: Colorado Springs Buy Sell Trade
+    match: colorado springs buy sell trade
+    region: Colorado Springs
+    priority: high
+
+  - name: Denver Buy Sell Trade
+    match: denver buy sell trade
+    region: Denver
+    priority: high
+
+  - name: Colorado RV Camping Buy Sell
+    match: colorado rv camping buy sell
+    region: Colorado
+    priority: high
+
+  - name: RV Trailers Campers Colorado
+    match: rv trailers campers colorado
+    region: Colorado
+    priority: medium

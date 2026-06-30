@@ -1,0 +1,20 @@
+craigslist:
+  enabled: true
+  regions:
+    - slug: yourcity
+      name: Your City
+      priority: high
+  free_categories: [zip]
+  paid_categories: [fga]
+  search_queries: [""]
+
+freecycle:
+  enabled: false
+  groups: []
+
+facebook_marketplace:
+  enabled: false
+  location_zip: "00000"
+
+facebook_groups:
+  enabled: false

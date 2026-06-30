@@ -1,0 +1,199 @@
+# FREE listings — current farm & irrigation buildout (score boost)
+current_focus:
+  - hoses
+  - hose
+  - soaker
+  - drip irrigation
+  - sprinkler
+  - plants
+  - plant
+  - tree
+  - trees
+  - shrub
+  - shrubs
+  - sapling
+  - seedling
+  - perennial
+  - outdoor
+  - rocks
+  - rock
+  - stone
+  - boulder
+  - bricks
+  - brick
+  - flagstone
+  - block
+  - cinder block
+  - building materials
+  - lumber
+  - 2x4
+  - 2x6
+  - plywood
+  - fencing
+  - fence
+  - posts
+  - fill dirt
+  - filler dirt
+  - topsoil
+  - soil
+  - compost
+  - manure
+  - gravel
+  - sand
+  - mulch
+  - wood chips
+  - irrigation
+  - pipe
+  - PVC
+
+farm_garden:
+  - garden
+  - gardening
+  - farm
+  - farming
+  - greenhouse
+  - raised bed
+  - pallet
+  - pallets
+  - wheelbarrow
+  - rake
+  - shovel
+  - hoe
+  - tiller
+  - tractor
+  - livestock
+  - chicken
+  - coop
+  - feeder
+  - water trough
+  - gate
+  - cattle panel
+  - hog panel
+  - barn
+  - shed
+  - rain barrel
+  - barrel
+  - bucket
+  - pot
+  - planter
+
+# Vintage / antique — worth traveling for if rare; refurb OK for furniture only
+resale_high_value:
+  - vintage
+  - antique
+  - rare
+  - mid century
+  - solid wood
+  - rolltop
+  - leather
+  - curb alert
+  - estate
+  - garage sale leftovers
+  - lot of
+
+strong_signals:
+  - free
+  - curb alert
+  - must take all
+  - you haul
+  - come get
+  - first come
+
+# PAID searches — alert when price is at or below max_price
+paid_wanted:
+  - name: concrete mixer
+    keywords:
+      - concrete mixer
+      - cement mixer
+      - mortar mixer
+    max_price_usd: 200
+    require_working: true
+    refurb_ok: false
+    priority: urgent
+    notes: "Farm buildout — must be working; no refurb/project machines"
+
+# Refurb / repair rules by item type
+condition_rules:
+  machinery:
+    refurb_ok: false
+    require_working: true
+    applies_to:
+      - mixer
+      - tiller
+      - tractor
+      - mower
+      - compressor
+      - generator
+      - saw
+      - drill
+      - tool
+      - equipment
+      - engine
+      - motor
+  furniture_antiques:
+    refurb_ok: true
+    require_working: false
+    applies_to:
+      - furniture
+      - chair
+      - desk
+      - table
+      - cabinet
+      - antique
+      - vintage
+      - dresser
+      - rolltop
+
+exclude:
+  title_keywords:
+    - lost dog
+    - lost cat
+    - missing
+    - free puppy
+    - rehome
+    - adoption
+    - rotted
+    - rotten
+    - rot
+    - concrete chunk
+    - concrete chunks
+    - concrete rubble
+    - invasive
+    - kudzu
+    - cheatgrass
+    - bindweed
+    - faux leather
+    - fake leather
+    - pleather
+    - faux-leather
+  penalize_keywords:
+    - for parts
+    - not working
+    - needs repair
+    - project
+    - non-working
+    - doesn't work
+    - wont start
+    - asbestos
+    - mold
+    - used oil
+    - motor oil
+    - chemical
+  oversized_keywords:
+    - playground
+    - swing set
+    - hot tub
+    - pool
+    - mobile home
+    - entire house
+    - must take structure
+
+# Explicitly allowed (do not penalize)
+allowed:
+  - treated wood
+  - pressure treated
+  - chipped brick
+  - broken brick
+  - broken bricks
+  - flagstone
+  - cracked flagstone

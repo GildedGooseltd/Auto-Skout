@@ -1,0 +1,128 @@
+# Facebook groups — Skout resolves IDs automatically (no manual URL pasting).
+# 1) Login once:  .venv/bin/python src/scrapers/facebook.py --login
+# 2) Discover:    .venv/bin/python src/scrapers/facebook.py --discover-groups
+# Each scan refreshes the cache when stale (default 24h).
+
+marketplace:
+  location: "81040"
+  search_terms:
+    - free
+    - garden
+    - farm
+    - hose
+    - dirt
+    - lumber
+    - pallet
+    - concrete mixer
+    - plants
+    - bricks
+    - trailer
+    - stereo system
+    - outdoor speakers
+    - radiant barrier
+    - thermal radiant barrier
+    - aluminum sheathing
+    - thermal sheathing
+    - heat resistant
+
+discovery:
+  auto_all_joined: true
+  cache_hours: 24
+  include_keywords:
+    - free
+    - buy nothing
+    - garden
+    - farm
+    - homestead
+    - pueblo
+    - walsenburg
+    - colorado springs
+    - la veta
+    - cuchara
+    - southern colorado
+    - regenerative
+    - local food
+    - makers
+  exclude_keywords:
+    - onlyfans
+    - crypto
+    - dating
+    - mlm
+
+# match = text Skout uses to find the group in your joined list or FB search.
+groups:
+  - name: Colorado Local Food & Regenerative Ag Hub
+    match: colorado local food regenerative ag
+    url: https://www.facebook.com/groups/234744161268945
+    region: statewide
+    priority: high
+
+  - name: Pueblo Colorado Free Stuff
+    match: pueblo colorado free stuff
+    region: Pueblo
+    priority: high
+
+  - name: Colorado Springs Free Stuff
+    match: colorado springs free stuff
+    region: Colorado Springs
+    priority: high
+
+  - name: Southern Colorado Buy Sell Trade
+    match: southern colorado buy sell trade
+    region: Southern CO
+    priority: medium
+
+  - name: Buy Nothing Pueblo
+    match: buy nothing pueblo colorado
+    region: Pueblo
+    priority: high
+
+  - name: Buy Nothing — Walsenburg / Huerfano
+    match: buy nothing walsenburg
+    region: Walsenburg
+    priority: high
+
+  - name: La Veta / Cuchara community
+    match: la veta cuchara community
+    region: La Veta
+    priority: high
+
+  - name: Southern Colorado Homesteading
+    match: southern colorado homesteading
+    region: Southern CO
+    priority: medium
+
+  - name: Pueblo Colorado Gardening
+    match: pueblo colorado gardening
+    region: Pueblo
+    priority: medium
+
+  - name: Denver Colorado Free Stuff
+    match: denver colorado free stuff
+    region: Denver
+    priority: high
+
+  - name: Buy Nothing Denver
+    match: buy nothing denver
+    region: Denver
+    priority: high
+
+  - name: Buy Nothing Colorado Springs
+    match: buy nothing colorado springs
+    region: Colorado Springs
+    priority: high
+
+  - name: Buy Nothing Briargate
+    match: buy nothing briargate
+    region: Colorado Springs
+    priority: medium
+
+  - name: Arvada Buy Nothing
+    match: buy nothing arvada
+    region: Arvada
+    priority: medium
+
+  - name: Colorado Springs Freecycle Community
+    match: colorado springs freecycle
+    region: Colorado Springs
+    priority: medium
