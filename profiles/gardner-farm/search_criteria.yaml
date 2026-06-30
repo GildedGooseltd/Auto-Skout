@@ -157,6 +157,20 @@ paid_wanted:
     priority: urgent
     notes: "Farm buildout — must be working; no refurb/project machines"
 
+  - name: hydraulic_jacking
+    keywords:
+      - hydraulic portable jacking system
+      - portable jacking system
+      - hydraulic jacking system
+      - hydraulic leveling system
+      - hydraulic leveling jacks
+      - RV hydraulic jack
+    max_price_usd: 5000
+    require_working: true
+    refurb_ok: false
+    priority: urgent
+    notes: "Portable hydraulic jacking / leveling — free or paid up to budget"
+
 # Trailer hunt — hard drop (title + description)
 trailer_exclude:
   - bike

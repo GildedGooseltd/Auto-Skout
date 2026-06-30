@@ -1,19 +1,50 @@
 #!/usr/bin/env bash
-# Push existing site/ to gh-pages (no rescan). Fixes Pages 404.
-# Usage: ./scripts/push-pages-only.sh [ghp_token]
+# Build profile dashboard and push to gh-pages.
+# Usage: ./scripts/push-pages-only.sh [profile] [token]
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 # shellcheck source=scripts/github-auth.sh
 source "$ROOT/scripts/github-auth.sh"
 
+PROFILE="kate-vehicles"
 TOKEN=""
-if TOKEN="$(token_from_args_or_env "${1:-}" 2>/dev/null)"; then
-  :
+if [[ "${1:-}" =~ ^(ghp_|github_pat_) ]]; then
+  TOKEN="$1"
+elif [[ -n "${1:-}" ]]; then
+  PROFILE="$1"
+  if [[ "${2:-}" =~ ^(ghp_|github_pat_) ]]; then
+    TOKEN="$2"
+  fi
+fi
+if [[ -z "$TOKEN" ]]; then
+  TOKEN="$(token_from_args_or_env "${2:-}" 2>/dev/null || true)"
 fi
 
+export SKOUT_PROFILE="$PROFILE"
+
+if [[ ! -x .venv/bin/python ]]; then
+  echo "Missing venv — run: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt"
+  exit 1
+fi
+
+echo "==> Build profile: $PROFILE (ignores .env SKOUT_PROFILE)"
+.venv/bin/python src/main.py --all
+
 if [[ ! -f site/index.html ]]; then
-  echo "No site/index.html — run: SKOUT_PROFILE=kate-vehicles .venv/bin/python src/main.py --all"
+  echo "Build failed — site/index.html missing"
+  exit 1
+fi
+
+BUILT_PROFILE="$(python3 -c "
+import json, re
+html=open('site/index.html').read()
+m=re.search(r'<script id=\"skout-data\"[^>]*>(.*?)</script>', html, re.S)
+d=json.loads(m.group(1))
+print(d.get('profile_id',''))
+")"
+if [[ "$BUILT_PROFILE" != "$PROFILE" ]]; then
+  echo "Wrong profile in site/ (got $BUILT_PROFILE, wanted $PROFILE) — aborting"
   exit 1
 fi
 
@@ -26,17 +57,10 @@ cd "$WORK"
 git init -q
 git checkout -b gh-pages
 git add -A
-git commit -m "Publish dashboard $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+git commit -m "Publish ${PROFILE} dashboard $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 echo "==> Push gh-pages"
 auth_push "$WORK" gh-pages "$TOKEN"
 
 echo ""
-echo "✓ gh-pages pushed."
-echo ""
-echo "If still 404, enable Pages once:"
-echo "  https://github.com/GildedGooseltd/Auto-Skout/settings/pages"
-echo "  Source: Deploy from branch → gh-pages → / (root) → Save"
-echo ""
-echo "Live URL (1–2 min after enable):"
-echo "  https://gildedgooseltd.github.io/Auto-Skout/"
+echo "✓ Published $PROFILE → https://gildedgooseltd.github.io/Auto-Skout/"

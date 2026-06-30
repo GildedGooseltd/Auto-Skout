@@ -41,6 +41,9 @@ craigslist:
     - aluminum sheathing
     - thermal sheathing
     - heat resistant
+    - hydraulic portable jacking system
+    - portable jacking system
+    - hydraulic jacking system
 
 freecycle:
   enabled: true
@@ -78,6 +81,9 @@ facebook_marketplace:
     - aluminum sheathing
     - thermal sheathing
     - heat resistant
+    - hydraulic portable jacking system
+    - portable jacking system
+    - hydraulic jacking system
 
 # Groups: join in Facebook; Skout auto-discovers IDs (facebook.py --discover-groups)
 facebook_groups:
@@ -106,6 +112,9 @@ trash_nothing:
     - aluminum sheathing
     - thermal sheathing
     - heat resistant
+    - hydraulic portable jacking system
+    - portable jacking system
+    - hydraulic jacking system
 
 nextdoor:
   enabled: true
@@ -128,12 +137,15 @@ nextdoor:
     - aluminum sheathing
     - thermal sheathing
     - heat resistant
+    - hydraulic portable jacking system
+    - portable jacking system
+    - hydraulic jacking system
 
 offerup:
   enabled: true
   zip: "81040"
   radius: 50
-  max_price_usd: 4000
+  max_price_usd: 5000
   search_terms:
     - free
     - garden
@@ -150,6 +162,9 @@ offerup:
     - aluminum sheathing
     - thermal sheathing
     - heat resistant
+    - hydraulic portable jacking system
+    - portable jacking system
+    - hydraulic jacking system
   paid_search_terms:
     - trailer
     - utility trailer
@@ -157,6 +172,10 @@ offerup:
     - gooseneck trailer
     - dump trailer
     - livestock trailer
+    - hydraulic portable jacking system
+    - portable jacking system
+    - hydraulic jacking system
+    - hydraulic leveling system
 
 buy_nothing:
   enabled: true
