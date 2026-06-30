@@ -117,6 +117,7 @@ FORD_60_POWERSTROKE = re.compile(
     re.I,
 )
 FORD_HD_SIGNAL = re.compile(r"\b(ford|f-?250|f-?350|super\s+duty)\b", re.I)
+RAM_SIGNAL = re.compile(r"\b(ram|dodge)\b", re.I)
 FB_COMMERCIAL_CATEGORY = re.compile(
     r"\b(commercial\s*trucks?|work\s*trucks?|box\s*trucks?|medium\s*duty)\b",
     re.I,
