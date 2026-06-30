@@ -14,13 +14,13 @@ if [[ ! -x .venv/bin/python ]]; then
 fi
 
 if ! git -C "$ROOT" rev-parse --git-dir &>/dev/null; then
-  echo "Not a git repo — run: git init && git remote add origin git@github.com:GildedGooseltd/AutoSkout.git"
+  echo "Not a git repo — run: git init && git remote add origin git@github.com:GildedGooseltd/Auto-Skout.git"
   exit 1
 fi
 
 if ! git -C "$ROOT" remote get-url "$REMOTE" &>/dev/null; then
   echo "No remote '$REMOTE'. Create the GitHub repo, then:"
-  echo "  git remote add origin git@github.com:GildedGooseltd/AutoSkout.git"
+  echo "  git remote add origin git@github.com:GildedGooseltd/Auto-Skout.git"
   exit 1
 fi
 
@@ -49,6 +49,6 @@ git push -f "$REPO_URL" gh-pages
 
 echo ""
 echo "✓ Published. Share after Pages is enabled:"
-echo "  https://gildedgooseltd.github.io/AutoSkout/"
+echo "  https://gildedgooseltd.github.io/Auto-Skout/"
 echo ""
 echo "One-time: repo Settings → Pages → Deploy from branch → gh-pages / (root)"

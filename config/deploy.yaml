@@ -3,6 +3,6 @@
 hosting:
   provider: github
   # After first GitHub Pages deploy (see docs/github-pages.md)
-  public_url: "https://gildedgooseltd.github.io/AutoSkout/"
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/"
 
 output_dir: site

@@ -4,11 +4,11 @@ Skout builds a static dashboard (`site/`). You run scans on your Mac; friends op
 
 ## One-time setup
 
-1. **Create repo** — [github.com/new](https://github.com/new) → name `AutoSkout` (or your choice) under **GildedGooseltd**. No README/license (we push from local).
+1. **Create repo** — [github.com/GildedGooseltd/Auto-Skout](https://github.com/GildedGooseltd/Auto-Skout) (already created).
 
 2. **Link remote** (from `free-stuff-alerts`):
    ```bash
-   git remote add origin git@github.com:GildedGooseltd/AutoSkout.git
+   git remote add origin git@github.com:GildedGooseltd/Auto-Skout.git
    git push -u origin main
    ```
 
@@ -34,7 +34,7 @@ SKOUT_PROFILE=gardner-farm ./scripts/publish-github.sh
 
 Wait ~1 min, then share:
 
-**https://gildedgooseltd.github.io/AutoSkout/**
+**https://gildedgooseltd.github.io/Auto-Skout/**
 
 (Replace org/repo if you used a different name.)
 
@@ -49,5 +49,5 @@ After first publish, set `config/deploy.yaml`:
 ```yaml
 hosting:
   provider: github
-  public_url: "https://gildedgooseltd.github.io/AutoSkout/"
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/"
 ```
