@@ -9,6 +9,11 @@ source "$ROOT/scripts/github-auth.sh"
 
 PROFILE="kate-vehicles"
 TOKEN=""
+SKIP_BUILD=0
+if [[ "${1:-}" == "--no-build" ]]; then
+  SKIP_BUILD=1
+  shift
+fi
 if [[ "${1:-}" =~ ^(ghp_|github_pat_) ]]; then
   TOKEN="$1"
 elif [[ -n "${1:-}" ]]; then
@@ -29,7 +34,11 @@ if [[ ! -x .venv/bin/python ]]; then
 fi
 
 echo "==> Build profile: $PROFILE (ignores .env SKOUT_PROFILE)"
-.venv/bin/python src/main.py --all
+if [[ "$SKIP_BUILD" -eq 0 ]]; then
+  .venv/bin/python src/main.py --all
+else
+  echo "    (--no-build: using existing site/)"
+fi
 
 if [[ ! -f site/index.html ]]; then
   echo "Build failed — site/index.html missing"
