@@ -27,13 +27,15 @@ craigslist:
     - farm
     - hose
     - dirt
+    - manure
+    - topsoil
+    - fill dirt
     - lumber
     - pallet
     - fence
     - plant
     - brick
     - rock
-    - trailer
     - stereo system
     - outdoor speakers
     - radiant barrier
@@ -44,6 +46,55 @@ craigslist:
     - hydraulic portable jacking system
     - portable jacking system
     - hydraulic jacking system
+    - rain barrel
+    - water tank
+    - water container
+    - cistern
+    - ibc tote
+    - greenhouse
+    - hoop house
+    - greenhouse plastic
+    - polycarbonate
+    - paint
+    - art supplies
+    - canvas
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - building materials
+    - plywood
+    - cinder block
+    - rebar
+    - gravel
+    - sand
+    - drywall
+    - insulation
+    - pavers
+    - stone
+    - trencher
+    - trenchers
+    - freezer
+    - freezers
+    - fridge
+    - fridges
+    - refrigerator
+    - estate sale
+    - moving sale
+    - garage sale
+    - yard sale
+    - sewing machine
+    - industrial sewing machine
+    - commercial sewing machine
+    - ultrasonic sewing
+    - ultrasonic lace
+    - serger
+    - embroidery machine
+    - lace machine
+    - sonobond
+    - seammaster
+    - textile equipment
+    - overlock machine
+    - quilting machine
 
 freecycle:
   enabled: true
@@ -69,11 +120,13 @@ facebook_marketplace:
     - farm
     - pallet
     - dirt
+    - manure
+    - topsoil
+    - fill dirt
     - lumber
     - plants
     - bricks
     - hose
-    - trailer
     - stereo system
     - outdoor speakers
     - radiant barrier
@@ -84,6 +137,40 @@ facebook_marketplace:
     - hydraulic portable jacking system
     - portable jacking system
     - hydraulic jacking system
+    - rain barrel
+    - water tank
+    - water container
+    - greenhouse
+    - hoop house
+    - paint
+    - art supplies
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - building materials
+    - plywood
+    - cinder block
+    - rebar
+    - gravel
+    - sand
+    - drywall
+    - insulation
+    - pavers
+    - stone
+    - trencher
+    - trenchers
+    - freezer
+    - freezers
+    - fridge
+    - fridges
+    - sewing machine
+    - industrial sewing machine
+    - ultrasonic sewing
+    - serger
+    - embroidery machine
+    - lace machine
+    - sonobond
+    - textile equipment
 
 # Groups: join in Facebook; Skout auto-discovers IDs (facebook.py --discover-groups)
 facebook_groups:
@@ -101,10 +188,12 @@ trash_nothing:
     - farm
     - pallet
     - dirt
+    - manure
+    - topsoil
+    - fill dirt
     - lumber
     - plants
     - hose
-    - trailer
     - stereo system
     - outdoor speakers
     - radiant barrier
@@ -115,9 +204,37 @@ trash_nothing:
     - hydraulic portable jacking system
     - portable jacking system
     - hydraulic jacking system
+    - rain barrel
+    - water tank
+    - greenhouse
+    - paint
+    - art supplies
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - building materials
+    - plywood
+    - cinder block
+    - rebar
+    - gravel
+    - sand
+    - drywall
+    - insulation
+    - pavers
+    - stone
+    - trencher
+    - trenchers
+    - freezer
+    - freezers
+    - fridge
+    - fridges
+    - sewing machine
+    - industrial sewing machine
+    - serger
+    - embroidery machine
 
 nextdoor:
-  enabled: true
+  enabled: false
   latitude: 38.8339
   longitude: -104.8214
   radius: 50
@@ -125,21 +242,6 @@ nextdoor:
     - free
     - garden
     - farm
-    - pallet
-    - dirt
-    - lumber
-    - plants
-    - trailer
-    - stereo system
-    - outdoor speakers
-    - radiant barrier
-    - thermal radiant barrier
-    - aluminum sheathing
-    - thermal sheathing
-    - heat resistant
-    - hydraulic portable jacking system
-    - portable jacking system
-    - hydraulic jacking system
 
 offerup:
   enabled: true
@@ -152,6 +254,9 @@ offerup:
     - farm
     - pallet
     - dirt
+    - manure
+    - topsoil
+    - fill dirt
     - lumber
     - plants
     - hose
@@ -165,31 +270,151 @@ offerup:
     - hydraulic portable jacking system
     - portable jacking system
     - hydraulic jacking system
+    - rain barrel
+    - water tank
+    - greenhouse
+    - paint
+    - art supplies
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - building materials
+    - plywood
+    - cinder block
+    - rebar
+    - gravel
+    - sand
+    - drywall
+    - insulation
+    - pavers
+    - stone
+    - trencher
+    - trenchers
+    - freezer
+    - freezers
+    - fridge
+    - fridges
+    - sewing machine
+    - industrial sewing machine
+    - ultrasonic sewing
+    - serger
+    - embroidery machine
   paid_search_terms:
-    - trailer
-    - utility trailer
-    - flatbed trailer
-    - gooseneck trailer
-    - dump trailer
-    - livestock trailer
     - hydraulic portable jacking system
     - portable jacking system
     - hydraulic jacking system
     - hydraulic leveling system
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
 
 buy_nothing:
   enabled: true
 
-web_marketplaces_scrape:
+# Estate / yard sales — photos + listing text matched against farm/build keywords.
+# Requires: playwright install chromium
+estate_sales:
+  enabled: true
+  sites: [estatesales_net, estatesales_org, gsalr]
+  require_keyword_match: true
+  max_sales_per_city: 25
+  max_detail_fetches: 50
+  cities:
+    - name: Pueblo
+      url: https://www.estatesales.net/CO/Pueblo
+    - name: Colorado Springs
+      url: https://www.estatesales.net/CO/Colorado-Springs
+    - name: Denver
+      url: https://www.estatesales.net/CO/Denver
+    - name: Canon City
+      url: https://www.estatesales.net/CO/Canon-City
+    - name: Littleton
+      url: https://www.estatesales.net/CO/Littleton
+  org_cities:
+    - name: Pueblo
+      url: https://www.estatesales.org/estate-sales/co/pueblo
+    - name: Colorado Springs
+      url: https://www.estatesales.org/estate-sales/co/colorado-springs
+    - name: Denver
+      url: https://www.estatesales.org/estate-sales/co/denver
+  gsalr_cities:
+    - name: Pueblo
+      slug: pueblo-co
+    - name: Colorado Springs
+      slug: colorado-springs-co
+    - name: Denver
+      slug: denver-co
+  match_keywords:
+    - tool
+    - tools
+    - garden
+    - farm
+    - tractor
+    - greenhouse
+    - paint
+    - lumber
+    - plywood
+    - freezer
+    - fridge
+    - refrigerator
+    - concrete mixer
+    - trencher
+    - dirt
+    - manure
+    - topsoil
+    - gravel
+    - sand
+    - fence
+    - art
+    - canvas
+    - sewing
+    - sewing machine
+    - serger
+    - embroidery
+    - quilting
+    - textile
+    - fabric
+    - craft room
+    - ultrasonic
+
+# Tier 2 — industrial sewing marketplaces (Playwright; Machinio/eBay may block bots)
+textile_marketplaces:
   enabled: true
   zip: "81040"
-  radius: 150
-  max_price_usd: 4000
-  min_price_usd: 0
+  max_price_usd: 25000
+  min_price_usd: 300
+  sites: [machinio, ebay]
+  search_terms:
+    - industrial sewing machine
+    - commercial sewing machine
+    - ultrasonic sewing machine
+    - sonobond seammaster
+    - walking foot sewing
+    - industrial serger
+
+# Tier 2 — textile plant / govt surplus auctions
+textile_auctions:
+  enabled: true
+  max_price_usd: 25000
+  min_price_usd: 300
+  sites: [hgp, govplanet, govdeals, irs]
+  markets:
+    - state: CO
+      label: Colorado
   keywords:
-    - trailer
-    - utility trailer
-    - flatbed trailer
-    - gooseneck trailer
-    - dump trailer
-    - livestock trailer
+    - industrial sewing
+    - textile equipment
+    - ultrasonic sewing
+    - blindstitch
+    - walking foot
+
+# Tier 3 — dealer used inventory (Pleasant Street = Machinio dealer feed)
+dealer_inventory:
+  enabled: true
+  max_price_usd: 25000
+  min_price_usd: 300
+  max_listings_per_site: 60
+  sites: [pleasant_street, md_equipment, cutsew]
+
+web_marketplaces_scrape:
+  enabled: false

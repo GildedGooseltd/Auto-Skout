@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from typing import Any, Optional
 
-_YEAR = re.compile(r"\b(19[89]\d|20[0-2]\d)\b")
+_YEAR = re.compile(r"\b(19[6-9]\d|20[0-2]\d)\b")
 _MILES = re.compile(
     r"(\d{1,3}(?:,\d{3})+|\d{4,7})\s*(?:k\s*)?(?:mi(?:les?)?|miles)\b",
     re.I,
@@ -34,22 +34,29 @@ FLORIDA_CITIES = (
 )
 
 MAKE_PATTERNS: list[tuple[str, list[str]]] = [
-    ("Chevrolet", [r"\bchev(?:y|rolet)\b", r"\bsilverado\b", r"\b2500hd\b", r"\b3500hd\b"]),
-    ("GMC", [r"\bgmc\b", r"\bsierra\b"]),
+    ("Chevrolet", [r"\bchev(?:y|rolet)\b", r"\bsilverado\b", r"\b2500hd\b", r"\b3500hd\b", r"\bc10\b", r"\bc20\b", r"\bc30\b"]),
+    ("GMC", [r"\bgmc\b", r"\bsierra\b", r"\bk10\b", r"\bk20\b", r"\bk30\b"]),
     ("Ford", [r"\bford\b", r"\bf-?150\b", r"\bf-?250\b", r"\bf-?350\b", r"\bsuper\s+duty\b"]),
-    ("Ram", [r"\bram\b", r"\bdodge\b", r"\bcummins\b"]),
+    ("Ram", [r"\bram\b", r"\bdodge\b"]),
     ("Toyota", [r"\btoyota\b", r"\btundra\b", r"\btacoma\b"]),
 ]
 
 MODEL_HINTS = [
+    (r"\bsquare\s*body\b", "Square body"),
+    (r"\bsquarebody\b", "Square body"),
+    (r"\bc10\b", "C10"),
+    (r"\bc20\b", "C20"),
+    (r"\bc30\b", "C30"),
+    (r"\bk10\b", "K10"),
+    (r"\bk20\b", "K20"),
+    (r"\bk30\b", "K30"),
+    (r"\bcheyenne\b", "Cheyenne"),
     (r"\bsilverado\s*2500\b", "Silverado 2500"),
     (r"\bsilverado\s*3500\b", "Silverado 3500"),
     (r"\bsierra\s*2500\b", "Sierra 2500"),
     (r"\bsierra\s*3500\b", "Sierra 3500"),
     (r"\bf-?250\b", "F-250"),
     (r"\bf-?350\b", "F-350"),
-    (r"\bram\s*2500\b", "Ram 2500"),
-    (r"\bram\s*3500\b", "Ram 3500"),
     (r"\b2500hd\b", "2500HD"),
     (r"\b3500hd\b", "3500HD"),
 ]
@@ -57,13 +64,37 @@ MODEL_HINTS = [
 CAR_NOT_TOW = (
     r"\b(malibu|impala|terrain|equinox|traverse|tahoe(?!.*2500)|suburban(?!.*2500)|"
     r"civic|accord|camry|corolla|prius|sedan|hatchback|coupe|convertible|altima|"
-    r"fusion|focus|fiesta|charger(?!.*truck)|challenger|mustang|camaro|"
-    r"model\s*[3sxy]|bolt|leaf|ioniq)\b"
+    r"fusion|focus|fiesta|charger(?!.*truck)|challenger|mustang|camaro|corvette|vette|"
+    r"model\s*[3sxy]|bolt|leaf|ioniq|porsche|bmw|mercedes|audi|tesla)\b"
+)
+JUNK_NOT_TRUCK = re.compile(
+    r"\b(firewood|fire\s*wood|cord\s*of\s*wood|seasoned\s*wood|split\s*wood|"
+    r"wood\s*stack|log\s*split|lumber|mulch|topsoil|gravel|hay\s*bale|"
+    r"pallet|fire\s*pit|smoker\s*only|car\s*parts|parts\s*only|"
+    r"motorcycle|atv|utv|side\s*by\s*side|golf\s*cart|boat|jet\s*ski)\b",
+    re.I,
 )
 SUV_NOT_HD = r"\b(yukon|suburban|tahoe|expedition|sequoia|h2|hummer|navigator|escalade)\b"
 HD_TOW = (
-    r"\b(2500hd|3500hd|f-?250|f-?350|ram\s*2500|ram\s*3500|super\s+duty|"
-    r"silverado\s*2500|silverado\s*3500|sierra\s*2500|sierra\s*3500|dually)\b"
+    r"\b(2500hd|3500hd|f-?250|f-?350|super\s+duty|"
+    r"silverado\s*2500|silverado\s*3500|sierra\s*2500|sierra\s*3500|dually|"
+    r"\bk20\b|\bk30\b|\bc20\b|\bc30\b|3/4\s*ton|one\s*ton)\b"
+)
+VINTAGE_SQUARE = re.compile(
+    r"\b(square\s*body|squarebody|square\s*body|"
+    r"\bc10\b|\bc20\b|\bc30\b|\bk10\b|\bk20\b|\bk30\b|"
+    r"cheyenne|fleetside|stepside|bullnose|"
+    r"classic\s*truck|vintage\s*truck|old\s*chevy|old\s*gmc|"
+    r"19[67]\d\s*(chev|chevy|gmc|truck)|19[78]\d\s*(chev|chevy|gmc|truck))\b",
+    re.I,
+)
+VINTAGE_QUALITY = re.compile(
+    r"\b(rust\s*free|garaged|solid\s*frame|matching\s*numbers|"
+    r"rebuilt\s*350|rebuilt\s*454|rebuilt\s*small\s*block|"
+    r"runs\s*great|runs\s*strong|daily\s*driver|just\s*serviced|"
+    r"service\s*records|one\s*owner|clean\s*title|smog\s*exempt|"
+    r"new\s*tires|recent\s*rebuild)\b",
+    re.I,
 )
 COMMERCIAL_TOW = (
     r"\b(box\s*truck|commercial\s*truck|reefer|refrigerated|fridge\s*truck|"
@@ -92,10 +123,12 @@ LIGHT_TRUCK = r"\b(f-?150|1500|silverado(?!.*2500)|sierra(?!.*2500)|tundra|tacom
 TRUCK_SIGNAL = re.compile(
     r"\b(truck|pickup|pick\s*up|2500hd|3500hd|f-?250|f-?350|super\s+duty|"
     r"silverado\s*2500|silverado\s*3500|sierra\s*2500|sierra\s*3500|"
-    r"ram\s*2500|ram\s*3500|dually|crew\s*cab|work\s*truck|dump\s*truck|"
+    r"dually|crew\s*cab|work\s*truck|dump\s*truck|"
     r"flatbed\s*truck|diesel\s*truck|pick\s*up\s*truck|box\s*truck|"
     r"commercial\s*truck|reefer|refrigerated|fridge\s*truck|stake\s*bed|"
-    r"medium\s*duty|isuzu\s*npr|hino|fuso)\b",
+    r"medium\s*duty|isuzu\s*npr|hino|fuso|"
+    r"square\s*body|squarebody|c10|c20|c30|k10|k20|k30|cheyenne|"
+    r"classic\s*truck|vintage\s*truck|bullnose|fleetside|stepside)\b",
     re.I,
 )
 NOT_TRUCK = re.compile(
@@ -108,7 +141,7 @@ NOT_TRUCK = re.compile(
 )
 TRAILER_SIGNAL = re.compile(r"\btrailer\b", re.I)
 PICKUP_IN_TITLE = re.compile(
-    r"\b(truck|pickup|f-?\d{3}|f250|f350|silverado|sierra|ram\s*\d|chevy|chevrolet|"
+    r"\b(truck|pickup|f-?\d{3}|f250|f350|silverado|sierra|chevy|chevrolet|"
     r"gmc|super\s*duty|duramax|cummins|power\s*stroke|diesel\s*truck)\b",
     re.I,
 )
@@ -122,6 +155,29 @@ FB_COMMERCIAL_CATEGORY = re.compile(
     r"\b(commercial\s*trucks?|work\s*trucks?|box\s*trucks?|medium\s*duty)\b",
     re.I,
 )
+
+
+RAM_HARD_AVOID = re.compile(
+    r"\b(ram\s*1500|ram\s*2500|ram\s*3500|dodge\s*ram|"
+    r"ram\s*pickup|dodge\s*pickup|ram\s*hd|ram\s*truck|dodge\s*truck)\b",
+    re.I,
+)
+
+
+def is_hard_avoid_ram(title: str, description: str = "") -> bool:
+    """Exclude all Ram/Dodge pickups — not on Kate's buy list."""
+    title_blob = (title or "").strip()
+    desc_blob = (description or "").strip()[:320]
+    if RAM_HARD_AVOID.search(title_blob):
+        return True
+    if RAM_HARD_AVOID.search(desc_blob):
+        return True
+    lower = title_blob.lower()
+    if re.search(r"\b(ram|dodge)\b", lower) and re.search(
+        r"\b(truck|pickup|1500|2500|3500|dually|cummins|diesel|hd)\b", lower
+    ):
+        return True
+    return False
 
 
 def is_hard_avoid_tow_rig(blob: str) -> bool:
@@ -167,7 +223,7 @@ def location_band(location: str, *, home_city: str = "Gardner", home_state: str 
 def tow_class(blob: str, category_id: str) -> str:
     lower = blob.lower()
     if re.search(HD_TOW, lower, re.I):
-        if re.search(r"\b3500|f-?350|ram\s*3500|dually", lower, re.I):
+        if re.search(r"\b3500|f-?350|dually", lower, re.I):
             return "A"
         return "B"
     if re.search(COMMERCIAL_TOW, lower, re.I):
@@ -203,6 +259,10 @@ def is_truck_listing(
         return False
     if is_hard_avoid_tow_rig(blob):
         return False
+    if is_hard_avoid_ram(title_blob, desc_blob):
+        return False
+    if JUNK_NOT_TRUCK.search(title_blob):
+        return False
     if FB_COMMERCIAL_CATEGORY.search(blob):
         return True
     if NOT_TRUCK.search(blob):
@@ -224,12 +284,13 @@ def is_truck_listing(
     if re.search(SUV_NOT_HD, title_blob, re.I) and not TRUCK_SIGNAL.search(blob):
         return False
     if search:
+        title_lower = title_blob.lower()
         for bucket in search.get("paid_wanted", []) or []:
             if bucket.get("name") not in ("tow_truck", "commercial_tow"):
                 continue
             for kw in bucket.get("keywords", []) or []:
                 k = str(kw).lower()
-                if len(k) > 2 and k in blob.lower():
+                if len(k) > 2 and k in title_lower:
                     return True
     return False
 
@@ -265,7 +326,15 @@ def compute_vehicle_fit(
 ) -> dict[str, Any]:
     """0–100 score: tow capacity, price, Chevy pref, quality signals, location."""
     title_lower = title.lower()
-    fields = parse_vehicle_fields(title, description, make_preference=make_preference, title_only_make=True)
+    pref_cfg = (search or {}).get("make_preference") or {}
+    pref_keywords = pref_cfg.get("keywords") or []
+    fields = parse_vehicle_fields(
+        title,
+        description,
+        make_preference=make_preference,
+        preferred_keywords=pref_keywords,
+        title_only_make=True,
+    )
     price_usd = parse_price_usd(price, title)
     tc = tow_class(title_lower, category_id)
     band = location_band(location, home_city=home_city, home_state=home_state)
@@ -290,6 +359,15 @@ def compute_vehicle_fit(
         score += 18
     elif fields.get("make") == "Ford" and tc in ("A", "B"):
         score += 10
+
+    is_vintage_square = bool(VINTAGE_SQUARE.search(quality_blob))
+    is_vintage_quality = bool(VINTAGE_QUALITY.search(quality_blob))
+    if is_vintage_square:
+        score += 14
+        if is_vintage_quality:
+            score += 10
+        elif fields.get("is_rebuilt") or fields.get("is_fleet"):
+            score += 6
 
     avoid_ram = is_ram_deprioritized(quality_blob, miles_blob=fields.get("miles") or "")
     if avoid_ram:
@@ -342,8 +420,8 @@ def compute_vehicle_fit(
         if any(k in title_lower for k in pri if len(k) > 2):
             score += 4
 
-    if tc == "D":
-        score -= 18
+    if is_hard_avoid_tow_rig(quality_blob) or is_hard_avoid_ram(title, description):
+        score = -100
 
     score = int(max(0, min(100, round(score))))
     if score >= 75:
@@ -368,6 +446,8 @@ def compute_vehicle_fit(
         "is_hd_tow": tc in ("A", "B"),
         "avoid_ram": avoid_ram,
         "avoid_ford_60": is_hard_avoid_tow_rig(quality_blob),
+        "is_vintage_square": is_vintage_square,
+        "is_vintage_quality": is_vintage_quality,
         "fit_score": score,
         "fit_label": label,
     }
@@ -377,11 +457,21 @@ def _first_match(text: str, patterns: list[str]) -> bool:
     return any(re.search(p, text, re.I) for p in patterns)
 
 
+def _keyword_in_title(title_lower: str, kw: str) -> bool:
+    k = str(kw).strip().lower()
+    if not k or len(k) < 2:
+        return False
+    if re.search(r"^[\w.]+$", k):
+        return bool(re.search(rf"\b{re.escape(k)}\b", title_lower))
+    return k in title_lower
+
+
 def parse_vehicle_fields(
     title: str,
     description: str = "",
     *,
     make_preference: str = "",
+    preferred_keywords: Optional[list] = None,
     title_only_make: bool = False,
 ) -> dict:
     blob = f"{title} {description}".strip()
@@ -417,10 +507,20 @@ def parse_vehicle_fields(
 
     pref = (make_preference or "").lower()
     make_preferred = False
-    if pref in ("chevy", "chevrolet", "gm"):
+    preferred_match = ""
+    title_lower = title.lower()
+    kws = [str(k).strip() for k in (preferred_keywords or []) if str(k).strip()]
+    for kw in kws:
+        if _keyword_in_title(title_lower, kw):
+            make_preferred = True
+            preferred_match = kw
+            break
+    if not make_preferred and pref in ("chevy", "chevrolet", "gm"):
         make_preferred = make in ("Chevrolet", "GMC") or _first_match(
             make_lower, [r"\bchev", r"\bsilverado", r"\bgmc\b", r"\bsierra", r"\b2500hd", r"\b3500hd"]
         )
+        if make_preferred:
+            preferred_match = make or "Chevy/GMC"
 
     price_num = ""
     pm = _PRICE.search(title)
@@ -434,6 +534,7 @@ def parse_vehicle_fields(
         "model": model,
         "miles": miles,
         "make_preferred": make_preferred,
+        "preferred_match": preferred_match,
         "price_display": price_num,
         "is_rebuilt": bool(re.search(
             r"rebuilt|reman|refurbished|new engine|new trans|overhauled",

@@ -3,7 +3,6 @@ alert_style: balanced
 weights:
   distance_near: 40
   current_focus_match: 35
-  textile_sewing_match: 40
   farm_garden_match: 20
   resale_value: 25
   strong_signal: 15

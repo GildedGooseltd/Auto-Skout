@@ -34,9 +34,7 @@ def _price_label(raw_price) -> str:
 
 
 def _is_free_listing(title: str, price) -> bool:
-    if price in (None, "", "0", 0, "0000", "00", "0.00"):
-        return True
-    return "free" in title.lower()
+    return _price_amount(price) == 0.0
 
 
 def _parse_search_html(html: str) -> List[dict]:

@@ -17,7 +17,7 @@ from site_builder import SITE_DIR, write_site
 from scoring import Listing, is_vehicle_listing, is_trailer_listing, score_listing, tier_for, title_mentions_trailer
 from vehicle_fields import parse_price_usd
 from scrapers.craigslist import enrich_listing_details
-from sources_runner import fetch_all_sources
+from sources_runner import fetch_all_sources, fetch_avion_comps
 from storage import already_seen, cache_details, get_cached_details, init_db, mark_seen, mark_seen_batch
 
 load_dotenv()
@@ -28,6 +28,16 @@ def _source_key(source: str) -> str:
         return "craigslist"
     if source.startswith("web:"):
         return source
+    if source.startswith("marketplace:"):
+        return "textile_marketplaces"
+    if source.startswith("dealer:"):
+        return "dealer_inventory"
+    if source.startswith("textile_auction:") or source in (
+        "auction:hgp",
+        "auction:govplanet",
+        "auction:irs",
+    ):
+        return "textile_auctions"
     if source in ("facebook", "facebook_group"):
         return "facebook"
     return source.split(":")[0]
@@ -46,6 +56,10 @@ def _build_channel_stats(
         ("trash_nothing", "Trash Nothing", "🗑️", "TRASHNOTHING_API_KEY in .env"),
         ("nextdoor", "Nextdoor", "🏘️", "NEXTDOOR_CLIENT_ID/SECRET or --login"),
         ("offerup", "OfferUp", "📱", None),
+        ("estate_sales", "Estate sales", "🏷️", "playwright install chromium"),
+        ("textile_marketplaces", "Machinio · eBay", "🏭", "playwright install chromium"),
+        ("textile_auctions", "Textile auctions", "🔨", "playwright install chromium"),
+        ("dealer_inventory", "Dealer inventory", "🧵", None),
     ]
     web_channels = [
         ("web:cars_com", "Cars.com", "🚗"),
@@ -67,6 +81,10 @@ def _build_channel_stats(
         "trash_nothing": platforms.get("trash_nothing", {}).get("enabled"),
         "nextdoor": platforms.get("nextdoor", {}).get("enabled"),
         "offerup": platforms.get("offerup", {}).get("enabled"),
+        "estate_sales": platforms.get("estate_sales", {}).get("enabled"),
+        "textile_marketplaces": platforms.get("textile_marketplaces", {}).get("enabled"),
+        "textile_auctions": platforms.get("textile_auctions", {}).get("enabled"),
+        "dealer_inventory": platforms.get("dealer_inventory", {}).get("enabled"),
         "web_marketplaces": platforms.get("web_marketplaces_scrape", {}).get("enabled"),
     }
     fetched: dict[str, int] = defaultdict(int)
@@ -147,6 +165,8 @@ def rebuild_ui_from_data(*, open_browser: bool = False) -> int:
     cfg = load_all()
     loc = active_location(cfg["travel"])
     data = json.loads(data_path.read_text(encoding="utf-8"))
+    vertical = (cfg.get("profile") or {}).get("vertical", "")
+    search = cfg.get("search") or {}
     items: list[tuple[Listing, int, str]] = []
     for d in data.get("listings", []):
         listing = Listing(
@@ -167,9 +187,50 @@ def rebuild_ui_from_data(*, open_browser: bool = False) -> int:
             reply_url=d.get("reply_url", ""),
             also_on=d.get("also_on") or [],
         )
-        items.append((listing, d.get("score", 0), d.get("tier", "everything_else")))
+        if vertical == "vehicles":
+            if not is_vehicle_listing(
+                listing.title,
+                listing.description or "",
+                listing.category_id,
+                search,
+            ):
+                continue
+            score = score_listing(listing, cfg)
+            tier = tier_for(listing, score, cfg)
+            if score <= -100:
+                continue
+        else:
+            score = d.get("score", 0)
+            tier = d.get("tier", "everything_else")
+        items.append((listing, score, tier))
     stats = data.get("stats", {})
     new_urls = {d["url"] for d in data.get("listings", []) if d.get("is_new") and d.get("url")}
+
+    def _listing_from_data(d: dict) -> Listing:
+        return Listing(
+            title=d.get("title", ""),
+            url=d.get("url", ""),
+            source=d.get("source", ""),
+            price=d.get("price", "free"),
+            location=d.get("location", ""),
+            category_id=d.get("category_id", "other"),
+            category_label=d.get("category_label", "Other"),
+            category_icon=d.get("category_icon", "📌"),
+            platform_label=d.get("platform", ""),
+            platform_icon=d.get("platform_icon", "🔗"),
+            image_url=d.get("image_url", ""),
+            image_urls=d.get("image_urls") or [],
+            description=d.get("description", ""),
+            reply_email=d.get("reply_email", ""),
+            reply_url=d.get("reply_url", ""),
+            also_on=d.get("also_on") or [],
+        )
+
+    sell_display: list[tuple[Listing, int, str]] = []
+    for d in data.get("sell_listings", []):
+        listing = _listing_from_data(d)
+        sell_display.append((listing, d.get("score", 0), d.get("tier", "avion_comp")))
+
     path = write_site(
         items,
         loc,
@@ -180,6 +241,7 @@ def rebuild_ui_from_data(*, open_browser: bool = False) -> int:
         new_urls=new_urls,
         channel_stats=data.get("channel_stats", []),
         duplicates_removed=stats.get("duplicates_removed", 0),
+        sell_items=sell_display,
     )
     print(f"Rebuilt dashboard: {path} ({len(items)} listings)", flush=True)
     if open_browser:
@@ -290,9 +352,13 @@ def run(
             tier = tier_for(listing, score, cfg)
             if score <= -100:
                 continue
-            source_base = listing.source.split(":")[0] if ":" in listing.source else listing.source
-            if score < min_score and source_base not in ("offerup", "web"):
-                continue
+            if score < min_score:
+                source_base = listing.source.split(":")[0] if ":" in listing.source else listing.source
+                always_show = source_base in (
+                    "offerup", "web", "estate_sales", "dealer", "marketplace", "auction",
+                ) or listing.paid_item_name == "machinery"
+                if not always_show:
+                    continue
         scored.append((listing, score, tier))
         if not already_seen(pid):
             new_items.append((listing, score, tier))
@@ -328,6 +394,18 @@ def run(
 
     new_urls = {listing.url for listing, _, _ in new_items}
     channel_stats = _build_channel_stats(cfg, raw_listings, display)
+
+    sell_display: list[tuple[Listing, int, str]] = []
+    sale_targets = profile.get("sale_targets") or {}
+    if vertical == "vehicles" and sale_targets.get("avion") and not trailer_only:
+        avion_raw = fetch_avion_comps(cfg, quick=effective_quick)
+        avion_raw, _avion_dupes = dedupe_listings(avion_raw)
+        for listing in avion_raw:
+            score = score_listing(listing, cfg)
+            if score <= -100:
+                continue
+            sell_display.append((listing, score, "avion_comp"))
+
     path = write_site(
         display,
         loc,
@@ -340,6 +418,7 @@ def run(
         duplicates_removed=dupes_removed,
         focus_trip_id=focus_trip_id,
         trailer_hunt=trailer_only,
+        sell_items=sell_display,
     )
     print(f"\nWebsite: {path}", flush=True)
     print(f"Deploy site/ → Netlify (see docs/netlify-deploy.md)", flush=True)

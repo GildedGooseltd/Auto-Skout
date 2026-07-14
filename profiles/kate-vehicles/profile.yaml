@@ -18,8 +18,9 @@ shop_rules:
   has_hitch: true
   make_preference: chevy
   trucks_only: true
-  avoid_ram: true
+  exclude_ram: true
   avoid_ford_6_0_powerstroke: true
+  truck_buy_hold_until: "2026-12-01"
 
 make_preference:
   make: chevy
@@ -27,10 +28,18 @@ make_preference:
 
 app_name: Auto Skout
 
+pages:
+  path: auto-skout
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/auto-skout/"
+
 branding:
-  logo_icon: care-bear-icon-128.png
-  logo_favicon: care-bear-icon-64.png
+  logo_icon: ggl-goose-mark.svg
+  logo_favicon: ggl-goose-mark.svg
   wordmark: Auto Skout
+  wordmark_parts:
+    - { text: Auto, class: logo-gilded }
+    - { text: Skout, class: logo-accent }
+  footer_org: Gilded Goose Limited
 
 display:
   show_all_scored_matches: true
@@ -87,3 +96,17 @@ sale_targets:
     min_ask_usd: 26000
     target_window: "2027-summer"
     markets: [CO, CA, FL]
+
+buy_targets:
+  stingray_engine:
+    year: 1969
+    vehicle: "Corvette Stingray C3"
+    reference_part: "19434412"
+    reference_name: "Chevrolet Performance LSX376-B15 Longblock"
+    reference_hp: 473
+    msrp_approx_usd: 12000
+    max_price_usd: 15000
+    min_price_usd: 1500
+    notes: >
+      Prefer LSX376-B15 / forged LS longblocks; also LS3/LS7 crates and
+      solid LQ9/LQ4/L92 iron LS cores for swap builds.

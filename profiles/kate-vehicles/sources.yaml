@@ -83,6 +83,13 @@ facebook_marketplace:
     - for sale or trade
     - police auction
     - bank repo
+    - square body
+    - squarebody
+    - vintage truck
+    - classic truck
+    - c10
+    - k20
+    - cheyenne
 
 facebook_groups:
   enabled: true
@@ -124,6 +131,12 @@ offerup:
     - fleet truck
     - police auction
     - bank repo
+    - square body
+    - vintage truck
+    - classic truck
+    - c10
+    - k20
+    - cheyenne
 
 buy_nothing:
   enabled: false
@@ -150,11 +163,15 @@ web_marketplaces_scrape:
     - silverado 2500
     - sierra 2500
     - super duty
-    - ram 2500
     - duramax
     - cummins
     - diesel pickup
     - dually
+    - square body
+    - vintage truck
+    - classic truck
+    - c10
+    - k20
   commercial_keywords:
     - box truck
     - commercial truck

@@ -3,6 +3,13 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from vehicle_fields import is_vehicle_listing as _is_vehicle_listing
+from vehicle_fields import parse_price_usd
+
+_SEWING_HINTS = (
+    "sew", "serger", "juki", "consew", "embroidery", "ultrasonic", "sonobond",
+    "seammaster", "overlock", "quilting machine", "lace machine", "walking foot",
+    "textile", "blindstitch", "coverstitch", "union special", "merrow", "barudan",
+)
 
 _ISO_TITLE_PATTERNS = [
     r"\biso\b",
@@ -51,7 +58,10 @@ def _is_machinery(title: str, rules: dict) -> bool:
 
 
 def is_priority_match(title: str, search: dict) -> bool:
-    return _matches(title, search.get("priority_keywords", []))
+    return (
+        _matches(title, search.get("priority_keywords", []))
+        or _matches(title, search.get("textile_sewing", []))
+    )
 
 
 def trailer_keywords(search: dict) -> list[str]:
@@ -120,6 +130,83 @@ def is_trailer_listing(title: str, description: str = "", search: Optional[dict]
     return True
 
 
+def avion_comp_keywords(search: dict) -> list[str]:
+    for bucket in search.get("paid_wanted", []) or []:
+        if bucket.get("name") == "avion_comps":
+            return list(bucket.get("keywords") or ["avion"])
+    return ["avion", "aluminum travel trailer", "vintage travel trailer"]
+
+
+def is_avion_comp_listing(title: str, description: str = "", search: Optional[dict] = None) -> bool:
+    """1969 Avion sale comps — travel/RV aluminum, not utility/horse trailers."""
+    blob = f"{title} {description}".lower()
+    if is_excluded_trailer_listing(title, description, search):
+        return False
+    if "avion" in blob:
+        return True
+    travel_signals = (
+        "travel trailer", "camper", "rv", "motorhome", "airstream", "argosy",
+        "aluminum trailer", "vintage trailer", "classic trailer",
+    )
+    if any(s in blob for s in travel_signals):
+        if any(x in blob for x in ("utility trailer", "horse trailer", "flatbed trailer",
+                                   "enclosed trailer", "cargo trailer", "car hauler")):
+            return False
+        return True
+    if title_mentions_trailer(title) and _matches(blob, avion_comp_keywords(search or {})):
+        return True
+    return False
+
+
+_ENGINE_JUNK = (
+    "lawn", "mower", "riding mower", "weed eater", "weedwacker", "chainsaw",
+    "outboard", "boat motor", "jet ski", "pwc", "generator", "welder",
+    "motorcycle", "harley", "dirt bike", "atv ", "utv ", "snowmobile",
+    "pressure washer", "compressor motor", "fridge", "washer", "dryer",
+)
+
+
+_ENGINE_POSITIVE = (
+    "crate engine", "crate motor", "longblock", "long block", "long-block",
+    "lsx376", "lsx 376", "lsx376-b15", "b15", "19434412", "19417356",
+    "19332320", "19355575", "chevrolet performance", "gm performance",
+    "ls3 crate", "ls7 crate", "ls2 crate", "ls1 crate", "ls6 crate",
+    "lq9", "lq4", "l92", "ls376", "376 crate", "6.2 crate", "6.0 crate",
+    "forged ls", "ls swap", "lsx ", " lsx", "gen iv", "gen 4 ls",
+)
+
+
+def stingray_engine_keywords(search: Optional[dict] = None) -> list[str]:
+    for bucket in (search or {}).get("paid_wanted", []) or []:
+        if bucket.get("name") == "stingray_engines":
+            return list(bucket.get("keywords") or [])
+    return [
+        "LSX376",
+        "LSX 376",
+        "19434412",
+        "crate engine LS",
+        "LS3 crate",
+        "LS7 crate",
+        "Chevrolet Performance crate",
+        "LQ9 engine",
+        "LS2 crate",
+        "forged LS engine",
+    ]
+
+
+def is_stingray_engine_listing(title: str, description: str = "", search: Optional[dict] = None) -> bool:
+    """Crate / LS-family engines suitable for a 1969 Corvette Stingray swap."""
+    blob = f"{title} {description}".lower()
+    if any(j in blob for j in _ENGINE_JUNK):
+        return False
+    if any(p in blob for p in _ENGINE_POSITIVE):
+        return True
+    if _matches(blob, stingray_engine_keywords(search)):
+        engine_words = ("engine", "motor", "crate", "longblock", "long block", "ls ")
+        return any(w in blob for w in engine_words)
+    return False
+
+
 def matches_trailer(listing: Listing, search: dict) -> bool:
     if title_mentions_trailer(listing.title):
         return True
@@ -133,15 +220,16 @@ def is_vehicle_listing(title: str, description: str, category_id: str, search: d
     return _is_vehicle_listing(title, description, category_id, search)
 
 
-def is_iso_post(title: str, search: Optional[dict] = None) -> bool:
+def is_iso_post(title: str, search: Optional[dict] = None, description: str = "") -> bool:
     """In Search Of / wanted posts — people looking for items, not offering."""
     t = title.lower().strip()
+    blob = f"{title} {description}".lower()
     for pat in _ISO_COMPILED:
         if pat.search(t):
             return True
     if search:
         for kw in search.get("exclude", {}).get("iso_keywords", []):
-            if kw.lower() in t:
+            if kw.lower() in blob:
                 return True
     # "Wanted wood" style — starts with wanted (not "unwanted")
     if re.match(r"^wanted\b", t):
@@ -164,13 +252,45 @@ def is_free_by_price(price: str, *, is_paid_wanted: bool = False) -> bool:
     return False
 
 
-def is_free_listing(price: str, title: str, *, is_paid_wanted: bool = False) -> bool:
-    if is_paid_wanted:
+def is_free_listing(price: str, title: str = "", *, is_paid_wanted: bool = False) -> bool:
+    """Price-only free check — title/description 'free' does not qualify."""
+    return is_free_by_price(price, is_paid_wanted=is_paid_wanted)
+
+
+def _is_sewing_related(title: str, description: str = "", search: Optional[dict] = None) -> bool:
+    blob = f"{title} {description}".lower()
+    if any(h in blob for h in _SEWING_HINTS):
+        return True
+    if search and _matches(title, search.get("textile_sewing", [])):
+        return True
+    return False
+
+
+def textile_sewing_hard_reject(listing: Listing, search: dict) -> bool:
+    """True when a sewing-related listing fails industrial / price / parts rules."""
+    rules = search.get("textile_sewing_rules") or {}
+    if not rules:
         return False
-    if is_free_by_price(price, is_paid_wanted=False):
+    title = listing.title or ""
+    desc = getattr(listing, "description", "") or ""
+    if not _is_sewing_related(title, desc, search):
+        return False
+    blob = f"{title} {desc}".lower()
+    for kw in rules.get("exclude_any") or []:
+        if str(kw).lower() in blob:
+            return True
+    require = rules.get("require_any") or []
+    if require and not any(str(r).lower() in blob for r in require):
         return True
-    if "free" in (title or "").lower():
-        return True
+    min_price = rules.get("min_price_usd")
+    if min_price is not None:
+        amount = parse_price_usd(listing.price, title)
+        if amount is None:
+            pl = (listing.price or "").strip().lower()
+            if pl in ("free", "0", "$0") or pl.startswith("free"):
+                return True
+        elif amount < int(min_price):
+            return True
     return False
 
 
@@ -184,7 +304,10 @@ def score_listing(listing: Listing, cfg: dict) -> int:
         if listing.source != "freecycle" and not listing.is_paid_wanted and not is_priority_match(title, search):
             return -100
 
-    if is_iso_post(title, search):
+    if is_iso_post(title, search, getattr(listing, "description", "") or ""):
+        return -100
+
+    if textile_sewing_hard_reject(listing, search):
         return -100
 
     for kw in search["exclude"].get("title_keywords", []):
@@ -207,11 +330,17 @@ def score_listing(listing: Listing, cfg: dict) -> int:
     if is_priority_match(title, search):
         score += scoring["weights"].get("priority_match", 45)
 
-    if _matches(title, search.get("current_focus", [])):
+    blob = f"{title} {listing.description}".lower()
+    base = listing.source.split(":")[0]
+    focus_text = blob if base == "estate_sales" else title
+
+    if _matches(focus_text, search.get("current_focus", [])):
         score += scoring["weights"].get("current_focus_match", 35)
-    if _matches(title, search.get("farm_garden", [])):
+    if _matches(focus_text, search.get("textile_sewing", [])):
+        score += scoring["weights"].get("textile_sewing_match", 35)
+    if _matches(focus_text, search.get("farm_garden", [])):
         score += scoring["weights"].get("farm_garden_match", 20)
-    if _matches(title, search.get("resale_high_value", [])):
+    if _matches(focus_text, search.get("resale_high_value", [])):
         score += scoring["weights"].get("resale_value", 25)
     if _matches(title, search.get("strong_signals", [])):
         score += scoring["weights"].get("strong_signal", 15)
@@ -223,8 +352,6 @@ def score_listing(listing: Listing, cfg: dict) -> int:
         if _matches(f"{listing.title} {listing.description}", kws):
             score += scoring["weights"].get("make_preference_match", 30)
 
-    t_lower = title.lower()
-    base = listing.source.split(":")[0]
     platform_boost = {
         "freecycle": 50,
         "facebook": 45,
@@ -232,10 +359,14 @@ def score_listing(listing: Listing, cfg: dict) -> int:
         "offerup": 45,
         "trash_nothing": 45,
         "nextdoor": 45,
+        "estate_sales": 40,
+        "dealer": 50,
+        "marketplace": 45,
+        "auction": 40,
     }
     score += platform_boost.get(base, 0)
-    if not platform_boost.get(base) and (
-        "free" in t_lower or is_free_by_price(listing.price, is_paid_wanted=listing.is_paid_wanted)
+    if not platform_boost.get(base) and is_free_by_price(
+        listing.price, is_paid_wanted=listing.is_paid_wanted
     ):
         score += 15
 

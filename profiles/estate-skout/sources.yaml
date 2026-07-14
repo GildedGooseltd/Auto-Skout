@@ -1,0 +1,111 @@
+# Estate Skout — sale aggregators + Craigslist sale posts only.
+
+craigslist:
+  enabled: true
+  regions:
+    - slug: pueblo
+      name: Pueblo
+      priority: high
+    - slug: cosprings
+      name: Colorado Springs
+      priority: high
+    - slug: denver
+      name: Denver
+      priority: high
+    - slug: eastco
+      name: Eastern CO
+      priority: low
+    - slug: rockies
+      name: High Rockies
+      priority: low
+  free_categories: [zip, fga]
+  paid_categories: [fga]
+  search_queries:
+    - estate sale
+    - moving sale
+    - garage sale
+    - yard sale
+    - tag sale
+    - downsizing sale
+    - liquidation
+
+freecycle:
+  enabled: false
+  groups: []
+
+facebook_marketplace:
+  enabled: false
+  location_zip: "81040"
+  search_terms: []
+
+facebook_groups:
+  enabled: false
+
+trash_nothing:
+  enabled: false
+
+nextdoor:
+  enabled: false
+
+offerup:
+  enabled: false
+
+buy_nothing:
+  enabled: false
+
+estate_sales:
+  enabled: true
+  sites: [estatesales_net, estatesales_org, gsalr]
+  require_keyword_match: true
+  max_sales_per_city: 30
+  max_detail_fetches: 60
+  cities:
+    - name: Pueblo
+      url: https://www.estatesales.net/CO/Pueblo
+    - name: Colorado Springs
+      url: https://www.estatesales.net/CO/Colorado-Springs
+    - name: Denver
+      url: https://www.estatesales.net/CO/Denver
+    - name: Canon City
+      url: https://www.estatesales.net/CO/Canon-City
+    - name: Littleton
+      url: https://www.estatesales.net/CO/Littleton
+  match_keywords:
+    - tool
+    - tools
+    - garden
+    - farm
+    - tractor
+    - greenhouse
+    - paint
+    - lumber
+    - plywood
+    - freezer
+    - fridge
+    - refrigerator
+    - concrete mixer
+    - trencher
+    - dirt
+    - manure
+    - topsoil
+    - gravel
+    - sand
+    - fence
+    - art
+    - canvas
+    - antique
+    - vintage
+    - furniture
+    - mower
+    - tiller
+    - sewing
+    - sewing machine
+    - serger
+    - embroidery
+    - quilting
+    - textile
+    - fabric
+    - ultrasonic
+
+web_marketplaces_scrape:
+  enabled: false

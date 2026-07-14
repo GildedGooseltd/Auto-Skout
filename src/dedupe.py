@@ -87,19 +87,158 @@ def _source_rank(source: str) -> int:
     }.get(base, 1)
 
 
+def also_entry(listing: Listing) -> dict:
+    return {
+        "platform": listing.platform_label or _source_base(listing.source),
+        "source": listing.source,
+        "url": listing.url or "",
+        "platform_icon": listing.platform_icon or "🔗",
+    }
+
+
+def _also_has_url(also_on: list, url: str) -> bool:
+    if not url:
+        return True
+    for entry in also_on:
+        if isinstance(entry, dict) and entry.get("url") == url:
+            return True
+    return False
+
+
+def append_also(keep: Listing, listing: Listing) -> None:
+    entry = also_entry(listing)
+    if not entry["url"] or entry["url"] == keep.url:
+        return
+    if _also_has_url(keep.also_on, entry["url"]):
+        return
+    keep.also_on.append(entry)
+
+
+def normalize_also_on(raw: list, *, primary_url: str = "") -> list[dict]:
+    out: list[dict] = []
+    seen: set[str] = set()
+    for entry in raw or []:
+        if isinstance(entry, str):
+            continue
+        url = (entry.get("url") or "").strip()
+        if not url or url in seen or url == primary_url:
+            continue
+        seen.add(url)
+        out.append({
+            "platform": entry.get("platform") or _source_base(entry.get("source", "")),
+            "source": entry.get("source") or "",
+            "url": url,
+            "platform_icon": entry.get("platform_icon") or "🔗",
+        })
+    return out
+
+
+def pick_open_url(
+    url: str,
+    source: str,
+    platform: str,
+    also_on: list,
+    *,
+    platform_icon: str = "🔗",
+) -> dict:
+    """Prefer non-Craigslist links when duplicates exist."""
+    primary = {
+        "platform": platform or _source_base(source),
+        "source": source,
+        "url": url or "",
+        "platform_icon": platform_icon or "🔗",
+    }
+    alts = normalize_also_on(also_on, primary_url=url)
+    candidates = [primary] + [a for a in alts if a["url"] != url]
+
+    def sort_key(entry: dict) -> tuple:
+        base = _source_base(entry.get("source") or "")
+        is_cl = 1 if base == "craigslist" else 0
+        return (is_cl, -_source_rank(entry.get("source") or ""))
+
+    for entry in sorted(candidates, key=sort_key):
+        if entry.get("url"):
+            return entry
+    return primary
+
+
+def verify_url(url: str, session=None) -> bool:
+    """HEAD/GET check — Craigslist always assumed OK (often blocks bots)."""
+    if not url or not str(url).startswith("http"):
+        return False
+    if "craigslist.org" in url.lower():
+        return True
+    try:
+        import requests
+    except ImportError:
+        return True
+    sess = session or requests.Session()
+    if session is None:
+        sess.headers.update({"User-Agent": "Mozilla/5.0 (compatible; AutoSkout/1.0)"})
+    try:
+        resp = sess.head(url, timeout=8, allow_redirects=True)
+        if resp.status_code < 400:
+            return True
+        if resp.status_code == 405:
+            resp = sess.get(url, timeout=8, stream=True, allow_redirects=True)
+            return resp.status_code < 400
+    except Exception:
+        return False
+    return False
+
+
+def pick_verified_open_url(item: dict, session=None) -> dict:
+    """Pick best open target; drop dead non-CL alternates when duplicates exist."""
+    url = item.get("url") or ""
+    source = item.get("source") or ""
+    platform = item.get("platform") or ""
+    icon = item.get("platform_icon") or "🔗"
+    alts = normalize_also_on(item.get("also_on"), primary_url=url)
+    check_links = session is not None and bool(alts)
+    if check_links:
+        alts = [a for a in alts if verify_url(a["url"], session)]
+        item["also_on"] = alts
+    primary = {
+        "platform": platform,
+        "source": source,
+        "url": url,
+        "platform_icon": icon,
+    }
+    if not check_links:
+        return pick_open_url(url, source, platform, alts, platform_icon=icon)
+    candidates = [primary] + alts
+
+    def sort_key(entry: dict) -> tuple:
+        base = _source_base(entry.get("source") or "")
+        is_cl = 1 if base == "craigslist" else 0
+        return (is_cl, -_source_rank(entry.get("source") or ""))
+
+    for entry in sorted(candidates, key=sort_key):
+        link = entry.get("url") or ""
+        if not link:
+            continue
+        if not verify_url(link, session):
+            continue
+        return entry
+    return primary
+
+
 def _merge_into(keep: Listing, drop: Listing) -> None:
-    if drop.platform_label and drop.platform_label not in keep.also_on:
-        keep.also_on.append(drop.platform_label)
+    if _source_rank(drop.source) > _source_rank(keep.source):
+        old = also_entry(keep)
+        keep.source = drop.source
+        keep.platform_label = drop.platform_label
+        keep.platform_icon = drop.platform_icon
+        keep.url = drop.url or keep.url
+        if old["url"] and old["url"] != keep.url and not _also_has_url(keep.also_on, old["url"]):
+            keep.also_on.append(old)
+    else:
+        append_also(keep, drop)
     if drop.image_url and not keep.image_url:
         keep.image_url = drop.image_url
         keep.image_urls = list(drop.image_urls or [])
     if drop.description and len(drop.description) > len(getattr(keep, "description", "") or ""):
         keep.description = drop.description
-    if _source_rank(drop.source) > _source_rank(keep.source):
-        keep.source = drop.source
-        keep.platform_label = drop.platform_label
-        keep.platform_icon = drop.platform_icon
-        keep.url = drop.url or keep.url
 
 
 def _bucket_key(title: str) -> str:

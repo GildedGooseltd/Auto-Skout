@@ -47,7 +47,11 @@ _OG_DESC_RE = re.compile(
 )
 _POSTINGBODY_RE = re.compile(r'<section id="postingbody">(.*?)</section>', re.DOTALL | re.IGNORECASE)
 _MAILTO_REPLY_RE = re.compile(
-    r'href=["\']mailto:([a-zA-Z0-9._%+-]+@sale\.craigslist\.org)',
+    r'href=["\']mailto:([a-zA-Z0-9._%+-]+@sale\.craigslist\.org)["\']',
+    re.IGNORECASE,
+)
+_CL_RELAY_EMAIL_RE = re.compile(
+    r'([a-zA-Z0-9._%+-]+@sale\.craigslist\.org)',
     re.IGNORECASE,
 )
 _REPLY_PAGE_RE = re.compile(
@@ -165,13 +169,21 @@ def _curl_get(url: str) -> str:
     return ""
 
 
-def _fetch(region: str, path: str, query: str = "", max_price: Optional[int] = None) -> List[RawListing]:
+def _fetch(
+    region: str,
+    path: str,
+    query: str = "",
+    max_price: Optional[int] = None,
+    min_price: Optional[int] = None,
+) -> List[RawListing]:
     base = f"https://{region}.craigslist.org/search/{path}"
     params = ["sort=date"]
     if query:
         params.append(f"query={requests.utils.quote(query)}")
     if max_price is not None:
         params.append(f"max_price={max_price}")
+    if min_price is not None:
+        params.append(f"min_price={min_price}")
     html_url = f"{base}?{'&'.join(params)}"
 
     html = _curl_get(html_url)
@@ -210,8 +222,14 @@ def fetch_free(region: str, category: str, query: str = "") -> List[RawListing]:
     return _fetch(region, category, query)
 
 
-def fetch_paid(region: str, category: str, query: str, max_price: int) -> List[RawListing]:
-    return _fetch(region, category, query, max_price=max_price)
+def fetch_paid(
+    region: str,
+    category: str,
+    query: str,
+    max_price: int,
+    min_price: Optional[int] = None,
+) -> List[RawListing]:
+    return _fetch(region, category, query, max_price=max_price, min_price=min_price)
 
 
 TRAILER_CATEGORIES = ("tra", "cta", "sss", "tla")
@@ -316,6 +334,10 @@ def parse_listing_details(html: str) -> dict:
     mailto = _MAILTO_REPLY_RE.search(html)
     if mailto:
         reply_email = mailto.group(1)
+    if not reply_email:
+        relay = _CL_RELAY_EMAIL_RE.search(html)
+        if relay:
+            reply_email = relay.group(1)
     reply = _REPLY_PAGE_RE.search(html)
     if reply:
         reply_url = normalize_reply_url(reply.group(1))
@@ -336,6 +358,21 @@ def fetch_listing_details(url: str) -> dict:
             return parse_listing_details(html)
         time.sleep(1.5 * (attempt + 1))
     return {"image_url": "", "image_urls": [], "description": "", "reply_email": "", "reply_url": ""}
+
+
+def fetch_reply_email(reply_url: str, listing_url: str = "") -> str:
+    """Load Craigslist reply page and extract the relay @sale.craigslist.org address."""
+    url = normalize_reply_url(reply_url, listing_url)
+    if not url or "/reply/" not in url:
+        return ""
+    html = _fetch_listing_html(url)
+    if not html:
+        return ""
+    mailto = _MAILTO_REPLY_RE.search(html)
+    if mailto:
+        return mailto.group(1)
+    relay = _CL_RELAY_EMAIL_RE.search(html)
+    return relay.group(1) if relay else ""
 
 
 def fetch_listing_image(url: str) -> str:
@@ -381,6 +418,12 @@ def enrich_listing_details(
     def _one(item):
         time.sleep(delay_sec)
         details = fetch_listing_details(item.url)
+        if not details.get("reply_email"):
+            reply_url = details.get("reply_url") or normalize_reply_url("", item.url)
+            if reply_url:
+                email = fetch_reply_email(reply_url, item.url)
+                if email:
+                    details["reply_email"] = email
         if any(details.values()):
             cache_set(
                 item.url,

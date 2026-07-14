@@ -2,6 +2,10 @@
 
 All **enabled** sources in `sources.yaml` run together each scan — one combined feed. Enable Craigslist, Freecycle, and/or Facebook as you set them up.
 
+See also **[Estate & yard sales](estate-sales.md)** for EstateSales.net and other sale aggregators.
+
+See **[Textile & sewing channels](textile-sources.md)** for Machinio, auctions, and dealer inventory scrapers.
+
 ---
 
 ## Craigslist (working)

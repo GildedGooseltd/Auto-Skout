@@ -4,10 +4,22 @@ name: Gardner Farm Buildout
 vertical: farm_resale
 description: >
   Personal test case. Farm & irrigation supplies, resale antiques,
-  concrete mixer hunt, Gardner CO base. Jun 11 COS run along I-25.
-  Denver trip July 2026.
+  concrete mixer hunt, Gardner CO base through Jul 6.
+  Denver trip Jul 7–25, 2026.
 
 app_name: Skout
+
+branding:
+  logo_icon: ggl-goose-mark.svg
+  logo_favicon: ggl-goose-mark.svg
+  wordmark: Skout
+  wordmark_parts:
+    - { text: Skout, class: logo-gilded }
+  footer_org: Gilded Goose Limited
+
+pages:
+  path: skout
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/skout/"
 
 home:
   city: Gardner
@@ -48,3 +60,6 @@ haul:
   max_length_ft: 12
 
 location_source: travel_calendar
+
+display:
+  default_free_only: false

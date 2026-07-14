@@ -1,11 +1,12 @@
 # GitHub Pages — Skout vs Auto Skout
 
-One repo (**Auto-Skout**), **two separate apps** on different URLs. Publishing one does not overwrite the other.
+One repo (**Auto-Skout**), **separate apps** on different URLs. Publishing one does not overwrite the other. Use the **sidebar tabs** to switch between apps when all are published.
 
 | App | Profile | Live URL |
 |-----|---------|----------|
 | **Skout** | `gardner-farm` | https://gildedgooseltd.github.io/Auto-Skout/skout/ |
 | **Auto Skout** | `kate-vehicles` | https://gildedgooseltd.github.io/Auto-Skout/auto-skout/ |
+| **Estate Skout** | `estate-skout` | https://gildedgooseltd.github.io/Auto-Skout/estate-skout/ |
 | **Hub** | — | https://gildedgooseltd.github.io/Auto-Skout/ |
 
 ---

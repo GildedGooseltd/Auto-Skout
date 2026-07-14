@@ -11,9 +11,6 @@ priority_keywords:
   - f-350
   - f250
   - f350
-  - ram 2500
-  - ram 3500
-  # ram — deprioritized in fit score (45RFE trans ~170k); still searched
   - silverado 2500
   - silverado 3500
   - rebuilt engine
@@ -33,6 +30,21 @@ priority_keywords:
   - cummins
   - dually
   - super duty
+  - square body
+  - squarebody
+  - vintage truck
+  - classic truck
+  - c10
+  - c20
+  - k10
+  - k20
+  - cheyenne
+  - fleetside
+  - stepside
+  - bullnose
+  - rust free
+  - garaged
+  - solid frame
   - box truck
   - commercial truck
   - work truck
@@ -47,6 +59,7 @@ priority_keywords:
 
 make_preference:
   make: chevy
+  label: Chevy / GMC · vintage square OK
   keywords:
     - chevy
     - chevrolet
@@ -55,6 +68,15 @@ make_preference:
     - sierra
     - 2500hd
     - 3500hd
+    - square body
+    - squarebody
+    - c10
+    - c20
+    - k10
+    - k20
+    - cheyenne
+    - vintage truck
+    - classic truck
 
 current_focus:
   - truck
@@ -65,7 +87,6 @@ current_focus:
   - 3500hd
   - super duty
   - silverado 2500
-  - ram 2500
   - rebuilt
   - remanufactured
   - refreshed
@@ -73,6 +94,20 @@ current_focus:
   - municipal
   - utility fleet
   - work truck
+  - square body
+  - squarebody
+  - vintage truck
+  - classic truck
+  - c10
+  - c20
+  - k10
+  - k20
+  - k30
+  - cheyenne
+  - fleetside
+  - bullnose
+  - rust free
+  - garaged
   - rebuilt engine
   - rebuilt trans
   - new engine
@@ -105,6 +140,13 @@ resale_high_value:
   - transmission rebuilt
   - engine rebuilt
   - documented
+  - rust free
+  - garaged
+  - solid frame
+  - matching numbers
+  - smog exempt
+  - rebuilt 350
+  - rebuilt 454
 
 strong_signals:
   - obo
@@ -132,8 +174,6 @@ paid_wanted:
       - f250
       - f350
       - super duty
-      - ram 2500
-      - ram 3500
       - silverado 2500
       - silverado 3500
       - sierra 2500
@@ -152,11 +192,27 @@ paid_wanted:
       - police auction
       - bank repo
       - surplus
+      - square body
+      - squarebody
+      - vintage truck
+      - classic truck
+      - c10
+      - c20
+      - c30
+      - k10
+      - k20
+      - k30
+      - cheyenne
+      - fleetside
+      - stepside
+      - bullnose
+      - rust free
+      - garaged
     max_price_usd: 20000
     require_working: true
     refurb_ok: true
     priority: urgent
-    notes: "Used · max $20k · quality/mechanical rebuild OK · cosmetics ignored · high miles OK · tow 36ft Avion · skip Ford 6.0 PS · Ram deprioritized"
+    notes: "Used · max $20k · quality/mechanical rebuild OK · vintage/square body welcome · cosmetics ignored · high miles OK · tow 36ft Avion · skip Ford 6.0 PS · no Ram/Dodge"
 
   - name: commercial_tow
     keywords:
@@ -229,6 +285,28 @@ paid_wanted:
     priority: normal
     notes: "2027 sale comps — 30-40ft aluminum/vintage; floor $26k ask"
 
+  - name: stingray_engines
+    keywords:
+      - LSX376
+      - LSX 376
+      - 19434412
+      - LSX B15
+      - crate engine LS
+      - LS3 crate
+      - LS7 crate
+      - LS2 crate
+      - Chevrolet Performance crate
+      - LQ9 engine
+      - LQ4 engine
+      - forged LS
+      - 376 crate
+      - 6.2 crate engine
+    max_price_usd: 15000
+    require_working: false
+    refurb_ok: true
+    priority: normal
+    notes: "1969 Stingray swap — LSX376-B15 ref (19434412 / 473HP) + LS-family crates"
+
 condition_rules:
   vehicles:
     refurb_ok: true
@@ -239,7 +317,6 @@ condition_rules:
       - diesel
       - f-250
       - f-350
-      - ram
       - silverado
   tow_parts:
     refurb_ok: true
@@ -306,6 +383,17 @@ exclude:
     - powerstroke 6.0
     - 6.0l powerstroke
     - 6.0 diesel powerstroke
+    - corvette
+    - corvette stingray
+    - firewood
+    - fire wood
+    - seasoned wood
+    - cord of wood
+    - lumber
+    - dodge ram
+    - ram 1500
+    - ram 2500
+    - ram 3500
   penalize_keywords:
     - not running
     - doesn't run
@@ -329,8 +417,8 @@ exclude:
 vehicle_avoid:
   hard_exclude:
     - "Ford F-250/F-350 6.0L Power Stroke — unreliable; brake assist loss when engine dies"
-  deprioritize:
-    - "Ram/Dodge — 45RFE trans tends to fail ~170k unless meticulously maintained"
+    - "Ram/Dodge pickups — not on buy list"
+  deprioritize: []
 
 allowed:
   - high miles
@@ -341,6 +429,11 @@ allowed:
   - fade
   - rust
   - patina
+  - vintage
+  - classic
+  - square body
+  - squarebody
+  - original paint
   - work truck
   - fleet
   - rebuilt engine

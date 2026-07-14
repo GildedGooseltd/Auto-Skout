@@ -4,6 +4,7 @@ pages_path_for_profile() {
   case "$1" in
     gardner-farm) echo "skout" ;;
     kate-vehicles) echo "auto-skout" ;;
+    estate-skout) echo "estate-skout" ;;
     kate-art) echo "art" ;;
     *) echo "$1" ;;
   esac
@@ -13,6 +14,7 @@ app_label_for_profile() {
   case "$1" in
     gardner-farm) echo "Skout — farm & free stuff" ;;
     kate-vehicles) echo "Auto Skout — vehicles & trucks" ;;
+    estate-skout) echo "Estate Skout — estate & yard sales" ;;
     kate-art) echo "Art Scout — grants & opportunities" ;;
     *) echo "$1" ;;
   esac
@@ -26,22 +28,40 @@ write_pages_root_index() {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Skout apps</title>
+  <title>Gilded Goose Limited — Skout apps</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 32rem; margin: 3rem auto; padding: 0 1rem; color: #292524; }
-    h1 { font-size: 1.35rem; }
-    a { display: block; padding: .85rem 1rem; margin: .5rem 0; border: 1px solid #d6d3d1; border-radius: 10px;
-      text-decoration: none; color: #166534; font-weight: 600; }
-    a:hover { background: #f0fdf4; }
-    p { color: #78716c; font-size: .9rem; }
+    :root {
+      --gg-charcoal: #1a1a1c;
+      --gg-ivory-warm: #f5f0e8;
+      --gg-gold: #c9a962;
+      --gg-gold-light: #e8d5a8;
+      --gg-gold-dark: #9a7b3a;
+      --gg-muted: #78716c;
+      --gg-serif: Georgia, 'Times New Roman', Times, serif;
+      --gg-sans: system-ui, -apple-system, sans-serif;
+    }
+    body { font-family: var(--gg-sans); max-width: 34rem; margin: 3rem auto; padding: 0 1.25rem;
+      color: var(--gg-charcoal); background: var(--gg-ivory-warm); }
+    h1 { font-family: var(--gg-serif); font-size: 1.5rem; font-weight: 400; letter-spacing: .03em;
+      margin: 0 0 .35rem; }
+    .gg-mark { color: var(--gg-gold-dark); font-style: italic; }
+    p { color: var(--gg-muted); font-size: .9rem; line-height: 1.5; margin: 0 0 1.25rem; }
+    a { display: block; padding: .9rem 1rem; margin: .45rem 0; border: 1px solid #e5e0d8;
+      border-radius: 10px; text-decoration: none; color: var(--gg-charcoal); font-weight: 600;
+      background: #fff; transition: border-color .15s, box-shadow .15s; }
+    a:hover { border-color: var(--gg-gold); box-shadow: 0 2px 12px rgba(201,169,98,.15); }
+    .org { margin-top: 2rem; text-align: center; font-family: var(--gg-serif); font-size: .68rem;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--gg-gold-dark); }
   </style>
 </head>
 <body>
-  <h1>Choose your dashboard</h1>
-  <p>Skout and Auto Skout are separate apps — each link opens its own feed.</p>
+  <h1><span class="gg-mark">Skout</span> dashboards</h1>
+  <p>Separate feeds — pick an app below.</p>
   <a href="skout/">Skout — farm &amp; free stuff</a>
   <a href="auto-skout/">Auto Skout — vehicles &amp; trucks</a>
+  <a href="estate-skout/">Estate Skout — estate &amp; yard sales</a>
   <a href="art/">Art Scout — grants &amp; opportunities</a>
+  <div class="org">Gilded Goose Limited</div>
 </body>
 </html>
 EOF

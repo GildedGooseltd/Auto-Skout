@@ -49,7 +49,23 @@ categories:
   - id: machinery
     label: Machinery
     icon: "⚙️"
-    keywords: [mixer, tiller, tractor, mower, compressor, generator, cement, mortar]
+    keywords:
+      - mixer
+      - tiller
+      - tractor
+      - mower
+      - compressor
+      - generator
+      - cement
+      - mortar
+      - sewing machine
+      - serger
+      - overlock
+      - embroidery machine
+      - quilting machine
+      - lace machine
+      - ultrasonic
+      - textile
 
   - id: cars
     label: Cars
@@ -222,6 +238,42 @@ platforms:
   buy_nothing:
     label: Buy Nothing
     icon: "🎁"
+  estate_sales:
+    label: Estate sale
+    icon: "🏷️"
+  marketplace:machinio:
+    label: Machinio
+    icon: "🏭"
+  marketplace:ebay:
+    label: eBay
+    icon: "🛒"
+  auction:hgp:
+    label: HGP Auctions
+    icon: "🔨"
+  auction:govplanet:
+    label: GovPlanet
+    icon: "🏛"
+  auction:irs:
+    label: IRS Auctions
+    icon: "📦"
+  textile_auction:govdeals:
+    label: GovDeals (textile)
+    icon: "🏛"
+  dealer:pleasant_street:
+    label: Pleasant Street
+    icon: "🧵"
+  dealer:md_equipment:
+    label: MD Equipment
+    icon: "⚡"
+  dealer:cutsew:
+    label: Cutsew
+    icon: "✂️"
+  estate_sales:estatesales_org:
+    label: EstateSales.org
+    icon: "🏷️"
+  estate_sales:gsalr:
+    label: GSALR
+    icon: "🗺️"
   web:cars_com:
     label: Cars.com
     icon: "🚗"

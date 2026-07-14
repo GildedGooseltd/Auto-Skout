@@ -5,6 +5,7 @@ import re
 from categories import categorize, platform_display
 from scoring import (
     Listing,
+    is_avion_comp_listing,
     is_iso_post,
     is_trailer_listing,
     trailer_keywords,
@@ -19,6 +20,10 @@ from scrapers.trash_nothing import fetch_offers as fetch_trash_nothing
 from scrapers.offerup import fetch_offers as fetch_offerup
 from scrapers.autotempest import fetch_listings as fetch_autotempest, listing_source as autotempest_source
 from scrapers.auctions import fetch_auction_listings, listing_source as auction_source
+from scrapers.estate_sales import fetch_estate_sales, listing_source as estate_sale_source
+from scrapers.textile_marketplaces import fetch_textile_marketplaces, listing_source as textile_marketplace_source
+from scrapers.textile_auctions import fetch_textile_auctions, listing_source as textile_auction_source
+from scrapers.dealer_inventory import fetch_dealer_inventory, listing_source as dealer_inventory_source
 
 
 def _norm_title(title: str) -> str:
@@ -94,7 +99,7 @@ def fetch_all_sources(cfg: dict, *, quick: bool = False, focus: str = "") -> lis
             search=cfg.get("search"),
         ):
             return False
-        if focus != "trailer" and is_iso_post(raw.title, search):
+        if focus != "trailer" and is_iso_post(raw.title, search, getattr(raw, "description", "") or ""):
             return False
         if focus == "trailer" and not is_trailer_listing(
             raw.title,
@@ -138,7 +143,7 @@ def fetch_all_sources(cfg: dict, *, quick: bool = False, focus: str = "") -> lis
 
             queries = cl.get("search_queries", [""])
             if quick:
-                queries = ["", "garden", "dirt", "pallet", "plant", "brick", "hose", "trailer"]
+                queries = ["", "garden", "dirt", "manure", "topsoil", "pallet", "lumber", "brick", "concrete mixer", "building materials", "plywood", "hose"]
             for cat in cl.get("free_categories", []):
                 for q in queries:
                     batch = fetch_free(slug, cat, q)
@@ -165,7 +170,13 @@ def fetch_all_sources(cfg: dict, *, quick: bool = False, focus: str = "") -> lis
                         keywords = keywords[:8]
                     for kw in keywords:
                         for cat in cl.get("paid_categories", ["fga"]):
-                            batch = fetch_paid(slug, cat, kw, wanted["max_price_usd"])
+                            batch = fetch_paid(
+                                slug,
+                                cat,
+                                kw,
+                                wanted["max_price_usd"],
+                                min_price=wanted.get("min_price_usd"),
+                            )
                             if batch:
                                 print(
                                     f"  {cat} q={kw!r}: {len(batch)} "
@@ -277,6 +288,38 @@ def fetch_all_sources(cfg: dict, *, quick: bool = False, focus: str = "") -> lis
         ):
             add(raw, auction_source(raw), paid=True, paid_name="commercial_tow")
 
+    # --- Estate / yard / moving sales ---
+    es = platforms.get("estate_sales", {})
+    if es.get("enabled"):
+        active_sources.append("Estate sales")
+        print("Checking estate sales (EstateSales.net · .org · GSALR)…", flush=True)
+        for raw in fetch_estate_sales(es, search=search, quick=quick):
+            add(raw, estate_sale_source(raw))
+
+    # --- Industrial sewing marketplaces (Machinio · eBay) ---
+    tm = platforms.get("textile_marketplaces", {})
+    if tm.get("enabled"):
+        active_sources.append("Textile marketplaces")
+        print("Checking textile marketplaces (Machinio · eBay)…", flush=True)
+        for raw in fetch_textile_marketplaces(tm, search=search, quick=quick):
+            add(raw, textile_marketplace_source(raw), paid=True, paid_name="machinery")
+
+    # --- Textile / sewing auctions (HGP · GovPlanet · GovDeals · IRS) ---
+    ta = platforms.get("textile_auctions", {})
+    if ta.get("enabled"):
+        active_sources.append("Textile auctions")
+        print("Checking textile auctions (HGP · GovPlanet · GovDeals · IRS)…", flush=True)
+        for raw in fetch_textile_auctions(ta, search=search, quick=quick):
+            add(raw, textile_auction_source(raw), paid=True, paid_name="machinery")
+
+    # --- Dealer used inventory (Pleasant Street · MD Equipment · Cutsew) ---
+    di = platforms.get("dealer_inventory", {})
+    if di.get("enabled"):
+        active_sources.append("Dealer inventory")
+        print("Checking dealer inventory (Pleasant Street · MD Equipment · Cutsew)…", flush=True)
+        for raw in fetch_dealer_inventory(di, search=search, quick=quick):
+            add(raw, dealer_inventory_source(raw), paid=True, paid_name="machinery")
+
     # --- Buy Nothing (FB groups + Trash Nothing until dedicated scraper) ---
     bn = platforms.get("buy_nothing", {})
     if bn.get("enabled"):
@@ -287,4 +330,82 @@ def fetch_all_sources(cfg: dict, *, quick: bool = False, focus: str = "") -> lis
 
     if active_sources:
         print(f"Sources active: {', '.join(active_sources)}", flush=True)
+    return results
+
+
+def fetch_avion_comps(cfg: dict, *, quick: bool = False) -> list[Listing]:
+    """Avion / vintage travel-trailer comps for sell-tab (separate from truck feed)."""
+    search = cfg.get("search") or {}
+    avion_bucket = None
+    for bucket in search.get("paid_wanted", []) or []:
+        if bucket.get("name") == "avion_comps":
+            avion_bucket = bucket
+            break
+    if not avion_bucket:
+        return []
+
+    keywords = list(avion_bucket.get("keywords") or ["avion"])
+    max_price = int(avion_bucket.get("max_price_usd", 80000))
+    min_price = 3000
+    platforms = cfg["platforms"]
+    results: list[Listing] = []
+    seen_urls: set[str] = set()
+
+    def add_comp(raw, source: str) -> None:
+        if not raw.url or raw.url in seen_urls:
+            return
+        if is_iso_post(raw.title, search, getattr(raw, "description", "") or ""):
+            return
+        if not is_avion_comp_listing(raw.title, getattr(raw, "description", "") or "", search):
+            return
+        price_usd = None
+        for blob in (raw.price, raw.title):
+            m = re.search(r"\$[\d,]+", blob or "")
+            if m:
+                try:
+                    price_usd = int(m.group(0).replace("$", "").replace(",", ""))
+                except ValueError:
+                    pass
+                break
+        if price_usd is not None and (price_usd < min_price or price_usd > max_price):
+            return
+        seen_urls.add(raw.url)
+        results.append(_listing_from_raw(
+            raw, source, cfg, paid=True, paid_name="avion_comps",
+        ))
+
+    cl = platforms.get("craigslist", {})
+    if cl.get("enabled"):
+        regions = cl["regions"]
+        if quick:
+            regions = [r for r in regions if r["slug"] in ("pueblo", "denver", "cosprings")] or regions[:3]
+        print("Checking Avion comps (Craigslist)…", flush=True)
+        for region in regions:
+            slug = region["slug"]
+            for kw in keywords:
+                for cat in cl.get("paid_categories", ["fga", "rva"]):
+                    batch = fetch_paid(slug, cat, kw, max_price)
+                    if batch:
+                        print(f"  avion {slug} q={kw!r}: {len(batch)}", flush=True)
+                    for raw in batch:
+                        add_comp(raw, f"craigslist:{slug}")
+
+    wm = platforms.get("web_marketplaces_scrape", {})
+    if wm.get("enabled") and not quick:
+        print("Checking Avion comps (AutoTempest)…", flush=True)
+        for raw in fetch_autotempest(
+            zip_code=wm.get("zip", "81040"),
+            radius=int(wm.get("radius", 400)),
+            max_price_usd=max_price,
+            min_price_usd=min_price,
+            keywords=keywords,
+            markets=wm.get("markets"),
+            bodystyle="",
+            listing_mode="trailer",
+            search=search,
+            quick=False,
+        ):
+            add_comp(raw, autotempest_source(raw))
+
+    print(f"Avion comps: {len(results)} listings", flush=True)
     return results

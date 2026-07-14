@@ -1,0 +1,61 @@
+# Estate Skout — estate / yard / moving sales (photos + item text)
+id: estate-skout
+name: Estate Skout
+vertical: estate_sales
+description: >
+  Estate sales, moving sales, and garage liquidations near Gardner CO and along trip routes.
+  Matches farm tools, freezers, building materials, and resale finds in sale photos & descriptions.
+
+app_name: Estate Skout
+
+branding:
+  logo_icon: ggl-goose-mark.svg
+  logo_favicon: ggl-goose-mark.svg
+  wordmark: Estate Skout
+  wordmark_parts:
+    - { text: Estate, class: logo-gilded }
+    - { text: Skout, class: logo-accent }
+  footer_org: Gilded Goose Limited
+
+pages:
+  path: estate-skout
+  public_url: "https://gildedgooseltd.github.io/Auto-Skout/estate-skout/"
+
+display:
+  default_free_only: false
+  source_only:
+    - src:estate_sales
+    - src:craigslist
+
+home:
+  city: Gardner
+  state: CO
+  zip: "81040"
+  lat: 37.7889
+  lng: -105.1644
+  default_route_dest: Pueblo
+
+alert_style: balanced
+near_radius_miles: 60
+nearby_highlight_miles: 15
+
+economics:
+  hourly_rate_usd: 100
+  gas_cost_per_mile_usd: 0.25
+  min_resale_profit_usd: 100
+  max_drive_hours: 4
+  unlimited_drive_if_estimated_value_usd: 1000
+
+alert_schedule:
+  start: "07:00"
+  end: "21:00"
+  timezone: America/Denver
+  check_every_minutes: 120
+
+output: site
+
+location_source: travel_calendar
+
+haul:
+  has_trailer: true
+  max_length_ft: 12
