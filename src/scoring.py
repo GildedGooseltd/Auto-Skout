@@ -60,6 +60,7 @@ def _is_machinery(title: str, rules: dict) -> bool:
 def is_priority_match(title: str, search: dict) -> bool:
     return (
         _matches(title, search.get("priority_keywords", []))
+        or _matches(title, search.get("plants_focus", []))
         or _matches(title, search.get("textile_sewing", []))
     )
 
@@ -155,55 +156,6 @@ def is_avion_comp_listing(title: str, description: str = "", search: Optional[di
         return True
     if title_mentions_trailer(title) and _matches(blob, avion_comp_keywords(search or {})):
         return True
-    return False
-
-
-_ENGINE_JUNK = (
-    "lawn", "mower", "riding mower", "weed eater", "weedwacker", "chainsaw",
-    "outboard", "boat motor", "jet ski", "pwc", "generator", "welder",
-    "motorcycle", "harley", "dirt bike", "atv ", "utv ", "snowmobile",
-    "pressure washer", "compressor motor", "fridge", "washer", "dryer",
-)
-
-
-_ENGINE_POSITIVE = (
-    "crate engine", "crate motor", "longblock", "long block", "long-block",
-    "lsx376", "lsx 376", "lsx376-b15", "b15", "19434412", "19417356",
-    "19332320", "19355575", "chevrolet performance", "gm performance",
-    "ls3 crate", "ls7 crate", "ls2 crate", "ls1 crate", "ls6 crate",
-    "lq9", "lq4", "l92", "ls376", "376 crate", "6.2 crate", "6.0 crate",
-    "forged ls", "ls swap", "lsx ", " lsx", "gen iv", "gen 4 ls",
-)
-
-
-def stingray_engine_keywords(search: Optional[dict] = None) -> list[str]:
-    for bucket in (search or {}).get("paid_wanted", []) or []:
-        if bucket.get("name") == "stingray_engines":
-            return list(bucket.get("keywords") or [])
-    return [
-        "LSX376",
-        "LSX 376",
-        "19434412",
-        "crate engine LS",
-        "LS3 crate",
-        "LS7 crate",
-        "Chevrolet Performance crate",
-        "LQ9 engine",
-        "LS2 crate",
-        "forged LS engine",
-    ]
-
-
-def is_stingray_engine_listing(title: str, description: str = "", search: Optional[dict] = None) -> bool:
-    """Crate / LS-family engines suitable for a 1969 Corvette Stingray swap."""
-    blob = f"{title} {description}".lower()
-    if any(j in blob for j in _ENGINE_JUNK):
-        return False
-    if any(p in blob for p in _ENGINE_POSITIVE):
-        return True
-    if _matches(blob, stingray_engine_keywords(search)):
-        engine_words = ("engine", "motor", "crate", "longblock", "long block", "ls ")
-        return any(w in blob for w in engine_words)
     return False
 
 
@@ -334,6 +286,8 @@ def score_listing(listing: Listing, cfg: dict) -> int:
     base = listing.source.split(":")[0]
     focus_text = blob if base == "estate_sales" else title
 
+    if _matches(focus_text, search.get("plants_focus", [])):
+        score += scoring["weights"].get("plants_focus_match", 45)
     if _matches(focus_text, search.get("current_focus", [])):
         score += scoring["weights"].get("current_focus_match", 35)
     if _matches(focus_text, search.get("textile_sewing", [])):

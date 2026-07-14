@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -129,6 +130,7 @@ def _quick_searches_payload(search_cfg: dict, profile: dict) -> dict:
             "icon": p.get("icon") or "",
             "keywords": list(p.get("keywords") or []),
             "route_dest": p["route_dest"] if "route_dest" in p else route_dest,
+            "free_only": bool(p.get("free_only", False)),
         })
     return {
         "route_dest": route_dest,
@@ -765,10 +767,17 @@ def write_site(
         for asset in ASSETS_DIR.iterdir():
             if asset.is_file() and not asset.name.startswith("."):
                 shutil.copy2(asset, assets_dest / asset.name)
-    if deploy.get("mirror_images", True) and listings:
+    mirror_on = deploy.get("mirror_images", True) and os.environ.get("SKOUT_NO_MIRROR", "").strip() not in (
+        "1",
+        "true",
+        "yes",
+    )
+    if mirror_on and listings:
         mirrored, mirror_fail = _mirror_listing_images(listings, assets_dest)
         if mirrored or mirror_fail:
             print(f"  Mirrored {mirrored} photos ({mirror_fail} failed)", flush=True)
+    elif listings and not mirror_on:
+        print("  Skipping photo mirror (SKOUT_NO_MIRROR)", flush=True)
 
     cats_in_feed = {}
     sources_in_feed = {}
@@ -1181,6 +1190,18 @@ def write_site(
     .platform-rec .tag {{ display: inline-block; font-size: .62rem; text-transform: uppercase;
       letter-spacing: .03em; color: var(--gg-accent); background: var(--gg-gold-bg); padding: .1rem .35rem;
       border-radius: 4px; margin-left: .25rem; }}
+    .sidebar-more {{ border-top: 1px solid var(--gg-border-soft); margin-top: .35rem; }}
+    .sidebar-more > summary {{ padding: .55rem 1rem; font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em; color: var(--gg-muted); cursor: pointer;
+      list-style: none; }}
+    .sidebar-more > summary::-webkit-details-marker {{ display: none; }}
+    .sidebar-more[open] > summary {{ color: var(--gg-gold-dark); }}
+    .sidebar-toggles {{ padding: .15rem 0 .35rem; }}
+    .route-filter-simple {{ padding: .35rem 1rem .75rem; border-bottom: 1px solid #f5f5f4; }}
+    .route-filter-simple label {{ display: block; font-size: .72rem; font-weight: 600; color: #44403c;
+      margin-bottom: .35rem; }}
+    .route-filter-simple input {{ width: 100%; padding: .45rem .55rem; border: 1px solid #d6d3d1;
+      border-radius: 8px; font-size: .8rem; }}
     .upcoming-nav {{ padding: 0; border-bottom: 1px solid var(--gg-border-soft); background: var(--gg-ivory); }}
     .sidebar-acc {{ border-bottom: 1px solid var(--gg-border-soft); }}
     .sidebar-acc > summary {{ padding: .6rem 1rem; font-size: .72rem; font-weight: 700;
@@ -1222,7 +1243,7 @@ def write_site(
     .filter-options input {{ margin-top: .15rem; accent-color: var(--gg-accent); flex-shrink: 0; }}
     .filter-hint {{ font-size: .68rem; color: #a8a29e; padding: 0 1rem .25rem; }}
     .filter-count {{ font-size: .7rem; color: #78716c; padding: 0 1rem .5rem; }}
-    .hide-seen-opt {{ display: block; font-size: .78rem; color: #44403c; padding: 0 1rem .65rem; cursor: pointer; }}
+    .hide-seen-opt {{ display: block; font-size: .78rem; color: #44403c; padding: 0 1rem .5rem; cursor: pointer; }}
     .hide-seen-opt input {{ margin-right: .35rem; }}
     .route-filter {{ padding: .5rem 1rem .75rem; border-bottom: 1px solid #f5f5f4; }}
     .route-filter label {{ display: block; font-size: .72rem; font-weight: 600; color: #44403c;
@@ -1518,12 +1539,6 @@ def write_site(
           </div>
         </div>
       </div>
-      <details class="sidebar-acc upcoming-nav" id="upcoming-nav">
-        <summary>Upcoming trips</summary>
-        <div class="sidebar-acc-body">
-          <div id="upcoming-trip-links"></div>
-        </div>
-      </details>
       <button type="button" class="mobile-filter-btn" id="toggle-filters">Filters</button>
       <div class="filter-panel">
         <div class="filter-panel-top">
@@ -1531,67 +1546,74 @@ def write_site(
           <button type="button" id="clear-filters">Clear</button>
         </div>
         <div class="filter-count" id="filter-count"></div>
-        <label class="hide-seen-opt" id="hide-seen-wrap"><input type="checkbox" id="hide-seen" checked> Hide as seen</label>
-        <label class="hide-seen-opt" id="free-only-wrap"><input type="checkbox" id="free-only-sidebar"> Free only</label>
-        <label class="hide-seen-opt" id="show-icons-wrap"><input type="checkbox" id="show-icons" checked> Show emoji icons</label>
-        <details class="trips-panel sidebar-acc">
-          <summary>My trips</summary>
-          <div class="sidebar-acc-body">
-          <label for="trip-filter-select" style="font-size:.72rem;font-weight:600;color:#44403c">Filter feed by trip</label>
-          <select id="trip-filter-select">
-            <option value="">All listings</option>
-          </select>
-          <div class="trip-filter-opts">
-            <label><input type="checkbox" id="trip-show-saved"> Only saved for this trip</label>
-            <label><input type="checkbox" id="trip-show-route"> Only along route</label>
+        <div class="sidebar-toggles">
+          <label class="hide-seen-opt" id="free-only-wrap"><input type="checkbox" id="free-only-sidebar"> Free only</label>
+          <label class="hide-seen-opt" id="hide-seen-wrap"><input type="checkbox" id="hide-seen" checked> Hide as seen</label>
+          <label class="hide-seen-opt" id="show-icons-wrap"><input type="checkbox" id="show-icons" checked> Show emoji icons</label>
+        </div>
+        <div class="route-filter-simple" id="route-filter-box-wrap">
+          <div class="route-filter" id="route-filter-box">
+            <label for="route-dest">Route</label>
+            <input type="text" id="route-dest" list="route-city-list" placeholder="Denver, Aurora…">
+            <datalist id="route-city-list"></datalist>
           </div>
-          <button type="button" class="trip-save-search" id="save-search-trip" style="display:none">
-            Save current filters for selected trip
-          </button>
-          <div class="trip-rows" id="trips-list"></div>
-          <button type="button" class="trip-add-btn" id="trip-add">+ Add trip</button>
+        </div>
+        <div id="vehicle-loc-filter-wrap" hidden>
+          <div class="vehicle-loc-filter" id="vehicle-loc-filter" style="padding:.35rem 1rem .75rem">
+            <label for="vehicle-loc-query" style="display:block;font-size:.72rem;font-weight:600;margin-bottom:.35rem">Location contains</label>
+            <input type="text" id="vehicle-loc-query" placeholder="e.g. Denver, 80202" style="width:100%;padding:.45rem .55rem;border:1px solid #d6d3d1;border-radius:8px;font-size:.8rem">
           </div>
-        </details>
-        <details class="sidebar-acc route-acc" id="route-filter-box-wrap">
-          <summary>Route filter</summary>
-          <div class="sidebar-acc-body route-filter" id="route-filter-box">
-          <label for="route-dest">Route — show listings on the way to</label>
-          <input type="text" id="route-dest" list="route-city-list" placeholder="e.g. Pueblo, Colorado Springs">
-          <datalist id="route-city-list"></datalist>
-          <div class="hint">Optional — e.g. Pueblo or Colorado Springs. Leave blank to show everywhere.</div>
-          </div>
-        </details>
-        <details class="sidebar-acc vehicle-loc-acc" id="vehicle-loc-filter-wrap" hidden>
-          <summary>Location filter</summary>
-          <div class="sidebar-acc-body vehicle-loc-filter" id="vehicle-loc-filter">
-          <label for="vehicle-loc-query">Location contains</label>
-          <input type="text" id="vehicle-loc-query" placeholder="e.g. Pueblo, Walsenburg, 81040">
-          <div class="hint">Filter by city or ZIP in the listing location.</div>
-          </div>
-        </details>
-        <details class="exclude-keywords sidebar-acc">
-          <summary>Hide posts with keywords</summary>
-          <div class="sidebar-acc-body">
-          <div class="exclude-kw-add">
-            <input type="text" id="exclude-kw-input" placeholder="Type word to hide…" autocomplete="off">
-            <button type="button" id="exclude-kw-add">Add</button>
-          </div>
-          <div class="exclude-kw-custom" id="exclude-kw-custom"></div>
-          <div id="exclude-keywords"></div>
-          </div>
-        </details>
+        </div>
         <div id="filter-groups"></div>
-        <details class="platform-recs sidebar-acc">
-          <summary>Add more sources</summary>
-          <div class="sidebar-acc-body">
-          <div id="platform-recs"></div>
+        <details class="sidebar-more">
+          <summary>More</summary>
+          <div class="sidebar-acc upcoming-nav" id="upcoming-nav">
+            <div class="sidebar-acc-body">
+              <div class="filter-family-name">Upcoming trips</div>
+              <div id="upcoming-trip-links"></div>
+            </div>
           </div>
-        </details>
-        <details class="web-market-panel sidebar-acc" id="web-market-panel">
-          <summary>More sites — saved searches &amp; forums</summary>
-          <div class="sidebar-acc-body">
-          <div class="web-market-searches" id="web-market-searches"></div>
-          <div id="web-market-sites"></div>
+          <div class="trips-panel" id="trips-panel-wrap">
+            <div class="sidebar-acc-body">
+              <div class="filter-family-name">My trips</div>
+              <label for="trip-filter-select" style="font-size:.72rem;font-weight:600;color:#44403c">Filter feed by trip</label>
+              <select id="trip-filter-select">
+                <option value="">All listings</option>
+              </select>
+              <div class="trip-filter-opts">
+                <label><input type="checkbox" id="trip-show-saved"> Only saved for this trip</label>
+                <label><input type="checkbox" id="trip-show-route"> Only along route</label>
+              </div>
+              <button type="button" class="trip-save-search" id="save-search-trip" style="display:none">
+                Save current filters for selected trip
+              </button>
+              <div class="trip-rows" id="trips-list"></div>
+              <button type="button" class="trip-add-btn" id="trip-add">+ Add trip</button>
+            </div>
+          </div>
+          <div class="exclude-keywords">
+            <div class="sidebar-acc-body">
+              <div class="filter-family-name">Hide keywords</div>
+              <div class="exclude-kw-add">
+                <input type="text" id="exclude-kw-input" placeholder="Type word to hide…" autocomplete="off">
+                <button type="button" id="exclude-kw-add">Add</button>
+              </div>
+              <div class="exclude-kw-custom" id="exclude-kw-custom"></div>
+              <div id="exclude-keywords"></div>
+            </div>
+          </div>
+          <div class="platform-recs">
+            <div class="sidebar-acc-body">
+              <div class="filter-family-name">Add sources</div>
+              <div id="platform-recs"></div>
+            </div>
+          </div>
+          <div class="web-market-panel" id="web-market-panel">
+            <div class="sidebar-acc-body">
+              <div class="filter-family-name">Saved searches</div>
+              <div class="web-market-searches" id="web-market-searches"></div>
+              <div id="web-market-sites"></div>
+            </div>
           </div>
         </details>
       </div>
@@ -2960,6 +2982,10 @@ def write_site(
         // Don't auto-select a route — nationwide unless the preset opts in
         routeDest = '';
       }}
+      if (Object.prototype.hasOwnProperty.call(preset, 'free_only')) {{
+        freeOnly = !!preset.free_only;
+        syncFreeOnlyUi();
+      }}
       recordQuickRecent(preset);
       saveFilterState();
       syncRouteInput();
@@ -3649,7 +3675,7 @@ def write_site(
         </label>`;
       }}
 
-      const groupsHtml = (DATA.filter_groups || []).map(group => {{
+      const groupsHtml = (DATA.filter_groups || []).map((group, gi) => {{
         let inner = '';
         if (group.families) {{
           inner = group.families.map(fam => {{
@@ -3663,7 +3689,8 @@ def write_site(
           inner = group.options.map(opt => renderFilterOption(group, opt)).join('');
         }}
         const hint = group.hint ? `<div class="filter-hint">${{group.hint}}</div>` : '';
-        return `<details class="filter-group" open>
+        const openAttr = gi === 0 ? ' open' : '';
+        return `<details class="filter-group"${{openAttr}}>
           <summary>${{group.label}}</summary>
           ${{hint}}
           <div class="filter-options">${{inner}}</div>
@@ -4033,13 +4060,15 @@ def write_site(
       const id = decodeURIComponent(m[1]);
       const preset = presetById(id);
       if (!preset) return;
-      freeOnly = false;
       hideSeen = false;
-      // Nationwide: clear Pueblo / any route chip (Sewing preset is not route-bound)
-      routeDest = '';
+      // Clear seen-ghosting; route/free follow the preset
+      if (Object.prototype.hasOwnProperty.call(preset, 'route_dest')) {{
+        routeDest = preset.route_dest || '';
+      }} else {{
+        routeDest = '';
+      }}
       tripShowRoute = false;
       applyQuickSearch(preset);
-      routeDest = '';
       syncRouteInput();
       syncFreeOnlyUi();
       syncHideSeenUi();

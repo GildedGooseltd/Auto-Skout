@@ -4,8 +4,16 @@
 # Each scan refreshes the cache when stale (default 24h).
 
 marketplace:
-  location: "81040"
+  location: "80202"
   search_terms:
+    - plants
+    - plant
+    - free plants
+    - cuttings
+    - seedlings
+    - perennials
+    - shrubs
+    - trees
     - free
     - garden
     - farm
@@ -56,14 +64,15 @@ discovery:
     - free
     - buy nothing
     - garden
+    - plants
     - farm
     - homestead
-    - pueblo
-    - walsenburg
+    - denver
+    - aurora
+    - boulder
+    - lakewood
+    - arvada
     - colorado springs
-    - la veta
-    - cuchara
-    - southern colorado
     - regenerative
     - local food
     - makers

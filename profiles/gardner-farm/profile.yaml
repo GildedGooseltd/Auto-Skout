@@ -27,11 +27,11 @@ home:
   zip: "81040"
   lat: 37.7889
   lng: -105.1644
-  default_route_dest: Pueblo
+  default_route_dest: Denver
 
 alert_style: balanced
-near_radius_miles: 30
-nearby_highlight_miles: 5
+near_radius_miles: 40
+nearby_highlight_miles: 8
 
 economics:
   hourly_rate_usd: 100

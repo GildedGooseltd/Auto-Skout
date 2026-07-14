@@ -2,6 +2,7 @@ alert_style: balanced
 
 weights:
   distance_near: 40
+  plants_focus_match: 45
   current_focus_match: 35
   textile_sewing_match: 40
   farm_garden_match: 20
@@ -10,6 +11,7 @@ weights:
   paid_wanted_match: 50
   has_image: 5
   posted_today: 10
+  priority_match: 45
 
 penalties:
   exclude_keyword: -100

@@ -15,10 +15,19 @@ from config_loader import active_profile_id, load_all
 from location import active_location, resolve_trip
 from site_builder import SITE_DIR, write_site
 from scoring import Listing, is_vehicle_listing, is_trailer_listing, score_listing, tier_for, title_mentions_trailer
-from vehicle_fields import parse_price_usd
+from vehicle_fields import compute_vehicle_fit, is_dont_pass_up_deal, parse_price_usd
 from scrapers.craigslist import enrich_listing_details
 from sources_runner import fetch_all_sources, fetch_avion_comps
-from storage import already_seen, cache_details, get_cached_details, init_db, mark_seen, mark_seen_batch
+from storage import (
+    already_email_alerted,
+    already_seen,
+    cache_details,
+    get_cached_details,
+    init_db,
+    mark_email_alerted,
+    mark_seen,
+    mark_seen_batch,
+)
 
 load_dotenv()
 
@@ -258,12 +267,91 @@ def _parse_trip_arg() -> str:
     return ""
 
 
+def _maybe_send_truck_deal_alerts(
+    cfg: dict,
+    candidates: list[tuple[Listing, int, str]],
+) -> int:
+    """Email don't-pass-up Auto Skout deals (new only, once each)."""
+    profile = cfg["profile"]
+    if profile.get("vertical") != "vehicles":
+        return 0
+    email_cfg = profile.get("email") or {}
+    deal_cfg = email_cfg.get("deal_alerts") or {}
+    if not email_cfg.get("enabled") or deal_cfg.get("enabled") is False:
+        return 0
+
+    from emailer import email_configured, send_truck_deal_alerts
+
+    if not email_configured():
+        print("Deal alerts enabled but Gmail not configured in .env — skip", flush=True)
+        return 0
+
+    shop = profile.get("shop_rules") or {}
+    home = profile.get("home") or {}
+    search = cfg["search"]
+    max_price = int(deal_cfg.get("max_price_usd") or shop.get("max_price_usd") or 20000)
+    min_fit = int(deal_cfg.get("min_fit_score") or 82)
+    require_hd = deal_cfg.get("require_hd_tow", True) is not False
+    max_per_run = int(deal_cfg.get("max_per_run") or 5)
+    profile_id = active_profile_id()
+    pref = (search.get("make_preference") or {}).get("make", "") or shop.get("make_preference", "chevy")
+
+    deals: list[dict] = []
+    for listing, _score, _tier in candidates:
+        pid = f"{profile_id}:{listing.source}:{listing.url}"
+        if already_email_alerted(pid):
+            continue
+        fit = compute_vehicle_fit(
+            listing.title,
+            listing.description or "",
+            listing.price,
+            listing.location,
+            listing.category_id,
+            make_preference=pref,
+            max_price_usd=max_price,
+            home_city=home.get("city", "Gardner"),
+            home_state=home.get("state", "CO"),
+            search=search,
+        )
+        ok, reason = is_dont_pass_up_deal(
+            fit,
+            max_price_usd=max_price,
+            min_fit_score=min_fit,
+            require_hd_tow=require_hd,
+        )
+        if not ok:
+            continue
+        deals.append({
+            "posting_id": pid,
+            "title": listing.title,
+            "url": listing.url,
+            "price": listing.price,
+            "location": listing.location,
+            "fit_score": fit.get("fit_score", 0),
+            "reason": reason,
+        })
+
+    deals.sort(key=lambda d: -int(d.get("fit_score") or 0))
+    deals = deals[:max_per_run]
+    if not deals:
+        return 0
+
+    to = email_cfg.get("to") or None
+    dash = (profile.get("pages") or {}).get("public_url") or ""
+    print(f"Emailing {len(deals)} don't-pass-up truck deal(s)…", flush=True)
+    sent = send_truck_deal_alerts(deals, to=to, dashboard_url=dash)
+    for d in deals:
+        mark_email_alerted(d["posting_id"], d["title"], d["url"], d.get("reason", ""))
+    return sent
+
+
 def run(
     test_mode: bool = False,
     open_browser: bool = False,
     show_all: bool = False,
     trailer_only: bool = False,
     trip_query: str = "",
+    skip_enrich: bool = False,
 ) -> int:
     cfg = load_all()
     profile = cfg["profile"]
@@ -379,7 +467,12 @@ def run(
             or not getattr(listing, "reply_email", "")
         )
     ]
-    if detail_listings:
+    if detail_listings and skip_enrich:
+        print(
+            f"Skipping Craigslist detail enrichment ({len(detail_listings)} pending — use without --no-enrich later)",
+            flush=True,
+        )
+    elif detail_listings:
         print(f"Fetching Craigslist photos/descriptions for {len(detail_listings)}…", flush=True)
         enrich_listing_details(
             detail_listings,
@@ -422,6 +515,11 @@ def run(
     )
     print(f"\nWebsite: {path}", flush=True)
     print(f"Deploy site/ → Netlify (see docs/netlify-deploy.md)", flush=True)
+
+    # Only alert on newly seen truck matches (not the full re-listed feed)
+    alerted = _maybe_send_truck_deal_alerts(cfg, new_items)
+    if alerted:
+        print(f"Deal email alert sent ({alerted})", flush=True)
     if open_browser:
         open_target = str(path)
         if focus_trip_id:
@@ -454,6 +552,7 @@ if __name__ == "__main__":
     open_page = "--open" in sys.argv
     show_all = "--all" in sys.argv
     trailer_only = "--trailer" in sys.argv
+    skip_enrich = "--no-enrich" in sys.argv
     trip_query = _parse_trip_arg()
     raise SystemExit(
         run(
@@ -462,5 +561,6 @@ if __name__ == "__main__":
             show_all=show_all,
             trailer_only=trailer_only,
             trip_query=trip_query,
+            skip_enrich=skip_enrich,
         )
     )

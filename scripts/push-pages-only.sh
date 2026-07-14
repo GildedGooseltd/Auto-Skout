@@ -45,7 +45,8 @@ fi
 
 echo "==> Build profile: $PROFILE → gh-pages/${PAGES_PATH}/"
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
-  .venv/bin/python src/main.py --all
+  # --no-enrich: skip slow Craigslist photo/detail fetch (can catch up later)
+  .venv/bin/python src/main.py --all --no-enrich
 else
   echo "    (--no-build: using existing site/)"
 fi

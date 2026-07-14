@@ -1,5 +1,26 @@
 # Top hunts — highest score boost; use ⭐ Priority filter on dashboard
 priority_keywords:
+  - plant
+  - plants
+  - free plants
+  - plant cuttings
+  - cuttings
+  - seedling
+  - seedlings
+  - perennial
+  - perennials
+  - shrub
+  - shrubs
+  - sapling
+  - saplings
+  - tree
+  - trees
+  - hosta
+  - hostas
+  - succulent
+  - succulents
+  - flower
+  - flowers
   - rain barrel
   - water tank
   - water container
@@ -14,9 +35,6 @@ priority_keywords:
   - 2x4
   - 2x6
   - plywood
-  - plant
-  - plants
-  - tree
   - brick
   - bricks
   - dirt
@@ -48,56 +66,59 @@ priority_keywords:
   - fridges
   - refrigerator
 
-# Ultrasonic / industrial sewing & textile equipment
-textile_sewing:
-  - ultrasonic sewing machine
-  - ultrasonic lace machine
-  - ultrasonic lace sewing
-  - ultrasonic lace
-  - ultrasonic sewing
-  - ultrasonic fabric
-  - ultrasonic welder
-  - ultrasonic sealing
-  - wireless stitching
-  - sonobond
-  - seammaster
-  - sm86
-  - sm10
-  - sonotrode
-  - industrial sewing machine
-  - industrial sewing
-  - commercial sewing machine
-  - commercial sewing
-  - sewing machine industrial
-  - sewing machine
-  - lace machine
-  - lace sewing machine
-  - textile equipment
-  - textile
-  - business liquidation sewing
-  - estate sale sewing
-  - serger
-  - overlock machine
-  - overlock
-  - coverstitch
-  - embroidery machine
-  - blind stitch machine
-  - blind stitch
-  - walking foot sewing
-  - walking foot
-  - quilting machine
-  - pattern wheel
-  - flower wheel
-  - seamstress equipment
-  - seamstress
-  - alterations equipment
-  - alterations
-  - upholstery sewing
-  - nonwoven machine
-  - nonwoven
+# Free plants hunt — strong score boost (Denver trip focus)
+plants_focus:
+  - plant
+  - plants
+  - free plants
+  - free plant
+  - plant cuttings
+  - cuttings
+  - seedling
+  - seedlings
+  - perennial
+  - perennials
+  - shrub
+  - shrubs
+  - sapling
+  - saplings
+  - tree
+  - trees
+  - hosta
+  - hostas
+  - succulent
+  - succulents
+  - flower
+  - flowers
+  - bulbs
+  - starts
+  - starts plants
+  - houseplant
+  - houseplants
+  - vegetable plants
+  - tomato plants
+  - pepper plants
+  - herb plants
+
+# Ultrasonic / industrial sewing (disabled — not currently hunting)
+textile_sewing: []
 
 # FREE listings — current farm & irrigation buildout (score boost)
 current_focus:
+  - plants
+  - plant
+  - free plants
+  - plant cuttings
+  - cuttings
+  - tree
+  - trees
+  - shrub
+  - shrubs
+  - sapling
+  - seedling
+  - perennial
+  - hosta
+  - succulent
   - rain barrel
   - water tank
   - water container
@@ -122,15 +143,6 @@ current_focus:
   - soaker
   - drip irrigation
   - sprinkler
-  - plants
-  - plant
-  - tree
-  - trees
-  - shrub
-  - shrubs
-  - sapling
-  - seedling
-  - perennial
   - outdoor
   - rocks
   - rock
@@ -243,102 +255,6 @@ paid_wanted:
     priority: urgent
     notes: "Portable hydraulic jacking / leveling — free or paid up to budget"
 
-  - name: machinery
-    keywords:
-      - industrial sewing machine
-      - commercial sewing machine
-      - ultrasonic sewing
-      - ultrasonic lace
-      - sonobond
-      - seammaster
-      - walking foot sewing
-      - industrial serger
-      - overlock machine
-      - industrial embroidery
-      - lace machine
-      - textile equipment
-      - union special
-      - consew
-      - juki industrial
-    min_price_usd: 300
-    max_price_usd: 25000
-    require_working: true
-    refurb_ok: false
-    priority: high
-    notes: "Industrial / commercial sewing only — no personal machines, parts, or under $300"
-
-# Textile hunt rules (applied in scoring to sewing-related titles)
-textile_sewing_rules:
-  min_price_usd: 300
-  require_any:
-    - industrial
-    - commercial
-    - ultrasonic
-    - sonobond
-    - seammaster
-    - walking foot
-    - consew
-    - juki
-    - union special
-    - overlock
-    - coverstitch
-    - blindstitch
-    - blind stitch
-    - post bed
-    - cylinder bed
-    - lace machine
-    - textile equipment
-    - embroidery machine industrial
-    - industrial embroidery
-    - industrial serger
-    - pegasus
-    - merrow
-    - reece
-    - barudan
-    - tajima
-  exclude_any:
-    - spool
-    - spools
-    - bobbin
-    - sewing oil
-    - machine oil
-    - presser foot
-    - sewing foot
-    - sewing needle
-    - parts and supplies
-    - parts & supplies
-    - tailor & alterations
-    - sewing cabinet
-    - sewing desk
-    - sewing stool
-    - sewing table
-    - sewing chair
-    - featherweight
-    - kenmore
-    - free arm
-    - slant-o-matic
-    - creative touch
-    - baby lock
-    - babylock
-    - janome
-    - elna
-    - personal sewing
-    - home sewing
-    - hobby sewing
-    - portable sewing machine
-    - domestic sewing machine
-    - vintage singer
-    - antique singer
-    - treadle sewing
-    - red eye
-    - sewing bobbin
-    - bobbin clips
-    - instruction manual
-    - sewing machine manual
-    - attachment
-    - attachments
-    - face plate
-
 # Trailer hunt — hard drop (title + description)
 trailer_exclude:
   - bike
@@ -371,16 +287,6 @@ condition_rules:
       - equipment
       - engine
       - motor
-      - sewing machine
-      - serger
-      - overlock
-      - embroidery machine
-      - quilting machine
-      - lace machine
-      - ultrasonic
-      - overlock machine
-      - blind stitch
-      - nonwoven
   furniture_antiques:
     refurb_ok: true
     require_working: false
@@ -440,40 +346,6 @@ exclude:
     - fixable
     - help wanted
     - looking for
-    - bobbin
-    - bobbins
-    - bobbin clip
-    - bobbin clips
-    - bobbin case
-    - bobbin cases
-    - bobbin winder
-    - bobbin winders
-    - bobbin holder
-    - bobbin holders
-    - bobbin clamp
-    - bobbin clamps
-    - spool
-    - spools
-    - thread spool
-    - sewing oil
-    - sewing machine oil
-    - presser foot
-    - sewing machine parts
-    - sewing machine attachments
-    - sewing attachments
-    - featherweight
-    - kenmore sewing
-    - free arm sewing
-    - slant-o-matic
-    - creative touch
-    - baby lock
-    - babylock
-    - janome
-    - portable sewing
-    - sewing cabinet
-    - sewing desk
-    - sewing stool
-    - instruction manual
   penalize_keywords:
     - not working
     - needs repair
@@ -507,10 +379,36 @@ allowed:
 
 # Dashboard quick filters — flip between hunts (keyword + route)
 quick_searches:
-  route_dest: ""
-  route_label: Nationwide
+  route_dest: Denver
+  route_label: Denver metro
   sort_default: score
   presets:
+    - id: plants
+      label: Free plants
+      icon: "🌱"
+      free_only: true
+      route_dest: Denver
+      keywords:
+        - plant
+        - plants
+        - free plants
+        - cuttings
+        - seedling
+        - seedlings
+        - perennial
+        - perennials
+        - shrub
+        - shrubs
+        - sapling
+        - tree
+        - trees
+        - hosta
+        - succulent
+        - flower
+        - flowers
+        - bulbs
+        - houseplant
+        - starts
     - id: dirt
       label: Dirt
       icon: "🟤"
@@ -523,24 +421,3 @@ quick_searches:
       label: Manure
       icon: "💩"
       keywords: [manure, compost]
-    - id: sewing
-      label: Sewing
-      icon: "🧵"
-      route_dest: ""
-      keywords:
-        - industrial sewing machine
-        - commercial sewing machine
-        - ultrasonic sewing
-        - ultrasonic lace
-        - sonobond
-        - seammaster
-        - walking foot
-        - industrial serger
-        - overlock
-        - consew
-        - juki
-        - union special
-        - textile equipment
-        - lace machine
-        - coverstitch
-        - blindstitch
