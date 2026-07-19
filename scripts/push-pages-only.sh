@@ -80,7 +80,14 @@ if git clone --depth 1 -b gh-pages "$CLONE_URL" "$WORK/repo" 2>/dev/null; then
   echo "==> Updating existing gh-pages (keeps other apps)"
   rm -rf "$WORK/repo/${PAGES_PATH}"
   mkdir -p "$WORK/repo/${PAGES_PATH}"
-  rsync -a --exclude '.DS_Store' site/ "$WORK/repo/${PAGES_PATH}/"
+  # Mirrored listing photos can make the pack too large for HTTPS push.
+  RSYNC_EXCLUDES=(--exclude '.DS_Store')
+  if [[ "${SKOUT_PUBLISH_PHOTOS:-0}" != "1" ]]; then
+    RSYNC_EXCLUDES+=(--exclude 'listing-photos')
+    echo "    (skipping listing-photos — set SKOUT_PUBLISH_PHOTOS=1 to include)"
+  fi
+  rsync -a "${RSYNC_EXCLUDES[@]}" site/ "$WORK/repo/${PAGES_PATH}/"
+  mkdir -p "$WORK/repo/${PAGES_PATH}/assets/listing-photos"
   write_pages_root_index "$WORK/repo"
   clean_legacy_pages_root "$WORK/repo"
   cd "$WORK/repo"
@@ -95,7 +102,12 @@ if git clone --depth 1 -b gh-pages "$CLONE_URL" "$WORK/repo" 2>/dev/null; then
 else
   echo "==> First publish on gh-pages"
   mkdir -p "$WORK/repo/${PAGES_PATH}"
-  rsync -a --exclude '.DS_Store' site/ "$WORK/repo/${PAGES_PATH}/"
+  RSYNC_EXCLUDES=(--exclude '.DS_Store')
+  if [[ "${SKOUT_PUBLISH_PHOTOS:-0}" != "1" ]]; then
+    RSYNC_EXCLUDES+=(--exclude 'listing-photos')
+  fi
+  rsync -a "${RSYNC_EXCLUDES[@]}" site/ "$WORK/repo/${PAGES_PATH}/"
+  mkdir -p "$WORK/repo/${PAGES_PATH}/assets/listing-photos"
   write_pages_root_index "$WORK/repo"
   clean_legacy_pages_root "$WORK/repo"
   cd "$WORK/repo"

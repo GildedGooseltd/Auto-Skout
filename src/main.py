@@ -339,7 +339,11 @@ def _maybe_send_truck_deal_alerts(
     to = email_cfg.get("to") or None
     dash = (profile.get("pages") or {}).get("public_url") or ""
     print(f"Emailing {len(deals)} don't-pass-up truck deal(s)…", flush=True)
-    sent = send_truck_deal_alerts(deals, to=to, dashboard_url=dash)
+    try:
+        sent = send_truck_deal_alerts(deals, to=to, dashboard_url=dash)
+    except Exception as e:
+        print(f"  email alert failed (continuing publish): {e}", flush=True)
+        return 0
     for d in deals:
         mark_email_alerted(d["posting_id"], d["title"], d["url"], d.get("reason", ""))
     return sent
