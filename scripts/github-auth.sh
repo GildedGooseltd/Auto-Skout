@@ -82,6 +82,10 @@ auth_push() {
     token="$(prompt_for_token || true)"
   fi
 
+  # Large listing-photo trees can exceed the default HTTP pack buffer.
+  git -C "$dir" config http.postBuffer 524288000
+  git -C "$dir" config http.version HTTP/1.1
+
   if [[ -n "$token" ]]; then
     git -C "$dir" push -f "https://x-access-token:${token}@github.com/${REPO_SLUG}.git" "$branch"
     persist_github_token "$token"
