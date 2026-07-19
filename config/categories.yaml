@@ -6,6 +6,38 @@ categories:
     icon: "🌿"
     keywords: [plant, plants, seedling, perennial, flower, succulent, cutting]
 
+  - id: crafts
+    label: Crafts & art
+    icon: "🎨"
+    keywords:
+      - craft
+      - crafts
+      - art supply
+      - art supplies
+      - yarn
+      - fabric
+      - beads
+      - scrapbook
+      - scrapbooking
+      - canvas
+      - glitter
+      - cardstock
+      - stamp
+      - markers
+      - watercolor
+      - acrylic
+
+  - id: lamp_shades
+    label: Lamp shades
+    icon: "💡"
+    keywords:
+      - lamp shade
+      - lampshade
+      - lamp shades
+      - lampshades
+      - drum shade
+      - empire shade
+
   - id: trees_shrubs
     label: Trees & shrubs
     icon: "🌳"
@@ -58,6 +90,15 @@ categories:
       - generator
       - cement
       - mortar
+      - 4 post lift
+      - four post lift
+      - 2 post lift
+      - bridge jack
+      - car lift
+      - auto lift
+      - vehicle lift
+      - garage lift
+      - automotive lift
 
   - id: cars
     label: Cars

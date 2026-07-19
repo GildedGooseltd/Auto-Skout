@@ -191,6 +191,49 @@ def fetch_all_sources(cfg: dict, *, quick: bool = False, focus: str = "") -> lis
                                     paid_name=wanted["name"],
                                 )
 
+        # Dedicated wide-area paid hunts. This avoids running every normal
+        # farm/free-stuff query against all Craigslist regions.
+        wide = cl.get("wide_paid_search") or {}
+        if wide.get("enabled") and (not quick or always_full):
+            wanted_names = set(wide.get("wanted_names") or [])
+            wide_wanted = [
+                wanted for wanted in search.get("paid_wanted", [])
+                if wanted.get("name") in wanted_names
+            ]
+            normal_slugs = {region["slug"] for region in regions}
+            for region in wide.get("regions") or []:
+                slug = region["slug"]
+                if slug in normal_slugs:
+                    continue
+                print(
+                    f"Checking Craigslist {slug} "
+                    f"(wide hunt · {wide.get('radius_miles', 300)} mi)…",
+                    flush=True,
+                )
+                for wanted in wide_wanted:
+                    for kw in wanted["keywords"]:
+                        for cat in cl.get("paid_categories", ["fga"]):
+                            batch = fetch_paid(
+                                slug,
+                                cat,
+                                kw,
+                                wanted["max_price_usd"],
+                                min_price=wanted.get("min_price_usd"),
+                            )
+                            if batch:
+                                print(
+                                    f"  {cat} q={kw!r}: {len(batch)} "
+                                    f"(≤${wanted['max_price_usd']})",
+                                    flush=True,
+                                )
+                            for raw in batch:
+                                add(
+                                    raw,
+                                    f"craigslist:{slug}",
+                                    paid=True,
+                                    paid_name=wanted["name"],
+                                )
+
     # --- Freecycle ---
     fc = platforms.get("freecycle", {})
     if fc.get("enabled"):

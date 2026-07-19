@@ -285,28 +285,6 @@ paid_wanted:
     priority: normal
     notes: "2027 sale comps — 30-40ft aluminum/vintage; floor $26k ask"
 
-  - name: stingray_engines
-    keywords:
-      - LSX376
-      - LSX 376
-      - 19434412
-      - LSX B15
-      - crate engine LS
-      - LS3 crate
-      - LS7 crate
-      - LS2 crate
-      - Chevrolet Performance crate
-      - LQ9 engine
-      - LQ4 engine
-      - forged LS
-      - 376 crate
-      - 6.2 crate engine
-    max_price_usd: 15000
-    require_working: false
-    refurb_ok: true
-    priority: normal
-    notes: "1969 Stingray swap — LSX376-B15 ref (19434412 / 473HP) + LS-family crates"
-
 condition_rules:
   vehicles:
     refurb_ok: true
@@ -384,7 +362,6 @@ exclude:
     - 6.0l powerstroke
     - 6.0 diesel powerstroke
     - corvette
-    - corvette stingray
     - firewood
     - fire wood
     - seasoned wood

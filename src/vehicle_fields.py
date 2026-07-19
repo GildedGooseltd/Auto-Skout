@@ -556,3 +556,64 @@ VEHICLE_CATEGORY_IDS = frozenset({
 
 def is_vehicle_listing(title: str, description: str, category_id: str, search: dict) -> bool:
     return is_truck_listing(title, description, category_id, search)
+
+
+def is_dont_pass_up_deal(
+    fit: dict[str, Any],
+    *,
+    max_price_usd: int = 20000,
+    min_fit_score: int = 82,
+    require_hd_tow: bool = True,
+) -> tuple[bool, str]:
+    """True when a truck is a rare must-look deal (email alert worthy).
+
+    Returns (matched, reason). Tuned for Auto Skout: HD tow class, within budget,
+    high fit — not everyday "possible" matches.
+    """
+    score = int(fit.get("fit_score") or 0)
+    if score < 0 or score < (min_fit_score - 10):
+        return False, ""
+    if fit.get("avoid_ford_60"):
+        return False, ""
+    if fit.get("avoid_ram") and score < min_fit_score + 5:
+        return False, ""
+
+    price = fit.get("price_usd")
+    tow = fit.get("fit_tow_class") or ""
+    if require_hd_tow and tow not in ("A", "B"):
+        return False, ""
+    if price is not None and price > max_price_usd:
+        return False, ""
+
+    reasons: list[str] = []
+    if score >= min_fit_score:
+        reasons.append(f"fit {score}")
+    elif score >= 75 and price is not None and price <= max_price_usd * 0.55:
+        reasons.append(f"fit {score} + deep discount (${price:,.0f})")
+    else:
+        return False, ""
+
+    if fit.get("make_preferred"):
+        reasons.append("Chevy/GMC preferred")
+    if tow in ("A", "B"):
+        reasons.append(f"HD class {tow}")
+    if price is not None and price <= max_price_usd * 0.6:
+        reasons.append(f"${price:,.0f} well under ${max_price_usd:,}")
+    band = fit.get("location_band") or ""
+    if band in ("near_home", "front_range"):
+        reasons.append(band.replace("_", " "))
+    if fit.get("is_vintage_square") and fit.get("is_vintage_quality"):
+        reasons.append("quality square-body")
+    if fit.get("is_diesel") and tow in ("A", "B"):
+        reasons.append("diesel HD")
+    if fit.get("is_auction") or fit.get("grant_credit_angle"):
+        reasons.append("auction/surplus angle")
+
+    # Need affirming signals beyond raw score (unless exceptional fit)
+    signal_count = max(0, len(reasons) - 1)
+    if score < 88 and signal_count < 1:
+        return False, ""
+    if score < min_fit_score and signal_count < 2:
+        return False, ""
+
+    return True, " · ".join(reasons)

@@ -1,5 +1,33 @@
 # Top hunts — highest score boost; use ⭐ Priority filter on dashboard
 priority_keywords:
+  - 4 post lift
+  - four post lift
+  - 4-post lift
+  - bridge jack
+  - bridge jacks
+  - car lift
+  - auto lift
+  - vehicle lift
+  - 2 post lift
+  - two post lift
+  - lamp shade
+  - lampshade
+  - lamp shades
+  - lampshades
+  - craft supplies
+  - craft supply
+  - crafts
+  - art supplies
+  - yarn
+  - fabric
+  - beads
+  - scrapbook
+  - scrapbooking
+  - concrete mixer
+  - cement mixer
+  - mortar mixer
+  - portable mixer
+  - drum mixer
   - plant
   - plants
   - free plants
@@ -28,7 +56,6 @@ priority_keywords:
   - greenhouse
   - hoop house
   - paint
-  - art supplies
   - pallet
   - pallets
   - lumber
@@ -39,16 +66,12 @@ priority_keywords:
   - bricks
   - dirt
   - topsoil
-  - manure
   - compost
   - fill dirt
   - hose
   - irrigation
   - curb alert
   - must take all
-  - concrete mixer
-  - cement mixer
-  - mortar mixer
   - building materials
   - cinder block
   - rebar
@@ -65,6 +88,87 @@ priority_keywords:
   - fridge
   - fridges
   - refrigerator
+
+# Automotive lifts & bridge jacks
+lift_focus:
+  - 4 post lift
+  - four post lift
+  - 4-post lift
+  - 4 post car lift
+  - four post car lift
+  - 2 post lift
+  - two post lift
+  - 2-post lift
+  - bridge jack
+  - bridge jacks
+  - rolling bridge jack
+  - car lift
+  - auto lift
+  - automotive lift
+  - vehicle lift
+  - garage lift
+  - mid rise lift
+  - mid-rise lift
+  - drive on lift
+  - drive-on lift
+  - storage lift
+  - parking lift
+  - bendpak
+  - rotary lift
+  - challenger lift
+
+# Lamp shades & craft / art supplies
+crafts_focus:
+  - lamp shade
+  - lampshade
+  - lamp shades
+  - lampshades
+  - lamp shade set
+  - drum shade
+  - empire shade
+  - craft supplies
+  - craft supply
+  - crafts
+  - craft lot
+  - craft stash
+  - art supplies
+  - art supply
+  - painting supplies
+  - acrylic paint
+  - watercolor
+  - canvas
+  - canvases
+  - yarn
+  - yarn lot
+  - fabric
+  - fabric scraps
+  - beads
+  - beading
+  - scrapbook
+  - scrapbooking
+  - glitter
+  - glue gun
+  - hot glue
+  - craft paper
+  - cardstock
+  - stamps
+  - rubber stamps
+  - markers
+  - colored pencils
+  - crayons
+  - craft bin
+  - craft tote
+
+# Concrete / cement mixer hunt
+mixer_focus:
+  - concrete mixer
+  - cement mixer
+  - mortar mixer
+  - portable mixer
+  - drum mixer
+  - portland mixer
+  - electric mixer concrete
+  - gas powered mixer
 
 # Free plants hunt — strong score boost (Denver trip focus)
 plants_focus:
@@ -105,6 +209,25 @@ textile_sewing: []
 
 # FREE listings — current farm & irrigation buildout (score boost)
 current_focus:
+  - 4 post lift
+  - four post lift
+  - bridge jack
+  - car lift
+  - auto lift
+  - 2 post lift
+  - lamp shade
+  - lampshade
+  - lamp shades
+  - craft supplies
+  - art supplies
+  - yarn
+  - fabric
+  - beads
+  - scrapbook
+  - canvas
+  - concrete mixer
+  - cement mixer
+  - mortar mixer
   - plants
   - plant
   - free plants
@@ -166,7 +289,6 @@ current_focus:
   - topsoil
   - soil
   - compost
-  - manure
   - gravel
   - sand
   - mulch
@@ -230,12 +352,35 @@ strong_signals:
 
 # PAID searches — alert when price is at or below max_price
 paid_wanted:
+  - name: car_lift
+    keywords:
+      - 4 post lift
+      - four post lift
+      - 4-post lift
+      - 2 post lift
+      - two post lift
+      - bridge jack
+      - rolling bridge jack
+      - car lift
+      - auto lift
+      - automotive lift
+      - vehicle lift
+      - garage lift
+      - mid rise lift
+    max_price_usd: 8000
+    require_working: true
+    refurb_ok: false
+    priority: urgent
+    notes: "4-post / 2-post lifts and bridge jacks — working only"
+
   - name: concrete mixer
     keywords:
       - concrete mixer
       - cement mixer
       - mortar mixer
-    max_price_usd: 200
+      - portable mixer
+      - drum mixer
+    max_price_usd: 500
     require_working: true
     refurb_ok: false
     priority: urgent
@@ -383,6 +528,72 @@ quick_searches:
   route_label: Denver metro
   sort_default: score
   presets:
+    - id: lifts
+      label: Lifts & bridge jacks · 300 mi
+      icon: "🔧"
+      route_dest: ""
+      keywords:
+        - 4 post lift
+        - four post lift
+        - 4-post lift
+        - 2 post lift
+        - two post lift
+        - bridge jack
+        - bridge jacks
+        - rolling bridge jack
+        - car lift
+        - auto lift
+        - automotive lift
+        - vehicle lift
+        - garage lift
+        - mid rise lift
+        - mid-rise lift
+        - drive on lift
+        - storage lift
+        - parking lift
+        - bendpak
+        - rotary lift
+    - id: crafts
+      label: Lamp shades & crafts
+      icon: "🎨"
+      free_only: true
+      route_dest: Denver
+      keywords:
+        - lamp shade
+        - lampshade
+        - lamp shades
+        - lampshades
+        - chandelier shade
+        - clip on lamp shade
+        - table lamp shade
+        - replacement lamp shade
+        - craft supplies
+        - craft supply
+        - crafts
+        - art supplies
+        - yarn
+        - fabric
+        - beads
+        - scrapbook
+        - scrapbooking
+        - canvas
+        - paint
+        - acrylic
+        - watercolor
+        - cardstock
+        - glitter
+        - glue gun
+        - markers
+    - id: mixer
+      label: Concrete mixer
+      icon: "🌀"
+      route_dest: Denver
+      keywords:
+        - concrete mixer
+        - cement mixer
+        - mortar mixer
+        - portable mixer
+        - drum mixer
     - id: plants
       label: Free plants
       icon: "🌱"
@@ -417,7 +628,3 @@ quick_searches:
       label: Rocks
       icon: "🪨"
       keywords: [rock, rocks, stone, gravel, boulder, flagstone]
-    - id: manure
-      label: Manure
-      icon: "💩"
-      keywords: [manure, compost]

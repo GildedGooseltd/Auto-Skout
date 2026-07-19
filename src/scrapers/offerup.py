@@ -85,10 +85,10 @@ def fetch_offers(cfg: dict) -> List[RawListing]:
         radius = int(market.get("radius", cfg.get("radius", 50)))
         mlabel = market.get("label") or zip_code
 
-        def _search(term: str, *, paid_ok: bool) -> None:
+        def _search(term: str, *, paid_ok: bool, search_radius: int = radius) -> None:
             url = (
                 f"https://offerup.com/search?q={requests.utils.quote(term)}"
-                f"&zip={zip_code}&radius={radius}"
+                f"&zip={zip_code}&radius={search_radius}"
             )
             try:
                 r = _session.get(url, headers=_BROWSER_HEADERS, timeout=35)
@@ -139,12 +139,20 @@ def fetch_offers(cfg: dict) -> List[RawListing]:
                 added += 1
             if added:
                 label = f"≤${int(max_price)}" if paid_ok else "free"
-                print(f"  offerup {mlabel} q={term!r}: {added} ({label})", flush=True)
+                radius_label = f", {search_radius} mi" if search_radius != radius else ""
+                print(
+                    f"  offerup {mlabel} q={term!r}: {added} ({label}{radius_label})",
+                    flush=True,
+                )
 
         for term in free_terms:
             _search(term, paid_ok=False)
         for term in paid_terms:
             _search(term, paid_ok=True)
+        wide_paid_terms = cfg.get("wide_paid_search_terms") or []
+        wide_radius = int(cfg.get("wide_radius", radius))
+        for term in wide_paid_terms:
+            _search(term, paid_ok=True, search_radius=wide_radius)
 
     if out:
         print(f"  offerup: {len(out)} listings total", flush=True)

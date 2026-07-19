@@ -22,6 +22,40 @@ def init_db():
             conn.execute("ALTER TABLE listing_details ADD COLUMN reply_email TEXT DEFAULT ''")
         if "reply_url" not in cols:
             conn.execute("ALTER TABLE listing_details ADD COLUMN reply_url TEXT DEFAULT ''")
+        conn.execute(
+            """CREATE TABLE IF NOT EXISTS email_alerts (
+                posting_id TEXT PRIMARY KEY,
+                title TEXT,
+                url TEXT,
+                alerted_at TEXT,
+                reason TEXT
+            )"""
+        )
+
+
+def already_email_alerted(posting_id: str) -> bool:
+    with sqlite3.connect(DB_PATH) as conn:
+        row = conn.execute(
+            "SELECT 1 FROM email_alerts WHERE posting_id = ?", (posting_id,)
+        ).fetchone()
+        return row is not None
+
+
+def mark_email_alerted(posting_id: str, title: str, url: str, reason: str = "") -> None:
+    from datetime import datetime, timezone
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute(
+            """INSERT OR IGNORE INTO email_alerts
+               (posting_id, title, url, alerted_at, reason)
+               VALUES (?, ?, ?, ?, ?)""",
+            (
+                posting_id,
+                title,
+                url,
+                datetime.now(timezone.utc).isoformat(),
+                reason,
+            ),
+        )
 
 
 def already_seen(posting_id: str) -> bool:

@@ -19,9 +19,44 @@ craigslist:
     - slug: pueblo
       name: Pueblo
       priority: low
+  wide_paid_search:
+    enabled: true
+    radius_miles: 300
+    wanted_names: [car_lift]
+    regions:
+      - { slug: fortcollins, name: Fort Collins }
+      - { slug: boulder, name: Boulder }
+      - { slug: westslope, name: Western Slope }
+      - { slug: wyoming, name: Wyoming }
+      - { slug: scottsbluff, name: Scottsbluff }
+      - { slug: northplatte, name: North Platte }
+      - { slug: nwks, name: Northwest Kansas }
   free_categories: [zip, fga]
   paid_categories: [fga, tla]
   search_queries:
+    - 4 post lift
+    - four post lift
+    - 2 post lift
+    - bridge jack
+    - car lift
+    - auto lift
+    - vehicle lift
+    - garage lift
+    - automotive lift
+    - lamp shade
+    - lampshade
+    - lamp shades
+    - craft supplies
+    - art supplies
+    - yarn
+    - fabric
+    - beads
+    - scrapbook
+    - canvas
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - portable mixer
     - plants
     - plant
     - free plants
@@ -38,7 +73,6 @@ craigslist:
     - ""
     - hose
     - dirt
-    - manure
     - topsoil
     - fill dirt
     - lumber
@@ -68,9 +102,6 @@ craigslist:
     - paint
     - art supplies
     - canvas
-    - concrete mixer
-    - cement mixer
-    - mortar mixer
     - building materials
     - plywood
     - cinder block
@@ -109,6 +140,29 @@ facebook_marketplace:
   enabled: true
   location_zip: "80202"
   search_terms:
+    - 4 post lift
+    - four post lift
+    - 2 post lift
+    - bridge jack
+    - car lift
+    - auto lift
+    - vehicle lift
+    - garage lift
+    - automotive lift
+    - lamp shade
+    - lampshade
+    - lamp shades
+    - craft supplies
+    - art supplies
+    - yarn
+    - fabric
+    - beads
+    - scrapbook
+    - canvas
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - portable mixer
     - plants
     - plant
     - free plants
@@ -124,7 +178,6 @@ facebook_marketplace:
     - farm
     - pallet
     - dirt
-    - manure
     - topsoil
     - fill dirt
     - lumber
@@ -178,6 +231,29 @@ trash_nothing:
   longitude: -104.9903
   radius: 40
   search_terms:
+    - 4 post lift
+    - four post lift
+    - 2 post lift
+    - bridge jack
+    - car lift
+    - auto lift
+    - vehicle lift
+    - garage lift
+    - automotive lift
+    - lamp shade
+    - lampshade
+    - lamp shades
+    - craft supplies
+    - art supplies
+    - yarn
+    - fabric
+    - beads
+    - scrapbook
+    - canvas
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - portable mixer
     - plants
     - plant
     - free plants
@@ -191,7 +267,6 @@ trash_nothing:
     - farm
     - pallet
     - dirt
-    - manure
     - topsoil
     - fill dirt
     - lumber
@@ -245,8 +320,46 @@ offerup:
   enabled: true
   zip: "80202"
   radius: 40
-  max_price_usd: 5000
+  max_price_usd: 8000
+  wide_radius: 300
+  wide_paid_search_terms:
+    - 4 post lift
+    - four post lift
+    - 4-post lift
+    - 2 post lift
+    - two post lift
+    - bridge jack
+    - rolling bridge jack
+    - car lift
+    - auto lift
+    - automotive lift
+    - vehicle lift
+    - garage lift
+    - mid rise lift
   search_terms:
+    - 4 post lift
+    - four post lift
+    - 2 post lift
+    - bridge jack
+    - car lift
+    - auto lift
+    - vehicle lift
+    - garage lift
+    - automotive lift
+    - lamp shade
+    - lampshade
+    - lamp shades
+    - craft supplies
+    - art supplies
+    - yarn
+    - fabric
+    - beads
+    - scrapbook
+    - canvas
+    - concrete mixer
+    - cement mixer
+    - mortar mixer
+    - portable mixer
     - plants
     - plant
     - free plants
@@ -260,7 +373,6 @@ offerup:
     - farm
     - pallet
     - dirt
-    - manure
     - topsoil
     - fill dirt
     - lumber
@@ -355,6 +467,23 @@ estate_sales:
     - name: Colorado Springs
       slug: colorado-springs-co
   match_keywords:
+    - 4 post lift
+    - four post lift
+    - 2 post lift
+    - bridge jack
+    - car lift
+    - auto lift
+    - vehicle lift
+    - garage lift
+    - automotive lift
+    - lamp shade
+    - lampshade
+    - craft
+    - yarn
+    - fabric
+    - beads
+    - scrapbook
+    - canvas
     - plant
     - plants
     - seedling
@@ -377,7 +506,6 @@ estate_sales:
     - concrete mixer
     - trencher
     - dirt
-    - manure
     - topsoil
     - gravel
     - sand

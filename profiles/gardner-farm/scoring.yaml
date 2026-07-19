@@ -2,9 +2,12 @@ alert_style: balanced
 
 weights:
   distance_near: 40
+  lift_focus_match: 50
+  crafts_focus_match: 50
+  mixer_focus_match: 50
   plants_focus_match: 45
   current_focus_match: 35
-  textile_sewing_match: 40
+  textile_sewing_match: 0
   farm_garden_match: 20
   resale_value: 25
   strong_signal: 15

@@ -60,6 +60,9 @@ def _is_machinery(title: str, rules: dict) -> bool:
 def is_priority_match(title: str, search: dict) -> bool:
     return (
         _matches(title, search.get("priority_keywords", []))
+        or _matches(title, search.get("lift_focus", []))
+        or _matches(title, search.get("crafts_focus", []))
+        or _matches(title, search.get("mixer_focus", []))
         or _matches(title, search.get("plants_focus", []))
         or _matches(title, search.get("textile_sewing", []))
     )
@@ -286,6 +289,12 @@ def score_listing(listing: Listing, cfg: dict) -> int:
     base = listing.source.split(":")[0]
     focus_text = blob if base == "estate_sales" else title
 
+    if _matches(focus_text, search.get("lift_focus", [])):
+        score += scoring["weights"].get("lift_focus_match", 50)
+    if _matches(focus_text, search.get("crafts_focus", [])):
+        score += scoring["weights"].get("crafts_focus_match", 50)
+    if _matches(focus_text, search.get("mixer_focus", [])):
+        score += scoring["weights"].get("mixer_focus_match", 50)
     if _matches(focus_text, search.get("plants_focus", [])):
         score += scoring["weights"].get("plants_focus_match", 45)
     if _matches(focus_text, search.get("current_focus", [])):

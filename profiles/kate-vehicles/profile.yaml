@@ -75,9 +75,16 @@ alert_schedule:
 output: site
 
 email:
-  enabled: false
+  enabled: true
   provider: gmail
   to: support@gildedgooselimited.com
+  # Email only rare "don't pass up" truck deals (not every match)
+  deal_alerts:
+    enabled: true
+    min_fit_score: 82
+    require_hd_tow: true
+    max_per_run: 5
+    # max_price_usd inherits shop_rules.max_price_usd (20000)
 
 haul:
   has_trailer: false
@@ -96,17 +103,3 @@ sale_targets:
     min_ask_usd: 26000
     target_window: "2027-summer"
     markets: [CO, CA, FL]
-
-buy_targets:
-  stingray_engine:
-    year: 1969
-    vehicle: "Corvette Stingray C3"
-    reference_part: "19434412"
-    reference_name: "Chevrolet Performance LSX376-B15 Longblock"
-    reference_hp: 473
-    msrp_approx_usd: 12000
-    max_price_usd: 15000
-    min_price_usd: 1500
-    notes: >
-      Prefer LSX376-B15 / forged LS longblocks; also LS3/LS7 crates and
-      solid LQ9/LQ4/L92 iron LS cores for swap builds.
