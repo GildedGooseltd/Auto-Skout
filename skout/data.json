@@ -28,7 +28,7 @@
     ],
     "footer_org": "Gilded Goose Limited"
   },
-  "updated": "Sun Oct 11, 12:47 PM",
+  "updated": "Sun Oct 11, 1:08 PM",
   "location": "Gardner, CO 81040",
   "active_trip": "Gardner home",
   "pickup_contact": {
@@ -422,7 +422,7 @@
     },
     "denver_metro": {
       "name": "Denver metro",
-      "description": "Active during Denver trip (Jul 7\u201325)",
+      "description": "Active during Denver trailer haul \u2014 tools & building supplies",
       "tags": [
         "trip_destination",
         "denver_metro"
@@ -21603,6 +21603,40 @@
         ],
         "route_dest": "Denver",
         "free_only": false
+      },
+      {
+        "id": "tools_building",
+        "label": "Tools & building supplies",
+        "icon": "\ud83d\udd27",
+        "keywords": [
+          "tools",
+          "tool",
+          "power tools",
+          "hand tools",
+          "shop tools",
+          "saw",
+          "drill",
+          "compressor",
+          "generator",
+          "wheelbarrow",
+          "shovel",
+          "building materials",
+          "building supplies",
+          "lumber",
+          "2x4",
+          "2x6",
+          "plywood",
+          "drywall",
+          "insulation",
+          "cinder block",
+          "rebar",
+          "scaffolding",
+          "workbench",
+          "tool chest",
+          "toolbox"
+        ],
+        "route_dest": "Denver",
+        "free_only": false
       }
     ]
   },
@@ -21709,7 +21743,7 @@
       "name": "Denver metro",
       "city": "Brighton",
       "route_dest": "Brighton",
-      "notes": "Active during Denver trip (Jul 7\u201325)"
+      "notes": "Active during Denver trailer haul \u2014 tools & building supplies"
     },
     {
       "id": "route-denver_to_salida",
@@ -21760,7 +21794,7 @@
       "name": "Denver metro",
       "city": "Brighton",
       "route_dest": "Brighton",
-      "notes": "Active during Denver trip (Jul 7\u201325)"
+      "notes": "Active during Denver trailer haul \u2014 tools & building supplies"
     },
     {
       "id": "route-denver_to_salida",
@@ -21811,7 +21845,7 @@
       "name": "Denver metro",
       "city": "Brighton",
       "route_dest": "Brighton",
-      "notes": "Active during Denver trip (Jul 7\u201325)"
+      "notes": "Active during Denver trailer haul \u2014 tools & building supplies"
     },
     {
       "id": "route-denver_to_salida",
