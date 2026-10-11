@@ -28,7 +28,7 @@
     ],
     "footer_org": "Gilded Goose Limited"
   },
-  "updated": "Sun Oct 11, 1:08 PM",
+  "updated": "Sun Oct 11, 1:11 PM",
   "location": "Gardner, CO 81040",
   "active_trip": "Gardner home",
   "pickup_contact": {
@@ -21739,155 +21739,98 @@
   ],
   "locations": [
     {
-      "id": "route-denver_metro",
-      "name": "Denver metro",
-      "city": "Brighton",
-      "route_dest": "Brighton",
-      "notes": "Active during Denver trailer haul \u2014 tools & building supplies"
+      "id": "denver-trailer-haul-1",
+      "name": "Denver trailer haul",
+      "city": "Denver",
+      "route_dest": "Denver",
+      "notes": "Bring trailer \u2014 tools & building supplies pickups (Front Range)",
+      "start": "2026-10-17",
+      "end": "2026-10-19",
+      "date_label": "October 17\u201319 \u2014 Sat\u2013Mon"
     },
     {
-      "id": "route-denver_to_salida",
-      "name": "Denver \u2192 Salida (Front Range & US-50)",
-      "city": "Nathrop",
-      "route_dest": "Nathrop",
-      "notes": "Denver / COS corridor west through Canon City into Salida"
-    },
-    {
-      "id": "route-gardner_to_cos",
-      "name": "Gardner \u2192 Colorado Springs (I-25)",
-      "city": "Coal Creek",
-      "route_dest": "Coal Creek",
-      "notes": "I-25 north \u2014 Walsenburg, Pueblo, COS"
-    },
-    {
-      "id": "route-gardner_to_denver",
-      "name": "Gardner \u2192 Denver (I-25)",
-      "city": "Beulah",
-      "route_dest": "Beulah",
-      "notes": "Southern CO up I-25 to the Front Range"
-    },
-    {
-      "id": "route-gardner_to_pueblo",
-      "name": "Gardner \u2192 Pueblo (I-25)",
-      "city": "Fountain",
-      "route_dest": "Fountain",
-      "notes": "Southern CO drive \u2014 Gardner through Pueblo"
-    },
-    {
-      "id": "route-gardner_to_salida",
-      "name": "Gardner \u2192 Salida (Westcliffe / US-69 & US-50)",
-      "city": "Twin Lakes",
-      "route_dest": "Twin Lakes",
-      "notes": "Wet Mountain Valley into the Arkansas River valley \u2014 Westcliffe, Cotopaxi, Salida"
-    },
-    {
-      "id": "route-gardner_local",
-      "name": "Near Gardner (30 mi)",
+      "id": "gardner-home-0",
+      "name": "Gardner home",
       "city": "Gardner",
       "route_dest": "Gardner",
-      "notes": "Huerfano County and immediate neighbors"
+      "notes": "Farm base \u2014 local pickups near Gardner",
+      "start": "2026-10-01",
+      "end": "2026-10-16",
+      "date_label": "October 1\u201316 \u2014 Thu\u2013Fri"
+    },
+    {
+      "id": "gardner-home-2",
+      "name": "Gardner home",
+      "city": "Gardner",
+      "route_dest": "Gardner",
+      "notes": "Farm base after Denver trailer haul",
+      "start": "2026-10-20",
+      "end": "2026-12-31",
+      "date_label": "October 20 \u2014 Tue \u2192 December 31 \u2014 Thu"
     }
   ],
   "upcoming_trips": [
     {
-      "id": "route-denver_metro",
-      "name": "Denver metro",
-      "city": "Brighton",
-      "route_dest": "Brighton",
-      "notes": "Active during Denver trailer haul \u2014 tools & building supplies"
+      "id": "denver-trailer-haul-1",
+      "name": "Denver trailer haul",
+      "city": "Denver",
+      "route_dest": "Denver",
+      "notes": "Bring trailer \u2014 tools & building supplies pickups (Front Range)",
+      "start": "2026-10-17",
+      "end": "2026-10-19",
+      "date_label": "October 17\u201319 \u2014 Sat\u2013Mon"
     },
     {
-      "id": "route-denver_to_salida",
-      "name": "Denver \u2192 Salida (Front Range & US-50)",
-      "city": "Nathrop",
-      "route_dest": "Nathrop",
-      "notes": "Denver / COS corridor west through Canon City into Salida"
-    },
-    {
-      "id": "route-gardner_to_cos",
-      "name": "Gardner \u2192 Colorado Springs (I-25)",
-      "city": "Coal Creek",
-      "route_dest": "Coal Creek",
-      "notes": "I-25 north \u2014 Walsenburg, Pueblo, COS"
-    },
-    {
-      "id": "route-gardner_to_denver",
-      "name": "Gardner \u2192 Denver (I-25)",
-      "city": "Beulah",
-      "route_dest": "Beulah",
-      "notes": "Southern CO up I-25 to the Front Range"
-    },
-    {
-      "id": "route-gardner_to_pueblo",
-      "name": "Gardner \u2192 Pueblo (I-25)",
-      "city": "Fountain",
-      "route_dest": "Fountain",
-      "notes": "Southern CO drive \u2014 Gardner through Pueblo"
-    },
-    {
-      "id": "route-gardner_to_salida",
-      "name": "Gardner \u2192 Salida (Westcliffe / US-69 & US-50)",
-      "city": "Twin Lakes",
-      "route_dest": "Twin Lakes",
-      "notes": "Wet Mountain Valley into the Arkansas River valley \u2014 Westcliffe, Cotopaxi, Salida"
-    },
-    {
-      "id": "route-gardner_local",
-      "name": "Near Gardner (30 mi)",
+      "id": "gardner-home-0",
+      "name": "Gardner home",
       "city": "Gardner",
       "route_dest": "Gardner",
-      "notes": "Huerfano County and immediate neighbors"
+      "notes": "Farm base \u2014 local pickups near Gardner",
+      "start": "2026-10-01",
+      "end": "2026-10-16",
+      "date_label": "October 1\u201316 \u2014 Thu\u2013Fri"
+    },
+    {
+      "id": "gardner-home-2",
+      "name": "Gardner home",
+      "city": "Gardner",
+      "route_dest": "Gardner",
+      "notes": "Farm base after Denver trailer haul",
+      "start": "2026-10-20",
+      "end": "2026-12-31",
+      "date_label": "October 20 \u2014 Tue \u2192 December 31 \u2014 Thu"
     }
   ],
   "trips": [
     {
-      "id": "route-denver_metro",
-      "name": "Denver metro",
-      "city": "Brighton",
-      "route_dest": "Brighton",
-      "notes": "Active during Denver trailer haul \u2014 tools & building supplies"
+      "id": "denver-trailer-haul-1",
+      "name": "Denver trailer haul",
+      "city": "Denver",
+      "route_dest": "Denver",
+      "notes": "Bring trailer \u2014 tools & building supplies pickups (Front Range)",
+      "start": "2026-10-17",
+      "end": "2026-10-19",
+      "date_label": "October 17\u201319 \u2014 Sat\u2013Mon"
     },
     {
-      "id": "route-denver_to_salida",
-      "name": "Denver \u2192 Salida (Front Range & US-50)",
-      "city": "Nathrop",
-      "route_dest": "Nathrop",
-      "notes": "Denver / COS corridor west through Canon City into Salida"
-    },
-    {
-      "id": "route-gardner_to_cos",
-      "name": "Gardner \u2192 Colorado Springs (I-25)",
-      "city": "Coal Creek",
-      "route_dest": "Coal Creek",
-      "notes": "I-25 north \u2014 Walsenburg, Pueblo, COS"
-    },
-    {
-      "id": "route-gardner_to_denver",
-      "name": "Gardner \u2192 Denver (I-25)",
-      "city": "Beulah",
-      "route_dest": "Beulah",
-      "notes": "Southern CO up I-25 to the Front Range"
-    },
-    {
-      "id": "route-gardner_to_pueblo",
-      "name": "Gardner \u2192 Pueblo (I-25)",
-      "city": "Fountain",
-      "route_dest": "Fountain",
-      "notes": "Southern CO drive \u2014 Gardner through Pueblo"
-    },
-    {
-      "id": "route-gardner_to_salida",
-      "name": "Gardner \u2192 Salida (Westcliffe / US-69 & US-50)",
-      "city": "Twin Lakes",
-      "route_dest": "Twin Lakes",
-      "notes": "Wet Mountain Valley into the Arkansas River valley \u2014 Westcliffe, Cotopaxi, Salida"
-    },
-    {
-      "id": "route-gardner_local",
-      "name": "Near Gardner (30 mi)",
+      "id": "gardner-home-0",
+      "name": "Gardner home",
       "city": "Gardner",
       "route_dest": "Gardner",
-      "notes": "Huerfano County and immediate neighbors"
+      "notes": "Farm base \u2014 local pickups near Gardner",
+      "start": "2026-10-01",
+      "end": "2026-10-16",
+      "date_label": "October 1\u201316 \u2014 Thu\u2013Fri"
+    },
+    {
+      "id": "gardner-home-2",
+      "name": "Gardner home",
+      "city": "Gardner",
+      "route_dest": "Gardner",
+      "notes": "Farm base after Denver trailer haul",
+      "start": "2026-10-20",
+      "end": "2026-12-31",
+      "date_label": "October 20 \u2014 Tue \u2192 December 31 \u2014 Thu"
     }
   ],
   "active_sources": [
